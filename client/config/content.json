@@ -1,0 +1,63 @@
+{
+	"emotions": [
+		{
+			"id": "em-1",
+			"emoji": "😃",
+			"text": "Amazing",
+			"value": "😃 Amazing"
+		},
+		{
+			"id": "em-2",
+			"emoji": "😊",
+			"text": "Good",
+			"value": "😊 Good"
+		},
+		{
+			"id": "em-3",
+			"emoji": "😐",
+			"text": "Fine",
+			"value": "😐 Fine"
+		},
+		{
+			"id": "em-4",
+			"emoji": "😔",
+			"text": "Sad",
+			"value": "😔 Sad"
+		},
+		{
+			"id": "em-5",
+			"emoji": "😖",
+			"text": "Horrible",
+			"value": "😖 Horrible"
+		}
+	],
+	"reasons": [
+		{
+			"value": "💸 Finance"
+		},
+		{
+			"value": "🚨 Justice"
+		},
+		{
+			"value": "🍕 Food"
+		},
+		{
+			"value": "🏫 School"
+		},
+		{
+			"value": "👪 Family"
+		},
+		{
+			"value": "🎃 Holiday"
+		},
+		{
+			"value": "💼 Work"
+		},
+		{
+			"value": "🤿 Hobby"
+		},
+		{
+			"value": "💊 Health"
+		}
+	]
+}

@@ -1,0 +1,93 @@
+import { useEffect, useState } from 'react';
+
+export enum FILTER {
+	REASON = 'REASON',
+	EMOTION = 'EMOTION',
+	SEARCH = 'SEARCH',
+}
+
+type Filter = {
+	value: string | number;
+	filterType: FILTER;
+	action: Function;
+	moreThenOneType?: boolean;
+};
+
+// TODO: instead of IStory use generics
+const useFilter = <T>({ data }: { data: T[] }) => {
+	const [filteredData, setFilteredData] = useState<any[]>([]);
+	const [filters, setFilters] = useState<Filter[]>([]);
+
+	useEffect(() => {
+		if (!data) return;
+		// AND filtering
+		// TODO: OR filtering
+		if (filters.length) {
+			const filteredInstances = data.filter((instance: T) => {
+				const fullyFiltered = filters.map((filter: Filter) =>
+					isTypeFilterActive(instance, filters, filter.filterType)
+				);
+				return fullyFiltered.every((value) => value === true);
+			});
+			setFilteredData(filteredInstances);
+			return;
+		}
+
+		setFilteredData(data);
+	}, [data, filters]);
+
+	// moreThenOneType -> sometimes we need to apply multiple filters of the same filter type e.g. range of dates
+	const addFilter = ({
+		value,
+		filterType,
+		action,
+		moreThenOneType = false,
+	}: Filter) => {
+		if (value === '' || value === null) {
+			removeFilterType(filterType);
+			return;
+		}
+		const prevFilters = moreThenOneType
+			? [...filters]
+			: [...filters.filter((flt) => flt.filterType != filterType)];
+
+		setFilters(() => [...prevFilters, { value, filterType, action }]);
+	};
+
+	// removes all filters
+	const resetFilters = () => {
+		setFilters([]);
+	};
+
+	// removes filter of specified type
+	const removeFilter = (value: string | number, filterType: FILTER) =>
+		setFilters((currentFilters) =>
+			currentFilters.filter(
+				(filter) =>
+					!(filter.value === value && filter.filterType === filterType)
+			)
+		);
+	// removes specific filter
+	const removeFilterType = (filterType: FILTER) =>
+		setFilters((currentFilters) =>
+			currentFilters.filter((filter) => !(filter.filterType === filterType))
+		);
+
+	// if filter type is active, filter data
+	const isTypeFilterActive = (
+		instance: any,
+		filters: Filter[],
+		filterType?: FILTER
+	) => {
+		// get filter of particular type
+		const typeFilters = filterType
+			? filters.filter((filter) => filter.filterType === filterType)
+			: filters;
+		if (!typeFilters.length) return true;
+		return typeFilters.some((filter) => filter.action(instance));
+	};
+
+	return { filteredData, filters, addFilter, resetFilters, removeFilter };
+};
+
+export default useFilter;
