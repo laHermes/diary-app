@@ -15,34 +15,34 @@ const MobileNav = () => {
 	const { status } = useSession();
 
 	return (
-		<div className='fixed inset-x-0 bottom-0 w-full bg-white dark:bg-zinc-900 sm:hidden'>
-			<div className='inline-flex justify-between w-full h-full py-2 divide-x dark:divide-zinc-800'>
-				<Flex className='flex-col flex-1' onClick={() => handleRedirect('/')}>
-					<TodayIcon className='self-center w-6 h-6 fill-zinc-400' />
+		<nav className='fixed inset-x-0 bottom-0 w-full bg-white dark:bg-zinc-900 sm:hidden'>
+			<div className='inline-flex h-full w-full justify-between divide-x py-2 dark:divide-zinc-800'>
+				<Flex className='flex-1 flex-col' onClick={() => handleRedirect('/')}>
+					<TodayIcon className='h-6 w-6 self-center fill-zinc-400' />
 				</Flex>
 
 				<Flex
-					className='flex-col flex-1'
+					className='flex-1 flex-col'
 					onClick={() => handleRedirect('/journal')}>
-					<NoteBoldIcon className='self-center w-6 h-6 fill-zinc-400' />
+					<NoteBoldIcon className='h-6 w-6 self-center fill-zinc-400' />
 				</Flex>
 				{status === 'authenticated' && router.pathname.includes('app') && (
 					<Flex
-						className='flex-col flex-1'
+						className='flex-1 flex-col'
 						onClick={() => handleRedirect('/settings')}>
-						<SettingsPanelIcon className='self-center w-6 h-6 fill-zinc-400' />
+						<SettingsPanelIcon className='h-6 w-6 self-center fill-zinc-400' />
 					</Flex>
 				)}
 
 				{router.pathname.includes('demo') && (
 					<Link href='/login'>
-						<Flex className='flex-col flex-1'>
-							<LoginBoldIcon className='self-center w-6 h-6 fill-zinc-400' />
+						<Flex className='flex-1 flex-col'>
+							<LoginBoldIcon className='h-6 w-6 self-center fill-zinc-400' />
 						</Flex>
 					</Link>
 				)}
 			</div>
-		</div>
+		</nav>
 	);
 };
 

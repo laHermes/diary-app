@@ -30,34 +30,5 @@
 			"text": "Horrible",
 			"value": "😖 Horrible"
 		}
-	],
-	"reasons": [
-		{
-			"value": "💸 Finance"
-		},
-		{
-			"value": "🚨 Justice"
-		},
-		{
-			"value": "🍕 Food"
-		},
-		{
-			"value": "🏫 School"
-		},
-		{
-			"value": "👪 Family"
-		},
-		{
-			"value": "🎃 Holiday"
-		},
-		{
-			"value": "💼 Work"
-		},
-		{
-			"value": "🤿 Hobby"
-		},
-		{
-			"value": "💊 Health"
-		}
 	]
 }
