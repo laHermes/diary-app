@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import { SectionActionButton, SectionCard, SectionTitle } from '@styles/styles';
-import Inspiration from '@components/Inspiration/Inspiration';
 import Sidebar from '@components/Sidebar/Sidebar';
 import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
 import MobileNav from '@components/MobileNav/MobileNav';
@@ -21,6 +20,7 @@ import { ChevronRightIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import Page from '@components/PageComponent/Page';
 import Entries from '@components/Entries/Entries';
+import Inspiration from '@components/Inspiration/Inspiration';
 
 const Index = () => {
 	const { data } = useSession();
@@ -64,7 +64,7 @@ const Index = () => {
 						<SectionActionButton
 							onClick={() => router.push(`${router.pathname}/insights`)}>
 							<p className='m-0 dark:text-accent'>All Insights</p>
-							<ChevronRightIcon className='self-center w-5 h-5 dark:fill-accent' />
+							<ChevronRightIcon className='h-5 w-5 self-center dark:fill-accent' />
 						</SectionActionButton>
 					</SectionCard>
 				</Page.Section>
@@ -73,9 +73,9 @@ const Index = () => {
 					<SectionTitle>Recent activity</SectionTitle>
 				</Page.Section>
 
-				<div className='flex flex-col w-full gap-4 my-4 rounded-md'>
-					<FloatingWrite />
+				<div className='my-4 flex w-full flex-col gap-4 rounded-md'>
 					<Entries entries={entriesToday} />
+					<FloatingWrite />
 				</div>
 			</Page.Layout>
 		</Page>

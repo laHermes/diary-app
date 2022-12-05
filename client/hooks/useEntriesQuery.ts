@@ -8,8 +8,12 @@ import {
 } from '@utils/dates';
 import { getTotalWordsWritten, getUniqueTags } from '@utils/entriesUtils';
 
+export const useEntries = () => useQuery(['Entries'], fetchEntries);
+
 export const useEntriesQuery = (select?: any) =>
-	useQuery(['Entries'], fetchEntries, { select });
+	useQuery(['Entries'], fetchEntries, {
+		select,
+	});
 
 // returns entries grouped by month
 export const useEntriesCount = () =>

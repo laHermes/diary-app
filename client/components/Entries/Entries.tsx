@@ -2,6 +2,9 @@ import EntryCard from '@components/EntryCard/EntryCard';
 import React from 'react';
 
 const Entries = ({ entries = [] }: { entries: IEntry[] }) => {
+	if (entries.length < 1) {
+	}
+
 	return (
 		<>
 			{entries.map(({ id, content, date, ...entryProps }: IEntry) => {

@@ -29,6 +29,23 @@ import {
 	StyledXIcon,
 } from '@components/FloatingButton/Styles';
 
+enum ModalKind {
+	BOTTOM_SHEET = 'bottomSheet',
+	TAGS = 'tags',
+	EMOTIONS = 'emotions',
+	NULL = 'null',
+}
+
+enum ModalActionKind {
+	OPEN = 'openModal',
+	CLOSE = 'closeModal',
+}
+
+interface ModalAction {
+	type: ModalActionKind;
+	payload: ModalKind;
+}
+
 enum TagActionKind {
 	ADD = 'addTag',
 	REMOVE = 'removeTag',
@@ -39,19 +56,25 @@ interface TagAction {
 	payload: string;
 }
 
-const stateReducer: Reducer<any, TagAction> = (
-	entries: any,
-	action: TagAction
+type ReducerActionTypes = ModalAction | TagAction;
+
+const stateReducer: Reducer<any, ReducerActionTypes> = (
+	state: any,
+	action: ReducerActionTypes
 ) => {
 	switch (action.type) {
 		case TagActionKind.ADD:
-			return [...entries, action.payload.toLowerCase()];
+			return [...state, action.payload.toLowerCase()];
 		case TagActionKind.REMOVE:
-			return [...entries].filter(
+			return [...state].filter(
 				(instance: string) => instance !== action.payload.toLowerCase()
 			);
+		case ModalActionKind.OPEN:
+			return { ...state, modal: action.payload };
+		case ModalActionKind.CLOSE:
+			return { ...state, modal: ModalKind.NULL };
 		default:
-			throw Error('Unknown action: ' + action.type);
+			throw Error('Unknown action');
 	}
 };
 
@@ -63,14 +86,16 @@ const Index = () => {
 	const data = router.query;
 	const { id: entryId, date: postDate, tags, content, emotion } = data;
 
-	const intrastate = {
+	const initialState = {
 		tags: stringToArray({ value: tags }) || [],
-		date: postDate ? postDate : new Date(),
+		date: postDate ? postDate : new Date().toString(),
 		emotion: (emotion as string) || '',
+		modal: ModalKind.NULL,
 	};
 
-	const [state, dispatch] = useReducer(stateReducer, intrastate);
-	console.log('state', state);
+	const [state, dispatch] = useReducer(stateReducer, initialState);
+	const { modal } = state;
+
 	const { createEntry, updateEntry, deleteEntry } = usePersistEntries();
 
 	// default states
@@ -175,7 +200,7 @@ const Index = () => {
 				<EntryNavigation.Action onClick={() => setIsBottomSheetOpen(true)}>
 					<StyledDotsHorizontalIcon />
 				</EntryNavigation.Action>
-			</EntryNavigation>{' '}
+			</EntryNavigation>
 			{/* CONFIRM EXIT PAGE MODAL */}
 			{hasChanges && <ConfirmReturnModal />}
 			<EmotionsModal
@@ -195,10 +220,10 @@ const Index = () => {
 				onDismiss={() => setIsBottomSheetOpen(false)}
 				onToggle={() => setIsBottomSheetOpen((state) => !state)}>
 				<BottomSheet.Sheet>
-					<Container className='flex flex-col pb-5 divide-y divide-zinc-800 font-noto text-zinc-200'>
+					<Container className='flex flex-col divide-y divide-zinc-800 pb-5 font-noto text-zinc-200'>
 						{/* Date */}
 						<BottomSheet.Section>
-							<CalendarIcon className='w-6 h-6 min-w-fit' />
+							<CalendarIcon className='h-6 w-6 min-w-fit' />
 							<p className='m-0 text-right'>{date.toString()}</p>
 						</BottomSheet.Section>
 
@@ -207,7 +232,7 @@ const Index = () => {
 							onClick={() => setIsEmotionModalOpen(true)}>
 							<BottomSheet.Section>
 								<Flex>
-									<FaceSmileIcon className='w-6 h-6 stroke-2 min-w-fit' />
+									<FaceSmileIcon className='h-6 w-6 min-w-fit stroke-2' />
 									Emotion
 								</Flex>
 
@@ -220,7 +245,7 @@ const Index = () => {
 						{/* TAGS */}
 						<BottomSheet.Section>
 							<Flex>
-								<TagIcon className='w-6 h-6 min-w-fit' />
+								<TagIcon className='h-6 w-6 min-w-fit' />
 								Tags
 							</Flex>
 							<Flex className='uppercase '>
@@ -233,7 +258,7 @@ const Index = () => {
 
 						<BottomSheet.ActionWithClose onClick={handleDeleteEntry}>
 							<BottomSheet.Section className='bg-red-900/5'>
-								<TrashIcon className='w-6 h-6 min-w-fit stroke-red-500' />
+								<TrashIcon className='h-6 w-6 min-w-fit stroke-red-500' />
 								<p className='m-0 text-right text-red-500'>Delete Entry</p>
 							</BottomSheet.Section>
 						</BottomSheet.ActionWithClose>

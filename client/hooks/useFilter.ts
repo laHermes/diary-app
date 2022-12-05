@@ -4,6 +4,7 @@ export enum FILTER {
 	REASON = 'REASON',
 	EMOTION = 'EMOTION',
 	SEARCH = 'SEARCH',
+	TAG = 'TAG',
 }
 
 type Filter = {
@@ -19,21 +20,17 @@ const useFilter = <T>({ data }: { data: T[] }) => {
 	const [filters, setFilters] = useState<Filter[]>([]);
 
 	useEffect(() => {
-		if (!data) return;
-		// AND filtering
-		// TODO: OR filtering
-		if (filters.length) {
+		if (filters.length > 0 && data.length > 0) {
 			const filteredInstances = data.filter((instance: T) => {
 				const fullyFiltered = filters.map((filter: Filter) =>
 					isTypeFilterActive(instance, filters, filter.filterType)
 				);
+				console.log(fullyFiltered);
 				return fullyFiltered.every((value) => value === true);
 			});
 			setFilteredData(filteredInstances);
 			return;
 		}
-
-		setFilteredData(data);
 	}, [data, filters]);
 
 	// moreThenOneType -> sometimes we need to apply multiple filters of the same filter type e.g. range of dates
@@ -47,8 +44,14 @@ const useFilter = <T>({ data }: { data: T[] }) => {
 			removeFilterType(filterType);
 			return;
 		}
+		if ([...filters.filter((flt) => flt.value == value)].length > 0) {
+			setFilters([...filters.filter((flt) => flt.value != value)]);
+			return;
+		}
+
+		// if same type filter is applied remove it
 		const prevFilters = moreThenOneType
-			? [...filters]
+			? [...filters.filter((flt) => flt.value != value)]
 			: [...filters.filter((flt) => flt.filterType != filterType)];
 
 		setFilters(() => [...prevFilters, { value, filterType, action }]);

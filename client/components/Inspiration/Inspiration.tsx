@@ -21,7 +21,6 @@ const Inspiration = () => {
 	const linkHref = {
 		pathname: `${SUB_LINK}/entry`,
 		query: {
-			type: 'daily',
 			content: `${data?.data?.content}  -${data?.data?.author}
 		`,
 		},
@@ -41,7 +40,7 @@ const Inspiration = () => {
 			<Link href={linkHref} as={`${SUB_LINK}/entry`}>
 				<SectionActionButton>
 					<p className='m-0 dark:text-accent'>Journal the quote</p>
-					<ChevronRightIcon className='self-center w-5 h-5 dark:fill-accent' />
+					<ChevronRightIcon className='h-5 w-5 self-center dark:fill-accent' />
 				</SectionActionButton>
 			</Link>
 		</SectionCard>
