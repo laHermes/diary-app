@@ -33,6 +33,7 @@
 		"@vespaiach/axios-fetch-adapter": "^0.3.0",
 		"antd": "^4.23.5",
 		"axios": "^0.27.2",
+		"class-variance-authority": "^0.4.0",
 		"clsx": "^1.2.1",
 		"flowbite": "^1.5.3",
 		"formik": "^2.2.9",

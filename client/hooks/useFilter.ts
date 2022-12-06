@@ -25,7 +25,6 @@ const useFilter = <T>({ data }: { data: T[] }) => {
 				const fullyFiltered = filters.map((filter: Filter) =>
 					isTypeFilterActive(instance, filters, filter.filterType)
 				);
-				console.log(fullyFiltered);
 				return fullyFiltered.every((value) => value === true);
 			});
 			setFilteredData(filteredInstances);

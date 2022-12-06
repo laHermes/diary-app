@@ -15,8 +15,7 @@ const SearchOverlay = ({ setIsOpen }: { setIsOpen?: Function }) => {
 	const [query, setQuery] = useState('');
 
 	const { filteredData, filters, addFilter } = useFilter({ data: allEntries });
-	console.log('filters', filters);
-	console.log('filteredData', filteredData);
+
 	// if no filters are applied return propValues
 	const data = filters.length > 0 ? filteredData : [];
 
@@ -36,6 +35,18 @@ const SearchOverlay = ({ setIsOpen }: { setIsOpen?: Function }) => {
 			filterType: FILTER.SEARCH,
 			action: (instance: any) => {
 				return instance.content.toLowerCase().includes(query.toLowerCase());
+			},
+		});
+	};
+
+	const handleFilterEmotion = (value: string) => {
+		// decouples input from filtering
+		addFilter({
+			value: value,
+			filterType: FILTER.TAG,
+			moreThenOneType: true,
+			action: (instance: any) => {
+				return instance.emotion.toLowerCase().includes(value.toLowerCase());
 			},
 		});
 	};
@@ -62,34 +73,53 @@ const SearchOverlay = ({ setIsOpen }: { setIsOpen?: Function }) => {
 	}, [query]);
 
 	return (
-		<div className='absolute inset-x-0 mx-auto flex h-screen justify-center bg-backgroundLight pt-12 pl-0 dark:bg-black'>
+		<div className='absolute inset-x-0 flex justify-center min-h-screen pt-12 pl-0 mx-auto bg-backgroundLight dark:bg-black'>
 			<Page.Layout>
 				<Flex className='justify-between'>
 					<Page.Title>Search</Page.Title>
+					{/* close this component button */}
 					<button
 						onClick={() => setIsOpen && setIsOpen(false)}
-						className='inline-flex justify-center gap-3 rounded-full px-2 py-2 transition-all duration-200 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
-						<ChevronDownIcon className='h-8 w-8 self-center stroke-2' />
+						className='inline-flex justify-center gap-3 px-2 py-2 transition-all duration-200 rounded-full hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
+						<ChevronDownIcon className='self-center w-4 h-4 stroke-2' />
 					</button>
 				</Flex>
 
-				<Flex className='rounded-xl bg-zinc-50 px-4 py-2 dark:bg-zinc-900'>
+				<Flex className='px-4 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900'>
+					{/* search icon */}
 					<SearchIcon className=' h-7 w-7 text-zinc-400' />
+					{/* search input */}
 					<input
 						value={query}
 						onChange={handleQuery}
-						className='h-12 w-full border-0 bg-transparent text-lg placeholder-zinc-400 ring-0 focus:outline-none focus:ring-0 focus:ring-offset-0 dark:text-zinc-200'
+						className='w-full h-12 text-lg bg-transparent border-0 placeholder-zinc-400 ring-0 focus:outline-none focus:ring-0 focus:ring-offset-0 dark:text-zinc-200'
 						placeholder='Search...'
 					/>
+					{/* if input has text display delete all text icon*/}
 					{query && (
 						<XIcon
 							onClick={handleResetQuery}
-							className='h-6 w-6 text-zinc-700'
+							className='w-6 h-6 text-zinc-700'
 						/>
 					)}
 				</Flex>
 
-				<Flex className='-mt-4 flex-col items-start gap-4'>
+				{/* <Flex className='bg-red-200 w-fit'> */}
+				{/* <Flex className='flex-col items-start gap-4'>
+						<span className='text-xs uppercase'>Search by emotion</span>
+						<Flex>
+							{tags.map((tag: string) => {
+								return (
+									<Chip onClick={() => handleFilterTag(tag)} key={tag}>
+										{tag}
+									</Chip>
+								);
+							})}
+						</Flex>
+						<GroupedEntries entries={data} />
+					</Flex> */}
+
+				<Flex className='flex-col items-start gap-4 '>
 					<span className='text-xs uppercase'>Search by tag</span>
 					<Flex>
 						{tags.map((tag: string) => {
@@ -100,8 +130,10 @@ const SearchOverlay = ({ setIsOpen }: { setIsOpen?: Function }) => {
 							);
 						})}
 					</Flex>
-					<GroupedEntries entries={data} />
 				</Flex>
+				{/* </Flex> */}
+
+				<GroupedEntries entries={data} />
 			</Page.Layout>
 		</div>
 	);

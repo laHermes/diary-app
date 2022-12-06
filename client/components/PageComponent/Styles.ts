@@ -1,7 +1,7 @@
 import tw from 'tailwind-styled-components';
 
 export const PageComponent = tw.div<any>`w-full min-h-screen pt-12 sm:pl-28 md:pl-48`;
-export const PageLayout = tw.div<any>`flex flex-col w-full max-w-screen-md gap-10 px-5 mx-auto`;
+export const PageLayout = tw.div<any>`flex flex-col w-full max-w-screen-md gap-10 px-5 mx-auto `;
 export const PageTitle = tw.h1<any>`m-0 text-3xl font-semibold leading-none text-black cursor-pointer w-fit dark:text-white font-playfair`;
 export const PageSubtitle = tw.p<any>`mb-0 text-xl leading-none`;
 
