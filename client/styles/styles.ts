@@ -8,7 +8,7 @@ export const Container = tw.div<any>`w-full max-w-screen-md mx-auto`;
 export const Header = tw.div<any>`flex justify-center w-full`;
 
 export const HeaderWrapper = tw.div<any>`flex items-center justify-between w-full p-5`;
-export const TextLogo = tw.div<any>`font-semibold leading-none cursor-pointer font-playfair dark:text-accent`;
+export const TextLogo = tw.div<any>`text-4xl font-semibold leading-none cursor-pointer font-playfair dark:text-white`;
 
 export const WelcomeContent = tw.div<any>`flex flex-col items-center gap-12 mx-auto text-center mt-36 md:mt-48`;
 export const WelcomeText = tw.div<any>`font-semibold leading-none tracking-tight font-playfair text-[80px] dark:text-white`;

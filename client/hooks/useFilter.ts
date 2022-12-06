@@ -7,7 +7,7 @@ export enum FILTER {
 	TAG = 'TAG',
 }
 
-type Filter = {
+export type FilterObject = {
 	value: string | number;
 	filterType: FILTER;
 	action: Function;
@@ -17,12 +17,12 @@ type Filter = {
 // TODO: instead of IStory use generics
 const useFilter = <T>({ data }: { data: T[] }) => {
 	const [filteredData, setFilteredData] = useState<any[]>([]);
-	const [filters, setFilters] = useState<Filter[]>([]);
+	const [filters, setFilters] = useState<FilterObject[]>([]);
 
 	useEffect(() => {
 		if (filters.length > 0 && data.length > 0) {
 			const filteredInstances = data.filter((instance: T) => {
-				const fullyFiltered = filters.map((filter: Filter) =>
+				const fullyFiltered = filters.map((filter: FilterObject) =>
 					isTypeFilterActive(instance, filters, filter.filterType)
 				);
 				return fullyFiltered.every((value) => value === true);
@@ -38,7 +38,7 @@ const useFilter = <T>({ data }: { data: T[] }) => {
 		filterType,
 		action,
 		moreThenOneType = false,
-	}: Filter) => {
+	}: FilterObject) => {
 		if (value === '' || value === null) {
 			removeFilterType(filterType);
 			return;
@@ -78,7 +78,7 @@ const useFilter = <T>({ data }: { data: T[] }) => {
 	// if filter type is active, filter data
 	const isTypeFilterActive = (
 		instance: any,
-		filters: Filter[],
+		filters: FilterObject[],
 		filterType?: FILTER
 	) => {
 		// get filter of particular type

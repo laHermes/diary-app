@@ -1,59 +1,77 @@
-import React, { useState } from 'react';
-import { Container } from '@styles/styles';
+import React, { Suspense, useState } from 'react';
+import { Container, Flex } from '@styles/styles';
 import { useSelector } from 'react-redux';
 import {
 	selectEntries,
+	selectTags,
 	selectGroupedByMonthEntries,
 } from '@store/demoEntrySlice';
-import EntryCard from '@components/EntryCard/EntryCard';
+
 import Sidebar from '@components/Sidebar/Sidebar';
 import { SearchIcon } from '@heroicons/react/outline';
 import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
 import { Empty } from 'antd';
 import { PageTitle } from '@components/PageComponent/Styles';
-import SearchDialog from '@components/SearchDialog/SearchDialog';
+
 import MobileNav from '@components/MobileNav/MobileNav';
+import dynamic from 'next/dynamic';
+import GroupedEntries from '@components/GroupedEntries/GroupedEntries';
+import Page from '@components/PageComponent/Page';
+// reduce bundle size
+const DynamicSearchOverlay = dynamic(
+	() => import('@components/SearchOverlay/SearchOverlay'),
+	{
+		suspense: true,
+	}
+);
 
 const JournalPage = () => {
 	const grouped = useSelector(selectGroupedByMonthEntries);
+	const tags = useSelector(selectTags);
 	const allEntries = useSelector(selectEntries);
-	const [isSearchDialogOpen, setIsSearchDialogOpen] = useState<boolean>(false);
 
+	const [isSearchDialogOpen, setIsSearchDialogOpen] = useState<boolean>(false);
 	const handleOpenSearchDialog = () => setIsSearchDialogOpen(true);
 
-	return (
-		<Container>
-			<div className='flex flex-col gap-10 pt-12'>
-				<div className='inline-flex justify-between'>
-					<PageTitle>Journal</PageTitle>
-					<button
-						onClick={handleOpenSearchDialog}
-						className='inline-flex justify-center gap-3 px-2 py-2 transition-all duration-200 rounded-full hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
-						<SearchIcon className='self-center w-8 h-8 stroke-1' />
-					</button>
-				</div>
-
-				<FloatingWrite />
-
-				<SearchDialog
-					values={allEntries}
-					isOpen={isSearchDialogOpen}
+	if (isSearchDialogOpen) {
+		return (
+			<Suspense fallback={`Loading...`}>
+				<DynamicSearchOverlay
+					data={allEntries}
+					tags={tags}
 					setIsOpen={setIsSearchDialogOpen}
 				/>
+			</Suspense>
+		);
+	}
+	return (
+		<Page>
+			<Page.Layout>
+				{!isSearchDialogOpen && (
+					<>
+						<Flex className='justify-between'>
+							<Page.Title>Journal</Page.Title>
+							<button
+								onClick={handleOpenSearchDialog}
+								className='inline-flex justify-center gap-3 px-2 py-2 transition-all duration-200 rounded-full hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
+								<SearchIcon className='self-center w-8 h-8 stroke-1' />
+							</button>
+						</Flex>
 
-				{/* IF no stories */}
-				<div className='flex flex-col items-center align-center'>
-					{grouped?.length === 0 && (
-						<Empty
-							image={Empty.PRESENTED_IMAGE_SIMPLE}
-							description={
-								<span className='text-black dark:text-white'>No stories</span>
-							}
-						/>
-					)}
-				</div>
-			</div>
-		</Container>
+						<GroupedEntries entries={allEntries} />
+
+						{/* if there are no entries */}
+						{!allEntries && (
+							<div className='flex flex-col items-center align-center'>
+								No Entries
+							</div>
+						)}
+					</>
+				)}
+
+				<FloatingWrite />
+			</Page.Layout>
+		</Page>
 	);
 };
 

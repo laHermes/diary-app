@@ -7,12 +7,23 @@ import {
 	ExclamationCircleIcon,
 	ExclamationIcon,
 } from '@heroicons/react/outline';
+import { useMutation } from '@tanstack/react-query';
+import { deleteUserMutation } from '@config/api';
 
 const Index = () => {
 	const { data: session } = useSession();
 
 	const name = session?.user?.name;
 	const email = session?.user?.email;
+	// Update Entry
+	const deleteUser = useMutation({
+		mutationFn: deleteUserMutation,
+		onSuccess: () => signOut(),
+	});
+
+	const handleDeleteUser = () => {
+		deleteUser.mutate();
+	};
 
 	return (
 		<Page>

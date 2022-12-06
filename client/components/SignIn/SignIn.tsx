@@ -3,7 +3,7 @@ import React, { HtmlHTMLAttributes } from 'react';
 import { IconContainer, StyledLoginSocialButton } from './Styles';
 import { signIn } from 'next-auth/react';
 
-const LoginButton: React.FC<HtmlHTMLAttributes<HTMLButtonElement>> = () => {
+const SignIn: React.FC<HtmlHTMLAttributes<HTMLButtonElement>> = () => {
 	return (
 		<StyledLoginSocialButton
 			onClick={() => signIn('google', { callbackUrl: '/app' })}>
@@ -15,4 +15,4 @@ const LoginButton: React.FC<HtmlHTMLAttributes<HTMLButtonElement>> = () => {
 	);
 };
 
-export default LoginButton;
+export default SignIn;

@@ -1,25 +1,10 @@
-import React, { createContext } from 'react';
-
-const TagsContext = createContext<any>({});
-
-// const useTagsContext = () => {
-// 	const context = useContext(TagsContext);
-
-// 	if (!context) {
-// 		throw new Error('Tag related components must be used within Tag component');
-// 	}
-// 	return context;
-// };
-
-const value = {};
+import React from 'react';
 
 const Tags = ({ children }: IChildren) => {
 	return (
-		<TagsContext.Provider value={value}>
-			<div className='w-full bg-white divide-y rounded-xl dark:divide-zinc-800 dark:bg-zinc-900'>
-				{children}
-			</div>
-		</TagsContext.Provider>
+		<div className='w-full bg-white divide-y rounded-xl dark:divide-zinc-800 dark:bg-zinc-900'>
+			{children}
+		</div>
 	);
 };
 

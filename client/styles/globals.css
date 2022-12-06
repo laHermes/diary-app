@@ -15,10 +15,10 @@ body {
 	position: relative;
 	min-height: 100vh;
 	display: flex;
-	overflow-x: hidden;
 	flex-direction: column;
-	-webkit-box-pack: justify;
+	overflow-x: hidden;
 	justify-content: space-between;
+	-webkit-box-pack: justify;
 }
 
 *,

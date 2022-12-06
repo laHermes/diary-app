@@ -16,3 +16,8 @@ export const updateEntryMutation = (entry: IEntry) => {
 export const deleteEntryMutation = (entryId: IEntry['id']) => {
 	return axios.delete('/api/entries', { data: { id: entryId } });
 };
+
+// WARNING
+export const deleteUserMutation = () => {
+	return axios.delete('/api/user-delete');
+};

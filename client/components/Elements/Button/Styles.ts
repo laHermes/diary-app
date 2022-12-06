@@ -9,7 +9,7 @@ export interface ButtonProps {
 	$rounded?: boolean;
 }
 
-export const StyledButton = tw.button<ButtonProps>`font-medium rounded-lg text-sm px-5 py-2.5 leading-none inline-flex items-center justify-center text-center focus-visible:ring-offset-2 transition-all
+export const StyledButton = tw.button<ButtonProps>`font-medium rounded-lg text-sm px-5 py-2.5 leading-none flex items-center justify-center text-center focus-visible:ring-offset-2 transition-all
 ${({ $primary }) =>
 	$primary &&
 	'text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700'}
@@ -31,4 +31,5 @@ ${({ $negative }) =>
 	'border-transparent bg-red-100 text-red-900 hover:bg-red-200  focus-visible:ring-2 focus-visible:ring-red-500 '}
 	
 ${({ $rounded }) =>
-	$rounded && 'rounded-full border text-black dark:text-white px-4 text-lg '}`;
+	$rounded &&
+	'rounded-full border border-white/70 text-black dark:text-white px-4 text-lg shadow-[0_0_1px_0_rgba(255,255,255,0.7)]'}`;

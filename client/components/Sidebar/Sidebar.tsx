@@ -33,18 +33,18 @@ const Sidebar = () => {
 					</button>
 					<div className='flex flex-col items-center gap-3'>
 						<StyledSidebarButton onClick={() => handleRedirect('/')}>
-							<TodayIcon className='self-center w-6 h-6 fill-zinc-400' />
+							<TodayIcon className='h-6 w-6 self-center fill-accent/80 dark:fill-accent/50' />
 							<StyledSidebarButtonText>Today</StyledSidebarButtonText>
 						</StyledSidebarButton>
 
 						<StyledSidebarButton onClick={() => handleRedirect('/journal')}>
-							<NoteBoldIcon className='self-center w-6 h-6 fill-zinc-400' />
+							<NoteBoldIcon className='h-6 w-6 self-center fill-accent/80 dark:fill-accent/50' />
 							<StyledSidebarButtonText>Journal</StyledSidebarButtonText>
 						</StyledSidebarButton>
 
 						{status === 'authenticated' && router.pathname.includes('app') && (
 							<StyledSidebarButton onClick={() => handleRedirect('/settings')}>
-								<SettingsPanelIcon className='self-center w-6 h-6 fill-zinc-400' />
+								<SettingsPanelIcon className='h-6 w-6 self-center fill-accent/80 dark:fill-accent/50' />
 								<StyledSidebarButtonText>Settings</StyledSidebarButtonText>
 							</StyledSidebarButton>
 						)}
@@ -52,7 +52,7 @@ const Sidebar = () => {
 						{router.pathname.includes('demo') && (
 							<Link href='/login'>
 								<StyledSidebarButton>
-									<LoginBoldIcon className='self-center w-6 h-6 fill-zinc-400' />
+									<LoginBoldIcon className='h-6 w-6 self-center fill-accent/50' />
 									<StyledSidebarButtonText>Login</StyledSidebarButtonText>
 								</StyledSidebarButton>
 							</Link>

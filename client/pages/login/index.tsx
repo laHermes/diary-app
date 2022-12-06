@@ -1,12 +1,12 @@
 import React from 'react';
-import LoginButton from '@features/Auth/components/LoginButton';
+import LoginButton from '@components/SignIn/SignIn';
 import {
 	LoginPage,
-	Wrapper,
-	Title,
-	Subtitle,
 	PrivacyPolicy,
-} from '@features/Auth/components/Styles';
+	Subtitle,
+	Wrapper,
+} from '@components/SignIn/Styles';
+import { Title } from '@components/Tags/Tags';
 
 const index = () => {
 	return (
@@ -18,8 +18,7 @@ const index = () => {
 			<Wrapper>
 				<LoginButton />
 				<PrivacyPolicy>
-					By continuing you are agree with our Terms and Conditions, and our
-					Privacy Policies.
+					This is a personal project, not for public use!
 				</PrivacyPolicy>
 			</Wrapper>
 		</LoginPage>
