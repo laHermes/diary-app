@@ -3,9 +3,12 @@ interface filterDataProps {
 	filter: Record<string, any>;
 }
 
-// {data: [], filerObject, filterValues}
-
-// TODO: add more edge cases
+/**
+ * filters data based on provided object
+ * @param  { Array<any>} data  array of objects
+ * @param  { Record<string, any>} filter object that holds filtering criteria
+ * @return  filtered array
+ */
 export const filterData = ({ data, filter }: filterDataProps) => {
 	const isEmpty = Object.values(filter).every(
 		(x) => x === null || x === '' || x.length === 0
@@ -37,6 +40,11 @@ export const filterData = ({ data, filter }: filterDataProps) => {
 	return { data: filtered, filter };
 };
 
+/**
+ * removes HTML markup left by text editor
+ * @param {string} data string content
+ * @return content that doesn't contain HTML markup
+ */
 export const removeHTMLMarkup = (data: string) => {
 	const HTML_MARKUP_REGEX = /<\/?[^>]+(>|$)/g;
 	return data.replace(HTML_MARKUP_REGEX, '');
@@ -49,6 +57,9 @@ interface FilterFieldValueProps<T> {
 	removeMarkup?: boolean;
 }
 
+/**
+ * NOT USED
+ */
 export const filterFieldValue = <T>({
 	instance,
 	selector,

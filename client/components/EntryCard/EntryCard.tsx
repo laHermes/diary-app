@@ -111,8 +111,8 @@ const EntryCard = ({
 export default EntryCard;
 
 export const MiniCalendar = ({ date }: { date: string | Date }) => {
-	const day = moment(date).format('DD');
-	const dayNumber = moment(date).format('ddd');
+	const day = moment(new Date(date)).format('DD');
+	const dayNumber = moment(new Date(date)).format('ddd');
 	return (
 		<div className='flex flex-col items-center justify-between w-16 h-16 pt-1 pb-3 bg-white shadow-sm rounded-xl dark:bg-black'>
 			<div className='tracking-wider uppercase font-jost'>{dayNumber}</div>

@@ -15,7 +15,7 @@ export const WelcomeText = tw.div<any>`font-semibold leading-none tracking-tight
 
 export const SectionTitle = tw.div<any>`m-0 text-xl font-semibold text-black dark:text-white font-playfair`;
 export const SectionCard = tw.div<any>`py-2 overflow-hidden bg-white rounded-xl dark:bg-cardDark drop-shadow-lg`;
-export const SectionActionButton = tw.button<any>`inline-flex self-center justify-between w-full px-5 py-3 font-semibold transition-all text-[16px] hover:bg-gray-100 dark:hover:bg-darkButtonHover`;
+export const SectionAction = tw.button<any>`inline-flex self-center justify-between w-full px-5 py-3 font-semibold transition-all text-[16px] hover:bg-gray-100 dark:hover:bg-darkButtonHover`;
 
 export const Chip = tw.div<any>`w-fit rounded-xl bg-white dark:bg-black px-2 py-0.5 uppercase shadow-md font-jost`;
 export const Flex = tw.div<any>`flex items-center gap-2`;

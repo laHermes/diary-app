@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
-import { SectionActionButton, SectionCard, SectionTitle } from '@styles/styles';
+import { SectionAction, SectionCard, SectionTitle } from '@styles/styles';
 import Sidebar from '@components/Sidebar/Sidebar';
 import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
 import MobileNav from '@components/MobileNav/MobileNav';
@@ -61,11 +61,11 @@ const Index = () => {
 							</InsightsItem>
 						</InsightsItems>
 						<ThinBorder />
-						<SectionActionButton
+						<SectionAction
 							onClick={() => router.push(`${router.pathname}/insights`)}>
 							<p className='m-0 dark:text-accent'>All Insights</p>
-							<ChevronRightIcon className='h-5 w-5 self-center dark:fill-accent' />
-						</SectionActionButton>
+							<ChevronRightIcon className='self-center w-5 h-5 dark:fill-accent' />
+						</SectionAction>
 					</SectionCard>
 				</Page.Section>
 
@@ -73,7 +73,7 @@ const Index = () => {
 					<SectionTitle>Recent activity</SectionTitle>
 				</Page.Section>
 
-				<div className='my-4 flex w-full flex-col gap-4 rounded-md'>
+				<div className='flex flex-col w-full gap-4 my-4 rounded-md'>
 					<Entries entries={entriesToday} />
 					<FloatingWrite />
 				</div>

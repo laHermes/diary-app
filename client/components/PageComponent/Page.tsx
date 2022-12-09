@@ -3,7 +3,7 @@ import { ChevronRightIcon } from '@heroicons/react/outline';
 import {
 	PageCard,
 	PageCardBody,
-	PageCardButton,
+	PageCardAction,
 	PageComponent,
 	PageLayout,
 	PageLogo,
@@ -37,16 +37,16 @@ const CardBody = ({ children }: IChildren) => {
 	return <PageCardBody>{children}</PageCardBody>;
 };
 
-const Button = ({
+const Action = ({
 	children,
 	hasIcon = true,
 	onClick = () => {},
 }: IChildren & { hasIcon?: boolean; onClick?: (...args: any[]) => void }) => {
 	return (
-		<PageCardButton onClick={() => onClick()}>
+		<PageCardAction onClick={() => onClick()}>
 			{children}
-			{hasIcon && <ChevronRightIcon className='h-5 w-5 self-center' />}
-		</PageCardButton>
+			{hasIcon && <ChevronRightIcon className='self-center w-5 h-5' />}
+		</PageCardAction>
 	);
 };
 
@@ -65,6 +65,6 @@ Page.Card = Card;
 Page.CardBody = CardBody;
 Page.Logo = Logo;
 Page.LogoSection = LogoSection;
-Page.CardAction = Button;
+Page.CardAction = Action;
 
 export default Page;

@@ -1,4 +1,4 @@
-import { SectionActionButton, SectionCard } from '@styles/styles';
+import { SectionAction, SectionCard } from '@styles/styles';
 import React from 'react';
 import useSWR from 'swr';
 import Link from 'next/link';
@@ -45,10 +45,10 @@ const Inspiration = () => {
 			</InspirationContentWrapper>
 			<ThinBorder />
 			<Link href={linkHref} as={`${SUB_LINK}/entry`}>
-				<SectionActionButton>
+				<SectionAction>
 					<p className='m-0 dark:text-accent'>Journal the quote</p>
 					<ChevronRightIcon className='self-center w-5 h-5 dark:fill-accent' />
-				</SectionActionButton>
+				</SectionAction>
 			</Link>
 		</SectionCard>
 	);

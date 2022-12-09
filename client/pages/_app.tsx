@@ -1,15 +1,27 @@
 import { ReactElement, ReactNode } from 'react';
 import type { AppProps } from 'next/app';
+import { motion, AnimatePresence } from 'framer-motion';
 import { NextPage } from 'next';
 import { wrapper } from 'store/store';
 import { Provider as ReduxProvider } from 'react-redux';
 import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Providers from '@providers/Providers';
-import { motion, AnimatePresence } from 'framer-motion';
 import '../styles/globals.css';
 import 'antd/dist/antd.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+
+export const motionVariants = {
+	hidden: { opacity: 0, x: 0, y: 0 },
+	enter: {
+		opacity: 1,
+		transition: {
+			delayChildren: 0.5,
+		},
+	},
+	exit: { opacity: 0, x: 0, y: 0 },
+};
 
 type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -32,16 +44,22 @@ function MyApp(props: AppPropsWithLayout) {
 	} = props;
 	const getLayout = Component.getLayout ?? ((page) => page);
 	const { store, ...rest } = wrapper.useWrappedStore(props);
+	const router = useRouter();
 
 	return (
 		<SessionProvider session={session}>
 			<QueryClientProvider client={queryClient}>
 				<ReduxProvider store={store}>
 					<Providers>
-						<AnimatePresence exitBeforeEnter>
-							<motion.div>
+						<AnimatePresence mode='wait'>
+							<motion.main
+								key={router.route}
+								variants={motionVariants}
+								initial='hidden'
+								animate='enter'
+								exit='exit'>
 								{getLayout(<Component {...rest.props.pageProps} />)}
-							</motion.div>
+							</motion.main>
 						</AnimatePresence>
 					</Providers>
 				</ReduxProvider>

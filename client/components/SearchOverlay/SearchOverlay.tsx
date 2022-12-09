@@ -1,3 +1,4 @@
+'use client';
 import React, { Reducer, useReducer } from 'react';
 import { SearchIcon, XIcon } from '@heroicons/react/outline';
 import Page from '@components/PageComponent/Page';
@@ -7,6 +8,8 @@ import { ChevronDownIcon } from '@heroicons/react/outline';
 import SelectPill from '@components/Elements/SelectPill/SelectPill';
 import emotionContent from '@config/content.json';
 import { filterData } from '@utils/filterUtils';
+import { motion } from 'framer-motion';
+import { motionVariants } from '@config/motion';
 
 interface SearchOverlayProps {
 	setIsOpen?: Function;
@@ -57,7 +60,7 @@ const SearchOverlay = ({
 		handelResetFilter({ key: 'content' });
 	};
 
-	const isValueSelected = (
+	const isValueInFilter = (
 		providedValue: string | number,
 		key: keyof IEntry
 	) => {
@@ -70,7 +73,13 @@ const SearchOverlay = ({
 	};
 
 	return (
-		<div className='absolute inset-x-0 flex justify-center min-h-screen pt-12 pl-0 mx-auto bg-backgroundLight dark:bg-black'>
+		<motion.div
+			key='searchOverlay'
+			variants={motionVariants}
+			initial='hidden'
+			animate='enter'
+			exit='exit'
+			className='absolute inset-x-0 flex justify-center min-h-screen pt-12 pl-0 mx-auto bg-backgroundLight dark:bg-black'>
 			<Page.Layout>
 				<Flex className='justify-between'>
 					<Page.Title>Search</Page.Title>
@@ -112,7 +121,7 @@ const SearchOverlay = ({
 								return (
 									<SelectPill
 										variant={
-											isValueSelected(text, 'emotion') ? 'selected' : 'default'
+											isValueInFilter(text, 'emotion') ? 'selected' : 'default'
 										}
 										onClick={() =>
 											handelSetFilter({ key: 'emotion', payload: text })
@@ -134,7 +143,7 @@ const SearchOverlay = ({
 								return (
 									<SelectPill
 										variant={
-											isValueSelected(tag, 'tags') ? 'selected' : 'default'
+											isValueInFilter(tag, 'tags') ? 'selected' : 'default'
 										}
 										onClick={() =>
 											handelAddFilter({ key: 'tags', payload: tag })
@@ -153,7 +162,7 @@ const SearchOverlay = ({
 				{isEmpty && <div>Empty</div>}
 				{isNotFound && <div>NOT FOUND</div>}
 			</Page.Layout>
-		</div>
+		</motion.div>
 	);
 };
 

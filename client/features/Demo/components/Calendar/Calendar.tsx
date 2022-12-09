@@ -17,6 +17,8 @@ import {
 } from 'date-fns';
 import { Fragment, useState } from 'react';
 
+// COMPONENT NOT USED
+
 const meetings = [
 	{
 		id: 1,
@@ -91,7 +93,7 @@ const Calendar = () => {
 
 	return (
 		<div className='pt-16 '>
-			<div className='max-w-md mx-auto  md:max-w-4xl'>
+			<div className='max-w-md mx-auto md:max-w-4xl'>
 				<div className='md:grid md:grid-cols-2 md:divide-x md:divide-zinc-200'>
 					<div className='md:pr-14'>
 						<div className='flex items-center'>

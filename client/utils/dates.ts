@@ -174,7 +174,7 @@ export const formatGroupedStories = (obj: any): IGrouped[] => {
  * @return  {boolean} true or false
  */
 export const isToday = ({ date }: IDateCompare): boolean => {
-	return moment(date).isSame(new Date(), 'd');
+	return moment(new Date(date)).isSame(new Date(), 'd');
 };
 
 /**
