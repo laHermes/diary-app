@@ -1,23 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
-import {
-	Container,
-	Section,
-	SectionActionButton,
-	SectionCard,
-	SectionTitle,
-} from '@styles/styles';
-import Button from '@components/Elements/Button/Button';
-import { Empty } from 'antd';
+import { SectionAction, SectionCard, SectionTitle } from '@styles/styles';
 import Inspiration from '@components/Inspiration/Inspiration';
-import Insights from '@components/Insights/Insights';
-import {
-	selectGroupedByMonthEntries,
-	selectTodayEntries,
-} from '@store/demoEntrySlice';
-import Link from 'next/link';
-import EntryCard from '@components/EntryCard/EntryCard';
+import { selectTodayEntries } from '@store/demoEntrySlice';
 import Sidebar from '@components/Sidebar/Sidebar';
 import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
 import MobileNav from '@components/MobileNav/MobileNav';
@@ -68,11 +53,11 @@ const Index = () => {
 							</InsightsItem>
 						</InsightsItems>
 						<ThinBorder />
-						<SectionActionButton
+						<SectionAction
 							onClick={() => router.push(`${router.pathname}/insights`)}>
 							<p className='m-0'>All Insights</p>
 							<ChevronRightIcon className='self-center w-5 h-5' />
-						</SectionActionButton>
+						</SectionAction>
 					</SectionCard>
 				</Page.Section>
 

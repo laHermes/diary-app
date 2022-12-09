@@ -1,4 +1,4 @@
-import { SectionActionButton, SectionCard } from '@styles/styles';
+import { SectionAction, SectionCard } from '@styles/styles';
 import React from 'react';
 
 import { ChevronRightIcon } from '@heroicons/react/solid';
@@ -35,10 +35,10 @@ const Insights = () => {
 			<ThinBorder />
 
 			<Link href='/demo/insights'>
-				<SectionActionButton>
+				<SectionAction>
 					<p className='m-0 text-accent'>All Insights</p>
-					<ChevronRightIcon className='h-5 w-5 self-center' />
-				</SectionActionButton>
+					<ChevronRightIcon className='self-center w-5 h-5' />
+				</SectionAction>
 			</Link>
 		</SectionCard>
 	);
