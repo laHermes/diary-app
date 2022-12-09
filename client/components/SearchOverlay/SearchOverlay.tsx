@@ -3,12 +3,11 @@ import { SearchIcon, XIcon } from '@heroicons/react/outline';
 import Page from '@components/PageComponent/Page';
 import { Flex } from '@styles/styles';
 import GroupedEntries from '@components/GroupedEntries/GroupedEntries';
-import { debounce } from 'lodash';
 import { ChevronDownIcon } from '@heroicons/react/outline';
 import SelectPill from '@components/Elements/SelectPill/SelectPill';
 import emotionContent from '@config/content.json';
 import { filterData } from '@utils/filterUtils';
-import FunnelCloseIcon from '@icons/FunnelCloseIcon';
+
 interface SearchOverlayProps {
 	setIsOpen?: Function;
 	data: any[];
@@ -35,48 +34,39 @@ const SearchOverlay = ({
 	const isEmpty = !filter;
 
 	// keyof CustomIEntry
-	const handelSetFilter = ({ key, value }: any) => {
-		dispatch({ type: ActionTypes.SET, key, payload: value });
+	const handelSetFilter = ({ key, payload }: Omit<SearchActions, 'type'>) => {
+		dispatch({ type: ActionTypes.SET, key, payload });
 	};
 
-	const handelAddFilter = ({ key, value }: any) => {
-		dispatch({ type: ActionTypes.ADD, key, payload: value });
+	const handelAddFilter = ({ key, payload }: Omit<SearchActions, 'type'>) => {
+		dispatch({ type: ActionTypes.ADD, key, payload });
 	};
 
-	const handelResetFilter = ({ key }: any) => {
+	const handelResetFilter = ({
+		key,
+	}: Omit<SearchActions, 'type' | 'payload'>) => {
 		dispatch({ type: ActionTypes.RESET, key });
 	};
 
 	// Debouncing filter logic
 	const handleQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
-		handelSetFilter({ key: 'content', value: event.target.value });
+		handelSetFilter({ key: 'content', payload: event.target.value });
 	};
 
 	const handleResetQuery = () => {
 		handelResetFilter({ key: 'content' });
 	};
 
-	// const handleFilterSearch = () => {
-	// 	addFilter({
-	// 		value: query,
-	// 		filterType: FILTER.SEARCH,
-	// 		action: (instance: any) =>
-	// 			filterFieldValue({ instance, selector: 'content', targetValue: query }),
-	// 	});
-	// };
-	// const debounceHandleFilterSearch = debounce(handleFilterSearch, 400);
-
-	// useEffect(() => {
-	// 	debounceHandleFilterSearch();
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [query]);
-
 	const isValueSelected = (
 		providedValue: string | number,
 		key: keyof IEntry
 	) => {
 		const filterType = searchFilterState[key];
-		return filterType.includes(providedValue);
+		if (typeof providedValue === 'string') {
+			const targetValue = providedValue.toLowerCase();
+			return filterType.includes(targetValue);
+		}
+		return filterType === providedValue;
 	};
 
 	return (
@@ -116,7 +106,6 @@ const SearchOverlay = ({
 					<Flex className='max-w-1/2 flex-col items-start gap-4'>
 						<Flex>
 							<span className='text-base uppercase'>Search by emotion</span>
-							<FunnelCloseIcon className='self-center w-4 h-4 stroke-white' />
 						</Flex>
 						<Flex className='flex-wrap'>
 							{emotionContent.emotions.map(({ text }: { text: string }) => {
@@ -126,7 +115,7 @@ const SearchOverlay = ({
 											isValueSelected(text, 'emotion') ? 'selected' : 'default'
 										}
 										onClick={() =>
-											handelSetFilter({ key: 'emotion', value: text })
+											handelSetFilter({ key: 'emotion', payload: text })
 										}
 										key={text}>
 										{text}
@@ -139,7 +128,6 @@ const SearchOverlay = ({
 					<Flex className='max-w-1/2 flex-col items-start gap-4'>
 						<Flex>
 							<span className='text-base uppercase'>Search by tag</span>
-							<FunnelCloseIcon className='self-center w-4 h-4 stroke-white' />
 						</Flex>
 						<Flex className='flex-wrap'>
 							{tags.map((tag: string) => {
@@ -148,7 +136,9 @@ const SearchOverlay = ({
 										variant={
 											isValueSelected(tag, 'tags') ? 'selected' : 'default'
 										}
-										onClick={() => handelAddFilter({ key: 'tags', value: tag })}
+										onClick={() =>
+											handelAddFilter({ key: 'tags', payload: tag })
+										}
 										key={tag}>
 										{tag}
 									</SelectPill>

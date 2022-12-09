@@ -27,11 +27,7 @@ export const filterData = ({ data, filter }: filterDataProps) => {
 			if (typeof instance === 'string' && typeof filterValues === 'string') {
 				const providedText = removeHTMLMarkup(instance.toLowerCase());
 				const targetValue = filterValues.toLowerCase();
-				console.log(
-					providedText,
-					targetValue,
-					providedText.includes(targetValue)
-				);
+
 				return providedText.includes(targetValue);
 			}
 

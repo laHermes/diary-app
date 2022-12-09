@@ -17,7 +17,6 @@ const Inspiration = () => {
 	const { status } = useSession();
 
 	const SUB_LINK = status === 'authenticated' ? '/app' : '/demo';
-
 	const linkHref = {
 		pathname: `${SUB_LINK}/entry`,
 		query: {
@@ -29,18 +28,26 @@ const Inspiration = () => {
 	const isLoading = !data && !error;
 	const quoteData = data ? data?.data : null;
 
+	if (isLoading) {
+		return (
+			<SectionCard>
+				<InspirationContentWrapper className='flex-col items-center justify-center h-24'>
+					<Spinner />
+				</InspirationContentWrapper>
+			</SectionCard>
+		);
+	}
 	return (
 		<SectionCard>
 			<InspirationContentWrapper>
 				<InspirationQuote>{quoteData?.content}</InspirationQuote>
 				<InspirationAuthor>{quoteData?.author}</InspirationAuthor>
-				{isLoading && <Spinner />}
 			</InspirationContentWrapper>
 			<ThinBorder />
 			<Link href={linkHref} as={`${SUB_LINK}/entry`}>
 				<SectionActionButton>
 					<p className='m-0 dark:text-accent'>Journal the quote</p>
-					<ChevronRightIcon className='h-5 w-5 self-center dark:fill-accent' />
+					<ChevronRightIcon className='self-center w-5 h-5 dark:fill-accent' />
 				</SectionActionButton>
 			</Link>
 		</SectionCard>
