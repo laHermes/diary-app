@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import GoBack from '@components/GoBack/GoBack';
 import Page from '@components/PageComponent/Page';
@@ -7,23 +7,14 @@ import {
 	ExclamationCircleIcon,
 	ExclamationIcon,
 } from '@heroicons/react/outline';
-import { useMutation } from '@tanstack/react-query';
-import { deleteUserMutation } from '@config/api';
+import ConfirmDeleteUserModal from '@components/ConfirmDeleteUserModal/ConfirmDeleteUserModal';
 
 const Index = () => {
 	const { data: session } = useSession();
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
 	const name = session?.user?.name;
 	const email = session?.user?.email;
-	// Update Entry
-	const deleteUser = useMutation({
-		mutationFn: deleteUserMutation,
-		onSuccess: () => signOut(),
-	});
-
-	const handleDeleteUser = () => {
-		deleteUser.mutate();
-	};
 
 	return (
 		<Page>
@@ -64,12 +55,18 @@ const Index = () => {
 
 				<PageCard>
 					<PageCard.Body>
-						<Page.CardAction hasIcon={false}>
+						<Page.CardAction
+							hasIcon={false}
+							onClick={() => setIsDeleteModalOpen(true)}>
 							<div className='font-medium'>Delete Account</div>
 							<ExclamationCircleIcon className='w-5 h-5' />
 						</Page.CardAction>
 					</PageCard.Body>
 				</PageCard>
+				<ConfirmDeleteUserModal
+					isOpen={isDeleteModalOpen}
+					setIsOpen={setIsDeleteModalOpen}
+				/>
 			</Page.Layout>
 		</Page>
 	);

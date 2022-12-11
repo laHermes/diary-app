@@ -16,7 +16,7 @@ import { stringToArray } from '@utils/index';
 import { uniqueId } from 'lodash';
 import FloatingButton from '@components/FloatingButton/FloatingButton';
 import EntryNavigation from '@components/EntryNavigation/EntryNavigation';
-import ConfirmReturnModal from '@components/UnsavedChangesModal/UnsavedChangesModal';
+import UnsavedChangesModal from '@components/UnsavedChangesModal/UnsavedChangesModal';
 import Page from '@components/PageComponent/Page';
 import useHasChanges from '@hooks/useHasChanges';
 import EmotionsModal from '@components/EmotionsModal/EmotionsModal';
@@ -201,8 +201,8 @@ const Index = () => {
 					<StyledDotsHorizontalIcon />
 				</EntryNavigation.Action>
 			</EntryNavigation>
-			{/* CONFIRM EXIT PAGE MODAL */}
-			{hasChanges && <ConfirmReturnModal />}
+			{/* CONFIRM DISCARD UNSAVED */}
+			{hasChanges && <UnsavedChangesModal />}
 			<EmotionsModal
 				state={emotionState}
 				setState={setEmotionState}
