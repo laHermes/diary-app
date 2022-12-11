@@ -29,55 +29,6 @@ import {
 	StyledXIcon,
 } from '@components/FloatingButton/Styles';
 
-enum ModalKind {
-	BOTTOM_SHEET = 'bottomSheet',
-	TAGS = 'tags',
-	EMOTIONS = 'emotions',
-	NULL = 'null',
-}
-
-enum ModalActionKind {
-	OPEN = 'openModal',
-	CLOSE = 'closeModal',
-}
-
-interface ModalAction {
-	type: ModalActionKind;
-	payload: ModalKind;
-}
-
-enum TagActionKind {
-	ADD = 'addTag',
-	REMOVE = 'removeTag',
-}
-
-interface TagAction {
-	type: TagActionKind;
-	payload: string;
-}
-
-type ReducerActionTypes = ModalAction | TagAction;
-
-const stateReducer: Reducer<any, ReducerActionTypes> = (
-	state: any,
-	action: ReducerActionTypes
-) => {
-	switch (action.type) {
-		case TagActionKind.ADD:
-			return [...state, action.payload.toLowerCase()];
-		case TagActionKind.REMOVE:
-			return [...state].filter(
-				(instance: string) => instance !== action.payload.toLowerCase()
-			);
-		case ModalActionKind.OPEN:
-			return { ...state, modal: action.payload };
-		case ModalActionKind.CLOSE:
-			return { ...state, modal: ModalKind.NULL };
-		default:
-			throw Error('Unknown action');
-	}
-};
-
 const Index = () => {
 	const router = useRouter();
 
@@ -111,6 +62,8 @@ const Index = () => {
 		stringToArray({ value: tags })
 	);
 
+	// placeholder can be extracted
+	// i18 for localization is possible
 	const { editor, editorState } = useTextEditor({
 		characterLimit,
 		defaultValue: (content as string) ?? '',
@@ -118,7 +71,7 @@ const Index = () => {
 	});
 
 	// modal states
-	// can be refactored into single set state if needed
+	// can be refactored into single set state/useReducer if needed
 	const [isEmotionModalOpen, setIsEmotionModalOpen] = useState<boolean>(false);
 	const [isTagsModalOpen, setIsTagsModalOpen] = useState<boolean>(false);
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -186,22 +139,22 @@ const Index = () => {
 					</span>
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
-				{/* tags modal */}
+				{/* open tags modal */}
 				<EntryNavigation.Action onClick={() => setIsTagsModalOpen(true)}>
 					<StyledTagIcon />
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
-				{/* emotions modal */}
+				{/* open emotions modal */}
 				<EntryNavigation.Action onClick={() => setIsEmotionModalOpen(true)}>
 					<StyledFaceSmileIcon />
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
-				{/* bottom sheet */}
+				{/* open bottom sheet */}
 				<EntryNavigation.Action onClick={() => setIsBottomSheetOpen(true)}>
 					<StyledDotsHorizontalIcon />
 				</EntryNavigation.Action>
 			</EntryNavigation>
-			{/* CONFIRM DISCARD UNSAVED */}
+			{/* CONFIRM DISCARD UNSAVED Changes */}
 			{hasChanges && <UnsavedChangesModal />}
 			<EmotionsModal
 				state={emotionState}
@@ -270,3 +223,52 @@ const Index = () => {
 };
 
 export default Index;
+
+enum ModalKind {
+	BOTTOM_SHEET = 'bottomSheet',
+	TAGS = 'tags',
+	EMOTIONS = 'emotions',
+	NULL = 'null',
+}
+
+enum ModalActionKind {
+	OPEN = 'openModal',
+	CLOSE = 'closeModal',
+}
+
+interface ModalAction {
+	type: ModalActionKind;
+	payload: ModalKind;
+}
+
+enum TagActionKind {
+	ADD = 'addTag',
+	REMOVE = 'removeTag',
+}
+
+interface TagAction {
+	type: TagActionKind;
+	payload: string;
+}
+
+type ReducerActionTypes = ModalAction | TagAction;
+
+const stateReducer: Reducer<any, ReducerActionTypes> = (
+	state: any,
+	action: ReducerActionTypes
+) => {
+	switch (action.type) {
+		case TagActionKind.ADD:
+			return [...state, action.payload.toLowerCase()];
+		case TagActionKind.REMOVE:
+			return [...state].filter(
+				(instance: string) => instance !== action.payload.toLowerCase()
+			);
+		case ModalActionKind.OPEN:
+			return { ...state, modal: action.payload };
+		case ModalActionKind.CLOSE:
+			return { ...state, modal: ModalKind.NULL };
+		default:
+			throw Error('Unknown action');
+	}
+};

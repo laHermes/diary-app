@@ -63,6 +63,7 @@ const Index = () => {
 						</Page.CardAction>
 					</PageCard.Body>
 				</PageCard>
+				{/* User has to confirm to delete its account */}
 				<ConfirmDeleteUserModal
 					isOpen={isDeleteModalOpen}
 					setIsOpen={setIsDeleteModalOpen}

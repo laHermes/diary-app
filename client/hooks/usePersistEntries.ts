@@ -35,22 +35,49 @@ const usePersistEntries = () => {
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: ['Entries'] });
 		},
-		onSuccess: () =>
-			toast.success('Entry saved!') && router.push(APP_ROUTES.JOURNAL),
+		onSuccess: () => {
+			toast.success('Entry saved!') && router.push(APP_ROUTES.JOURNAL);
+		},
 	});
 
 	// Update Entry
 	const updateEntry = useMutation({
 		mutationFn: updateEntryMutation,
-		onSuccess: () =>
-			toast.success('Entry updated!') && router.push(APP_ROUTES.JOURNAL),
+		onMutate: async (newEntry: IEntry) => {
+			// Cancel any outgoing refetches
+			// (so they don't overwrite our optimistic update)
+			await queryClient.cancelQueries({ queryKey: ['Entries', newEntry.id] });
+
+			// Snapshot the previous value
+			const previousEntry = queryClient.getQueryData(['Entries', newEntry.id]);
+
+			// Optimistically update to the new value
+			queryClient.setQueryData(['Entries', newEntry.id], newEntry);
+
+			// Return a context with the previous and new Entry
+			return { previousEntry, newEntry };
+		}, // If the mutation fails, use the context we returned above
+		onError: (context: any) => {
+			queryClient.setQueryData(
+				['Entries', context?.newEntry.id],
+				context?.previousEntry
+			);
+		},
+		// // Always refetch after error or success:
+		// onSettled: (newEntry: IEntry) => {
+		// 	queryClient.invalidateQueries({ queryKey: ['Entries', newEntry.id] });
+		// },
+		onSuccess: () => {
+			toast.success('Entry updated!') && router.push(APP_ROUTES.JOURNAL);
+		},
 	});
 
 	// Delete Entry
 	const deleteEntry = useMutation({
 		mutationFn: deleteEntryMutation,
-		onSuccess: () =>
-			toast.success('Entry Deleted!') && router.push(APP_ROUTES.JOURNAL),
+		onSuccess: () => {
+			toast.success('Entry Deleted!') && router.push(APP_ROUTES.JOURNAL);
+		},
 	});
 	return { createEntry, updateEntry, deleteEntry };
 };
