@@ -28,6 +28,7 @@ import {
 	StyledCheckIcon,
 	StyledXIcon,
 } from '@components/FloatingButton/Styles';
+import ConfirmDeleteEntryModal from '@components/ConfirmDeleteEntryModal/ConfirmDeleteEntryModal';
 
 const Index = () => {
 	const router = useRouter();
@@ -75,6 +76,8 @@ const Index = () => {
 	const [isEmotionModalOpen, setIsEmotionModalOpen] = useState<boolean>(false);
 	const [isTagsModalOpen, setIsTagsModalOpen] = useState<boolean>(false);
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+	const [isDeleteEntryModalOpen, setIsDeleteEntryModalOpen] =
+		useState<boolean>(false);
 
 	const { hasChanges } = useHasChanges({
 		deps: [emotionState, tagState, editorState],
@@ -132,6 +135,28 @@ const Index = () => {
 					</FloatingButton.Action>
 				)}
 			</FloatingButton>
+
+			{/* CONFIRM DISCARD UNSAVED Changes */}
+			{hasChanges && <UnsavedChangesModal />}
+			<EmotionsModal
+				state={emotionState}
+				setState={setEmotionState}
+				isOpen={isEmotionModalOpen}
+				setIsOpen={setIsEmotionModalOpen}
+			/>
+			<TagsModal
+				state={tagState}
+				setState={setTagState}
+				isOpen={isTagsModalOpen}
+				setIsOpen={setIsTagsModalOpen}
+			/>
+			<ConfirmDeleteEntryModal
+				isOpen={isDeleteEntryModalOpen}
+				setIsOpen={setIsDeleteEntryModalOpen}
+				entryId={entryId as string}
+			/>
+
+			{/* Bottom navigation */}
 			<EntryNavigation>
 				<EntryNavigation.Action>
 					<span className='font-semibold text-zinc-300'>
@@ -154,20 +179,8 @@ const Index = () => {
 					<StyledDotsHorizontalIcon />
 				</EntryNavigation.Action>
 			</EntryNavigation>
-			{/* CONFIRM DISCARD UNSAVED Changes */}
-			{hasChanges && <UnsavedChangesModal />}
-			<EmotionsModal
-				state={emotionState}
-				setState={setEmotionState}
-				isOpen={isEmotionModalOpen}
-				setIsOpen={setIsEmotionModalOpen}
-			/>
-			<TagsModal
-				state={tagState}
-				setState={setTagState}
-				isOpen={isTagsModalOpen}
-				setIsOpen={setIsTagsModalOpen}
-			/>
+
+			{/* Bottom sheet */}
 			<BottomSheet
 				isOpen={isBottomSheetOpen}
 				onDismiss={() => setIsBottomSheetOpen(false)}
@@ -196,18 +209,21 @@ const Index = () => {
 						</BottomSheet.ActionWithClose>
 
 						{/* TAGS */}
-						<BottomSheet.Section>
-							<Flex>
-								<TagIcon className='w-6 h-6 min-w-fit' />
-								Tags
-							</Flex>
-							<Flex className='uppercase '>
-								<BottomSheet.ValueList
-									values={tagState}
-									fallbackValue='No Tags'
-								/>
-							</Flex>
-						</BottomSheet.Section>
+						<BottomSheet.ActionWithClose
+							onClick={() => setIsTagsModalOpen(true)}>
+							<BottomSheet.Section>
+								<Flex>
+									<TagIcon className='w-6 h-6 min-w-fit' />
+									Tags
+								</Flex>
+								<Flex className='uppercase '>
+									<BottomSheet.ValueList
+										values={tagState}
+										fallbackValue='No Tags'
+									/>
+								</Flex>
+							</BottomSheet.Section>
+						</BottomSheet.ActionWithClose>
 
 						<BottomSheet.ActionWithClose onClick={handleDeleteEntry}>
 							<BottomSheet.Section className='bg-red-900/5'>
