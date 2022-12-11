@@ -2,9 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Modal from '@components/Modal/Modal';
 import Button from '@components/Elements/Button/Button';
+import { Flex } from '@styles/styles';
 
 // on click back
-export const ConfirmReturnModal = () => {
+export const UnsavedChangesModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [finishStatus, setFinishStatus] = useState<boolean>(false);
 	const router = useRouter();
@@ -50,18 +51,22 @@ export const ConfirmReturnModal = () => {
 		return (
 			<Modal value={isModalOpen} onChange={setIsModalOpen}>
 				<Modal.Body>
-					<div className='p-3 text-center bg-white rounded-md dark:bg-zinc-900 '>
-						<p className='text-xl font-semibold'>Unsaved entry will be lost!</p>
-						<p className='text-xl'>Are you sure you want to quit?</p>
-						<div className='inline-flex items-center justify-between gap-2 '>
-							<Button $positive onClick={cancelHandler}>
+					<Flex className='flex-col items-start gap-4 p-5 bg-white dark:bg-zinc-900'>
+						<Flex className='flex-col items-start gap-0 text-left'>
+							<p className='m-0 text-xl font-bold '>Unsaved changes!</p>
+							<p className='m-0 text-md'>
+								Are you sure you want to discard changes?
+							</p>
+						</Flex>
+						<Flex className='flex-col w-full gap-4'>
+							<Button $negative onClick={backHandler} className='w-full'>
+								Yes, discard changes
+							</Button>
+							<Button $positive onClick={cancelHandler} className='w-full'>
 								Cancel
 							</Button>
-							<Button $negative onClick={backHandler}>
-								Quit
-							</Button>
-						</div>
-					</div>
+						</Flex>
+					</Flex>
 				</Modal.Body>
 			</Modal>
 		);
@@ -70,4 +75,4 @@ export const ConfirmReturnModal = () => {
 	return null;
 };
 
-export default ConfirmReturnModal;
+export default UnsavedChangesModal;

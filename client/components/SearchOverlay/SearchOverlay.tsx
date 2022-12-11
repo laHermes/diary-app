@@ -34,7 +34,6 @@ const SearchOverlay = ({
 
 	const data = filter ? filteredData : [];
 	const isNotFound = filter && filteredData?.length === 0;
-	const isEmpty = !filter;
 
 	// keyof CustomIEntry
 	const handelSetFilter = ({ key, payload }: Omit<SearchActions, 'type'>) => {
@@ -159,8 +158,11 @@ const SearchOverlay = ({
 
 				<GroupedEntries entries={data} />
 
-				{isEmpty && <div>Empty</div>}
-				{isNotFound && <div>NOT FOUND</div>}
+				{isNotFound && (
+					<Flex className='justify-center py-20'>
+						No entries match you search.
+					</Flex>
+				)}
 			</Page.Layout>
 		</motion.div>
 	);

@@ -16,7 +16,7 @@ import { stringToArray } from '@utils/index';
 import { uniqueId } from 'lodash';
 import FloatingButton from '@components/FloatingButton/FloatingButton';
 import EntryNavigation from '@components/EntryNavigation/EntryNavigation';
-import ConfirmReturnModal from '@components/ConfirmReturnModal/ConfirmReturnModal';
+import ConfirmReturnModal from '@components/UnsavedChangesModal/UnsavedChangesModal';
 import Page from '@components/PageComponent/Page';
 import useHasChanges from '@hooks/useHasChanges';
 import EmotionsModal from '@components/EmotionsModal/EmotionsModal';
@@ -220,10 +220,10 @@ const Index = () => {
 				onDismiss={() => setIsBottomSheetOpen(false)}
 				onToggle={() => setIsBottomSheetOpen((state) => !state)}>
 				<BottomSheet.Sheet>
-					<Container className='flex flex-col divide-y divide-zinc-800 pb-5 font-noto text-zinc-200'>
+					<Container className='flex flex-col pb-5 divide-y divide-zinc-800 font-noto text-zinc-200'>
 						{/* Date */}
 						<BottomSheet.Section>
-							<CalendarIcon className='h-6 w-6 min-w-fit' />
+							<CalendarIcon className='w-6 h-6 min-w-fit' />
 							<p className='m-0 text-right'>{date.toString()}</p>
 						</BottomSheet.Section>
 
@@ -232,7 +232,7 @@ const Index = () => {
 							onClick={() => setIsEmotionModalOpen(true)}>
 							<BottomSheet.Section>
 								<Flex>
-									<FaceSmileIcon className='h-6 w-6 min-w-fit stroke-2' />
+									<FaceSmileIcon className='w-6 h-6 stroke-2 min-w-fit' />
 									Emotion
 								</Flex>
 
@@ -245,7 +245,7 @@ const Index = () => {
 						{/* TAGS */}
 						<BottomSheet.Section>
 							<Flex>
-								<TagIcon className='h-6 w-6 min-w-fit' />
+								<TagIcon className='w-6 h-6 min-w-fit' />
 								Tags
 							</Flex>
 							<Flex className='uppercase '>
@@ -258,7 +258,7 @@ const Index = () => {
 
 						<BottomSheet.ActionWithClose onClick={handleDeleteEntry}>
 							<BottomSheet.Section className='bg-red-900/5'>
-								<TrashIcon className='h-6 w-6 min-w-fit stroke-red-500' />
+								<TrashIcon className='w-6 h-6 min-w-fit stroke-red-500' />
 								<p className='m-0 text-right text-red-500'>Delete Entry</p>
 							</BottomSheet.Section>
 						</BottomSheet.ActionWithClose>

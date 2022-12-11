@@ -32,4 +32,4 @@ ${({ $negative }) =>
 	
 ${({ $rounded }) =>
 	$rounded &&
-	'rounded-full border border-white/70 text-black dark:text-white px-4 text-lg shadow-[0_0_1px_0_rgba(255,255,255,0.7)]'}`;
+	'rounded-full border dark:border-white/20 text-black dark:text-white px-4 text-lg shadow-[0_0_1px_0_rgba(255,255,255,0.2)]'}`;
