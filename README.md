@@ -60,6 +60,7 @@ diaryapp is a tool for saving, searching, accessing you daily diary entries.
   - [ ] Unit testing with react testing library
   - [ ] E2E testing with cypress
   - [ ] Pagination / Lazy Loading for entries
+  - [ ] Add entry validation with zod
 
 # Disclaimer
 
