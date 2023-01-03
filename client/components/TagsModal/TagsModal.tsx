@@ -62,7 +62,7 @@ export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 					onClick={() => handleRemoveSelect(value)}
 					$selected
 					$hidden={notInSearch(value)}>
-					<TagIcon className='w-4 h-4' />
+					<TagIcon className='h-4 w-4' />
 					<span>{value}</span>
 				</TagButton>
 			);
@@ -78,7 +78,7 @@ export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 								key={value}
 								onClick={() => handleSelect(value)}
 								$hidden={notInSearch(value) || state.includes(value)}>
-								<TagIcon className='w-4 h-4' />
+								<TagIcon className='h-4 w-4' />
 								<span>{value}</span>
 							</TagButton>
 						);
@@ -92,37 +92,39 @@ export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 	return (
 		<Modal value={isOpen} onChange={setIsOpen}>
 			<Modal.Body>
-				<Tags>
-					<Tags.Title>Tags</Tags.Title>
-					<Tags.SearchSection>
-						<SearchIcon className='w-6 h-6 text-zinc-500' />
-						<Tags.Input
-							max={28}
-							value={filteredQuery}
-							onChange={handleSearch}
-						/>
-					</Tags.SearchSection>
+				<div className='w-full max-w-md'>
+					<Tags>
+						<Tags.Title>Tags</Tags.Title>
+						<Tags.SearchSection>
+							<SearchIcon className='h-6 w-6 text-zinc-500' />
+							<Tags.Input
+								max={28}
+								value={filteredQuery}
+								onChange={handleSearch}
+							/>
+						</Tags.SearchSection>
 
-					<div className='overflow-y-auto divide-y max-h-96 dark:divide-zinc-800'>
-						<DefaultTags />
+						<div className='max-h-96 divide-y overflow-y-auto dark:divide-zinc-800'>
+							<DefaultTags />
 
-						<SelectedTags />
+							<SelectedTags />
 
-						{/* create new tag if no tag exists */}
-						{queryNoMatch && (
-							<AddNewTagButton onClick={() => handleAddNewTag(filteredQuery)}>
-								<PlusIcon className='w-4 h-4' />
-								<span>{filteredQuery}</span>
-							</AddNewTagButton>
-						)}
-					</div>
+							{/* create new tag if no tag exists */}
+							{queryNoMatch && (
+								<AddNewTagButton onClick={() => handleAddNewTag(filteredQuery)}>
+									<PlusIcon className='h-4 w-4' />
+									<span>{filteredQuery}</span>
+								</AddNewTagButton>
+							)}
+						</div>
 
-					<ModalFooter>
-						<ModalFooterButton onClick={() => setIsOpen(false)}>
-							Done
-						</ModalFooterButton>
-					</ModalFooter>
-				</Tags>
+						<ModalFooter>
+							<ModalFooterButton onClick={() => setIsOpen(false)}>
+								Done
+							</ModalFooterButton>
+						</ModalFooter>
+					</Tags>
+				</div>
 			</Modal.Body>
 		</Modal>
 	);
