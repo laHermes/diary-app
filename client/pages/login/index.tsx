@@ -1,19 +1,17 @@
 import React from 'react';
 import LoginButton from '@components/SignIn/SignIn';
-import {
-	LoginPage,
-	PrivacyPolicy,
-	Subtitle,
-	Wrapper,
-} from '@components/SignIn/Styles';
+import { LoginPage, PrivacyPolicy, Wrapper } from '@components/SignIn/Styles';
 import { Title } from '@components/Tags/Tags';
+import { TextLogo } from '@styles/styles';
+import { useRouter } from 'next/router';
 
-const index = () => {
+const Index = () => {
+	const router = useRouter();
 	return (
 		<LoginPage>
 			<Wrapper>
 				<Title>Sign in</Title>
-				<Subtitle>Welcome to diaryapp</Subtitle>
+				<TextLogo onClick={() => router.push('/')}>diaryapp</TextLogo>
 			</Wrapper>
 			<Wrapper>
 				<LoginButton />
@@ -25,4 +23,4 @@ const index = () => {
 	);
 };
 
-export default index;
+export default Index;

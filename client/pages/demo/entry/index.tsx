@@ -83,9 +83,8 @@ const Index = () => {
 	const handleGoBack = () => {
 		if (window?.history?.state?.idx > 0) {
 			router.back();
-			return;
 		}
-		router.push('/');
+		router.push('/demo/journal');
 	};
 
 	// save entry

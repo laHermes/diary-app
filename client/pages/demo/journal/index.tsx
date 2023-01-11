@@ -40,6 +40,7 @@ const JournalPage = () => {
 			</Suspense>
 		);
 	}
+
 	return (
 		<Page>
 			<Page.Layout>
@@ -57,7 +58,7 @@ const JournalPage = () => {
 						<GroupedEntries entries={allEntries} />
 
 						{/* if there are no entries */}
-						{!allEntries && (
+						{allEntries.length === 0 && (
 							<div className='flex flex-col items-center align-center'>
 								No Entries
 							</div>

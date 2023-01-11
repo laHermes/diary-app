@@ -28,6 +28,7 @@ const Index = () => {
 	const { data: count } = useEntriesCount();
 	const { data: streak } = useEntriesStreaks();
 	const { data: entriesToday } = useEntriesToday();
+
 	const username = data?.user?.name ? data.user.name : 'Anonymous';
 
 	return (
@@ -64,14 +65,14 @@ const Index = () => {
 						<SectionAction
 							onClick={() => router.push(`${router.pathname}/insights`)}>
 							<p className='m-0 dark:text-accent'>All Insights</p>
-							<ChevronRightIcon className='h-5 w-5 self-center dark:fill-accent' />
+							<ChevronRightIcon className='self-center w-5 h-5 dark:fill-accent' />
 						</SectionAction>
 					</SectionCard>
 				</Page.Section>
 
 				<Page.Section>
 					<SectionTitle>Recent activity</SectionTitle>
-					<div className='mb-4 flex w-full flex-col gap-4 rounded-md'>
+					<div className='flex flex-col w-full gap-4 mb-4 rounded-md'>
 						<Entries entries={entriesToday} />
 						<FloatingWrite />
 					</div>

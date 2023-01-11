@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { SectionAction, SectionCard, SectionTitle } from '@styles/styles';
 import Inspiration from '@components/Inspiration/Inspiration';
-import { selectTodayEntries } from '@store/demoEntrySlice';
+import { selectEntries, selectTodayEntries } from '@store/demoEntrySlice';
 import Sidebar from '@components/Sidebar/Sidebar';
 import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
 import MobileNav from '@components/MobileNav/MobileNav';
@@ -21,6 +21,7 @@ import { useRouter } from 'next/router';
 const Index = () => {
 	const router = useRouter();
 	const entriesToday = useSelector(selectTodayEntries);
+	const entries = useSelector(selectEntries);
 
 	return (
 		<Page>
@@ -48,7 +49,7 @@ const Index = () => {
 								<InsightsSub>Longest Streak</InsightsSub>
 							</InsightsItem>
 							<InsightsItem>
-								<InsightsValue>{'-'}</InsightsValue>
+								<InsightsValue>{entries.length}</InsightsValue>
 								<InsightsSub>Total Entries</InsightsSub>
 							</InsightsItem>
 						</InsightsItems>
@@ -63,13 +64,12 @@ const Index = () => {
 
 				<Page.Section>
 					<SectionTitle>Recent activity</SectionTitle>
+					<div className='flex flex-col w-full gap-4 mb-4 rounded-md'>
+						<Entries entries={entriesToday} />
+						<FloatingWrite />
+					</div>
 				</Page.Section>
 			</Page.Layout>
-
-			<div className='flex flex-col w-full gap-2 my-4 rounded-md'>
-				<Entries entries={entriesToday} />
-				<FloatingWrite />
-			</div>
 		</Page>
 	);
 };

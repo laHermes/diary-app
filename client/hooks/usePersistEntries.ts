@@ -16,7 +16,6 @@ const usePersistEntries = () => {
 	const createEntry = useMutation({
 		mutationFn: createEntryMutation,
 		onMutate: async (newEntry: IEntry) => {
-			console.log(newEntry);
 			// Cancel any outgoing refetches
 			// (so they don't overwrite our optimistic update)
 			await queryClient.cancelQueries({ queryKey: ['Entries'] });
