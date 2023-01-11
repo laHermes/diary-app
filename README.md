@@ -23,7 +23,7 @@ diaryapp is a tool for saving, searching, accessing you daily diary entries.
   - [x] Smooth page transition using Framer Motion
   - [x] Custom made responsive components and elements using Tailwind, Tailwind Styled Components and CVA
   - [x] Mobile and desktop navigation
-  - [ ] Active route in navigation
+  - [ ] Highlight active route in navigation (Sidebar, ...)
 
   - [x] Demo area where user can try out the app without having to sign up
 
@@ -41,12 +41,12 @@ diaryapp is a tool for saving, searching, accessing you daily diary entries.
 
 - Entry Editor
 
-  - [x] Custom text transformation functions
+  - [x] Custom text transformation functions (make text bold, italic, ...)
   - [x] Ability to undo or redo changes
-  - [x] Option to add custom tags
+  - [x] Option to add custom tags to the entry
   - [x] Option to pick a suitable emotion
-  - [x] Option to delete entry
-  - [x] Display maximum text characters
+  - [x] Option to delete an entry
+  - [x] Display maximum text characters per entry
   - [ ] Limit amount of tags a user can add
 
 - Backend
@@ -54,14 +54,14 @@ diaryapp is a tool for saving, searching, accessing you daily diary entries.
   - [x] Auth using NextAuth.js
   - [x] API routes to CRUD diary entries
   - [x] Ability for the user to delete its account and entries
+  - [x] Journal entry validation with zod
 
 - TODO
 
   - [ ] Unit testing with react testing library
   - [ ] E2E testing with cypress
   - [ ] Pagination / Lazy Loading for entries
-  - [ ] Add entry validation with zod
 
 # Disclaimer
 
-_diaryapp_ ("this software") is not a consumer product and provides no warranty of any kind. By using this software, you agree that you are doing so at your own risk. The creators of this software are not responsible for loss of data or other damages that may result in its operation. You are welcome to open an issue or a pull request. Contributors and testers are welcome and appreciated.
+_diaryapp_ ("this software") is not a consumer product and provides no warranty of any kind. By using this software, you agree that you are doing so at your own risk. The creators of this software are not responsible for loss of data or other damages that may result in its operation.
