@@ -27,9 +27,17 @@ export const ConfirmDeleteEntryModal = ({
 
 	const handleDeleteEntry = () => {
 		if (!entryId) {
-			router.back();
+			handleGoBack();
 		}
 		entryId && deleteEntry.mutate(entryId);
+	};
+
+	const handleGoBack = () => {
+		if (window?.history?.state?.idx > 0) {
+			router.back();
+			return;
+		}
+		router.push('/');
 	};
 
 	const cancelHandler = () => {

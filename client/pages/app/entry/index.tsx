@@ -45,6 +45,7 @@ const Index = () => {
 		modal: ModalKind.NULL,
 	};
 
+	// experimental
 	const [state, dispatch] = useReducer(stateReducer, initialState);
 	const { modal } = state;
 
@@ -64,7 +65,7 @@ const Index = () => {
 	);
 
 	// placeholder can be extracted
-	// i18 for localization is possible
+	// the use of i18 for localization is possible
 	const { editor, editorState } = useTextEditor({
 		characterLimit,
 		defaultValue: (content as string) ?? '',
@@ -123,6 +124,7 @@ const Index = () => {
 				<TextEditor.MenuBar />
 				<TextEditor.Editor />
 			</TextEditor>
+
 			<FloatingButton hasChanges={false}>
 				{hasChanges && (
 					<FloatingButton.Action onClick={() => handleSaveEntry()}>
@@ -240,6 +242,7 @@ const Index = () => {
 
 export default Index;
 
+// EXPERIMENTAL
 enum ModalKind {
 	BOTTOM_SHEET = 'bottomSheet',
 	TAGS = 'tags',

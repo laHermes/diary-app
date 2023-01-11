@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TextEditor from '@components/TextEditor/TextEditor';
-import { Container, TextLogo } from '@styles/styles';
+import { Container, Flex } from '@styles/styles';
 import Link from 'next/link';
 import {
 	CalendarIcon,
@@ -11,7 +11,6 @@ import {
 	SearchIcon,
 	PlusIcon,
 } from '@heroicons/react/outline';
-import DotsHorizontalIcon from '@icons/DotsHorizontalIcon';
 import BottomSheet from '@components/Elements/BottomSheet/BottomSheet';
 import { useRouter } from 'next/router';
 import Button from '@components/Elements/Button/Button';
@@ -27,6 +26,21 @@ import Modal from '@components/Modal/Modal';
 import FaceSmileIcon from '@icons/FaceSmileIcon';
 import emotionContent from '@config/content.json';
 import { stringToArray } from '@utils/index';
+import EntryNavigation from '@components/EntryNavigation/EntryNavigation';
+import { ShortVerticalBorder } from '@components/EntryNavigation/Styles';
+import {
+	StyledDotsHorizontalIcon,
+	StyledFaceSmileIcon,
+	StyledTagIcon,
+} from '@styles/styles';
+import Page from '@components/PageComponent/Page';
+import FloatingButton from '@components/FloatingButton/FloatingButton';
+import {
+	StyledCheckIcon,
+	StyledXIcon,
+} from '@components/FloatingButton/Styles';
+import useHasChanges from '@hooks/useHasChanges';
+import ConfirmDeleteEntryModal from '@components/ConfirmDeleteEntryModal/ConfirmDeleteEntryModal';
 
 const Index = () => {
 	const router = useRouter();
@@ -47,13 +61,11 @@ const Index = () => {
 	// state
 	const [emotionState, setEmotionState] = useState<string>(defaultEmotion);
 	const [tagState, setTagState] = useState<string[]>(defaultTags);
-	const [isBookmarked] = useState<boolean>(false);
 	const { editor, editorState } = useTextEditor({
 		characterLimit,
 		defaultValue: defaultContent,
 		placeholder: "Hello Anonymous, what's on your mind today?",
 	});
-	const [hasChanges, setHasChanges] = useState<boolean>(false);
 
 	const date = postDate ? postDate : new Date();
 
@@ -61,17 +73,20 @@ const Index = () => {
 	const [isEmotionModalOpen, setIsEmotionModalOpen] = useState<boolean>(false);
 	const [isTagsModalOpen, setIsTagsModalOpen] = useState<boolean>(false);
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+	const [isDeleteEntryModalOpen, setIsDeleteEntryModalOpen] =
+		useState<boolean>(false);
 
-	// runs after component is mounted
-	// changes state for save or cancel button
-	const isInitialMount = useRef(true);
-	useEffect(() => {
-		if (isInitialMount.current) {
-			isInitialMount.current = false;
-		} else {
-			setHasChanges(true);
+	const { hasChanges } = useHasChanges({
+		deps: [emotionState, tagState, editorState],
+	});
+
+	const handleGoBack = () => {
+		if (window?.history?.state?.idx > 0) {
+			router.back();
+			return;
 		}
-	}, [emotionState, tagState, editorState, isBookmarked]);
+		router.push('/');
+	};
 
 	// save entry
 	const handleSaveEntry = () => {
@@ -108,79 +123,61 @@ const Index = () => {
 		handleGoBack();
 	};
 
-	// cancel entry
-	const handleCancelEntry = () => {
-		handleGoBack();
-	};
+	const totalCharTyped = editor?.storage.characterCount.characters();
 
-	// on click back
-	const handleGoBack = () => {
-		router.push('/demo');
-	};
 	return (
 		<Container>
-			<div className='flex flex-col gap-2 p-5 '>
-				<TextLogo>diaryapp</TextLogo>
-			</div>
-
+			<Page.LogoSection>
+				<Page.Logo>diaryapp</Page.Logo>
+			</Page.LogoSection>
 			<TextEditor editor={editor}>
 				<TextEditor.MenuBar />
 				<TextEditor.Editor />
 			</TextEditor>
 
 			{/* FLOATING BUTTON */}
-			<div className='fixed left-0 w-screen bottom-16 drop-shadow-2xl md:px-5'>
-				<div className='relative flex items-center justify-end w-full h-12 max-w-screen-md mx-auto md:h-fit '>
-					<div className='z-50 -top-5 right-10'>
-						{hasChanges && (
-							<button
-								onClick={handleSaveEntry}
-								className='z-50 p-4 transition-all duration-200 bg-indigo-700 rounded-full shadow-2xl hover:bg-indigo-800'>
-								<CheckIcon className='w-8 h-8 stroke-white' />
-							</button>
-						)}
+			<FloatingButton hasChanges={false}>
+				{hasChanges && (
+					<FloatingButton.Action onClick={() => handleSaveEntry()}>
+						<StyledCheckIcon />
+					</FloatingButton.Action>
+				)}
+				{!hasChanges && (
+					<FloatingButton.Action onClick={() => router.back()}>
+						<StyledXIcon />
+					</FloatingButton.Action>
+				)}
+			</FloatingButton>
 
-						{!hasChanges && (
-							<button
-								onClick={handleCancelEntry}
-								className='p-4 transition-all duration-200 bg-indigo-700 rounded-full shadow-2xl hover:bg-indigo-800'>
-								<XIcon className='w-8 h-8 stroke-white' />
-							</button>
-						)}
-					</div>
-				</div>
-			</div>
+			{/* Bottom navigation */}
+			<EntryNavigation>
+				<EntryNavigation.Action>
+					<span className='font-semibold text-zinc-300'>
+						{totalCharTyped} / {characterLimit}
+					</span>
+				</EntryNavigation.Action>
+				<ShortVerticalBorder />
+				{/* open tags modal */}
+				<EntryNavigation.Action onClick={() => setIsTagsModalOpen(true)}>
+					<StyledTagIcon />
+				</EntryNavigation.Action>
+				<ShortVerticalBorder />
+				{/* open emotions modal */}
+				<EntryNavigation.Action onClick={() => setIsEmotionModalOpen(true)}>
+					<StyledFaceSmileIcon />
+				</EntryNavigation.Action>
+				<ShortVerticalBorder />
+				{/* open bottom sheet */}
+				<EntryNavigation.Action onClick={() => setIsBottomSheetOpen(true)}>
+					<StyledDotsHorizontalIcon />
+				</EntryNavigation.Action>
+			</EntryNavigation>
 
-			{/* BOTTOM NAV */}
-			<div className='fixed bottom-0 left-0 w-screen drop-shadow-2xl md:px-5'>
-				<div className='flex items-center justify-end w-full h-12 max-w-screen-md mx-auto overflow-hidden bg-white rounded-t-2xl md:h-fit'>
-					<button className='inline-flex justify-center flex-1 px-1 py-3 text-left hover:bg-zinc-100'>
-						{editor?.storage.characterCount.characters()} / {characterLimit}
-					</button>
-					<div className='h-5 bg-gray-200 w-[1px]' />
-					<button
-						onClick={() => setIsTagsModalOpen(true)}
-						className='inline-flex justify-center flex-1 px-1 py-3 text-left hover:bg-zinc-100'>
-						<TagIcon className='w-6 h-6 stroke-2 stroke-zinc-500' />
-					</button>
-					<div className='h-5 bg-gray-200 w-[1px]' />
-					<button
-						onClick={() => setIsEmotionModalOpen(true)}
-						className='inline-flex justify-center flex-1 px-1 py-3 text-left hover:bg-zinc-100'>
-						<FaceSmileIcon className='w-6 h-6 stroke-2 stroke-zinc-500' />
-					</button>
-					<div className='h-5 bg-gray-200 w-[1px]' />
-
-					<button
-						onClick={() => setIsBottomSheetOpen(true)}
-						className='flex items-center justify-center flex-1 px-3 py-2 hover:bg-zinc-100'>
-						<DotsHorizontalIcon className='w-5 h-5 stroke-zinc-500 md:h-8 md:w-8' />
-					</button>
-				</div>
-			</div>
-
-			{/* CONFIRM EXIT PAGE MODAL */}
-			{hasChanges && <ConfirmModal />}
+			<ConfirmDeleteEntryModal
+				isOpen={isDeleteEntryModalOpen}
+				setIsOpen={setIsDeleteEntryModalOpen}
+				entryId={entryId as string}
+			/>
 
 			<EmotionsModal
 				state={emotionState}
@@ -203,43 +200,50 @@ const Index = () => {
 				onToggle={() => setIsBottomSheetOpen((state) => !state)}>
 				<BottomSheet.Sheet>
 					<Container className='flex flex-col pb-5 divide-y divide-zinc-800 font-noto text-zinc-200'>
-						{/* DATE */}
+						{/* Date */}
 						<BottomSheet.Section>
-							<CalendarIcon className='w-6 h-6 stroke-2 min-w-fit' />
-							<p className='m-0 font-medium text-right'>{date.toString()}</p>
+							<CalendarIcon className='w-6 h-6 min-w-fit' />
+							<p className='m-0 text-right'>{date.toString()}</p>
 						</BottomSheet.Section>
 
+						{/* Emotions */}
 						<BottomSheet.ActionWithClose
 							onClick={() => setIsEmotionModalOpen(true)}>
 							<BottomSheet.Section>
-								<FaceSmileIcon className='w-6 h-6 stroke-2 min-w-fit' />
-								<p className='m-0'>
+								<Flex>
+									<FaceSmileIcon className='w-6 h-6 stroke-2 min-w-fit' />
+									Emotion
+								</Flex>
+
+								<p className='m-0 text-right'>
 									{emotionState ? emotionState : 'No emotion selected'}
 								</p>
 							</BottomSheet.Section>
 						</BottomSheet.ActionWithClose>
 
 						{/* TAGS */}
-						<BottomSheet.Section>
-							<TagIcon className='w-6 h-6 min-w-fit' />
-							<div className='inline-flex gap-2 m-0 uppercase'>
-								{tagState &&
-									tagState.map((tag: string) => {
-										return <p key={tag}>{tag}</p>;
-									})}
+						<BottomSheet.ActionWithClose
+							onClick={() => setIsTagsModalOpen(true)}>
+							<BottomSheet.Section>
+								<Flex>
+									<TagIcon className='w-6 h-6 min-w-fit' />
+									Tags
+								</Flex>
+								<Flex className='uppercase '>
+									<BottomSheet.ValueList
+										values={tagState}
+										fallbackValue='No Tags'
+									/>
+								</Flex>
+							</BottomSheet.Section>
+						</BottomSheet.ActionWithClose>
 
-								{!tagState.length && 'No tags'}
-							</div>
-						</BottomSheet.Section>
-
-						<Link href='/demo'>
-							<button
-								onClick={handleDeleteEntry}
-								className='inline-flex justify-between w-full px-1 py-3 text-left hover:bg-zinc-100'>
-								<TrashIcon className='w-6 h-6 min-w-fit' />
-								<p className='m-0 text-right'>Delete Entry</p>
-							</button>
-						</Link>
+						<BottomSheet.ActionWithClose onClick={handleDeleteEntry}>
+							<BottomSheet.Section className='bg-red-900/5'>
+								<TrashIcon className='w-6 h-6 min-w-fit stroke-red-500' />
+								<p className='m-0 text-right text-red-500'>Delete Entry</p>
+							</BottomSheet.Section>
+						</BottomSheet.ActionWithClose>
 					</Container>
 				</BottomSheet.Sheet>
 			</BottomSheet>

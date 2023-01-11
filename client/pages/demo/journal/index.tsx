@@ -1,22 +1,19 @@
 import React, { Suspense, useState } from 'react';
-import { Container, Flex } from '@styles/styles';
-import { useSelector } from 'react-redux';
-import {
-	selectEntries,
-	selectTags,
-	selectGroupedByMonthEntries,
-} from '@store/demoEntrySlice';
-
-import Sidebar from '@components/Sidebar/Sidebar';
-import { SearchIcon } from '@heroicons/react/outline';
-import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
-import { Empty } from 'antd';
-import { PageTitle } from '@components/PageComponent/Styles';
-
-import MobileNav from '@components/MobileNav/MobileNav';
 import dynamic from 'next/dynamic';
-import GroupedEntries from '@components/GroupedEntries/GroupedEntries';
+import { useSelector } from 'react-redux';
+import { selectEntries, selectTags } from '@store/demoEntrySlice';
+
+// components
 import Page from '@components/PageComponent/Page';
+import { Flex } from '@styles/styles';
+import Sidebar from '@components/Sidebar/Sidebar';
+import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
+import MobileNav from '@components/MobileNav/MobileNav';
+import GroupedEntries from '@components/GroupedEntries/GroupedEntries';
+
+// icons
+import { SearchIcon } from '@heroicons/react/outline';
+
 // reduce bundle size
 const DynamicSearchOverlay = dynamic(
 	() => import('@components/SearchOverlay/SearchOverlay'),
@@ -26,7 +23,6 @@ const DynamicSearchOverlay = dynamic(
 );
 
 const JournalPage = () => {
-	const grouped = useSelector(selectGroupedByMonthEntries);
 	const tags = useSelector(selectTags);
 	const allEntries = useSelector(selectEntries);
 
