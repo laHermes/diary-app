@@ -1,13 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import TextEditor from '@components/TextEditor/TextEditor';
 import { Container, Flex } from '@styles/styles';
-import Link from 'next/link';
 import {
 	CalendarIcon,
 	TrashIcon,
 	TagIcon,
-	CheckIcon,
-	XIcon,
 	SearchIcon,
 	PlusIcon,
 } from '@heroicons/react/outline';

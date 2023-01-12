@@ -7,7 +7,7 @@ import React from 'react';
 const GroupedEntries = ({ entries = [] }: { entries: any }) => {
 	// entries grouped by month
 	const groupedData = formatGroupedStories(
-		groupStoriesBy(entries, 'month', 'created_at')
+		groupStoriesBy(entries, 'month', 'date')
 	);
 
 	// readable date
