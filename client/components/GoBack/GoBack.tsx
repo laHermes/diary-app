@@ -2,15 +2,24 @@ import { ChevronLeftIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-const GoBack = () => {
+interface IGoBack {
+	path?: string;
+}
+
+const GoBack = ({ path }: IGoBack) => {
 	const router = useRouter();
 
 	const handleGoBack = () => {
-		router.back();
+		path && router.push(path);
+
+		if (window?.history?.state?.idx > 0) {
+			router.back();
+			return;
+		}
 	};
 	return (
-		<button className='font-medium inline-flex gap-2' onClick={handleGoBack}>
-			<ChevronLeftIcon className='w-4 h-4 self-center' />
+		<button className='inline-flex gap-2 font-medium' onClick={handleGoBack}>
+			<ChevronLeftIcon className='self-center w-4 h-4' />
 			<span className='self-center'>Back</span>
 		</button>
 	);

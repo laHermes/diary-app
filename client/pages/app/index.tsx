@@ -74,8 +74,10 @@ const Index = () => {
 					<SectionTitle>Recent activity</SectionTitle>
 					<div className='flex flex-col w-full gap-4 mb-4 rounded-md'>
 						<Entries entries={entriesToday} />
-						<FloatingWrite />
+						{entriesToday.length === 0 && <p>No today entries</p>}
 					</div>
+
+					<FloatingWrite />
 				</Page.Section>
 			</Page.Layout>
 		</Page>

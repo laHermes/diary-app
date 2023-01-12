@@ -36,7 +36,7 @@ const Index = () => {
 					<SectionTitle>Inspiration</SectionTitle>
 					<Inspiration />
 				</Page.Section>
-
+				{/* Insights component */}
 				<Page.Section>
 					<SectionTitle>Insights</SectionTitle>
 					<SectionCard>
@@ -45,24 +45,14 @@ const Index = () => {
 								<InsightsValue>{'-'}</InsightsValue>
 								<InsightsSub>
 									Current Streak
-									<div className='relative flex normal-case group'>
-										<InformationCircleIcon width={12} height={12} />
-										<span className='absolute z-50 m-4 mx-auto w-24 -translate-x-1/2 rounded-md bg-zinc-900 px-1 text-sm text-stone-100 opacity-0 transition-opacity group-hover:opacity-100'>
-											Available only after signing up
-										</span>
-									</div>
+									<TooltipWarning />
 								</InsightsSub>
 							</InsightsItem>
 							<InsightsItem>
 								<InsightsValue>{'-'}</InsightsValue>
 								<InsightsSub>
 									Longest Streak
-									<div className='relative flex normal-case group'>
-										<InformationCircleIcon width={12} height={12} />
-										<span className='absolute z-50 w-24 px-1 m-4 mx-auto text-sm transition-opacity -translate-x-4 rounded-md opacity-0 bg-zinc-900 text-stone-100 group-hover:opacity-100'>
-											Available only after signing up
-										</span>
-									</div>
+									<TooltipWarning />
 								</InsightsSub>
 							</InsightsItem>
 							<InsightsItem>
@@ -79,12 +69,14 @@ const Index = () => {
 					</SectionCard>
 				</Page.Section>
 
+				{/* Today - recent - activities */}
 				<Page.Section>
 					<SectionTitle>Recent activity</SectionTitle>
 					<div className='flex flex-col w-full gap-4 mb-4 rounded-md'>
 						<Entries entries={entriesToday} />
-						<FloatingWrite />
+						{entriesToday.length === 0 && <p>No today entries</p>}
 					</div>
+					<FloatingWrite />
 				</Page.Section>
 			</Page.Layout>
 		</Page>
@@ -102,3 +94,14 @@ Index.getLayout = function getLayout(page: React.ReactElement) {
 };
 
 export default Index;
+
+const TooltipWarning = () => {
+	return (
+		<div className='relative flex normal-case group'>
+			<InformationCircleIcon width={10} height={10} />
+			<span className='absolute z-50 w-24 px-1 m-4 mx-auto text-sm transition-opacity -translate-x-4 rounded-md opacity-0 bg-zinc-900 text-stone-100 group-hover:opacity-100'>
+				Available only after signing up
+			</span>
+		</div>
+	);
+};

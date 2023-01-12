@@ -1,4 +1,4 @@
-import React, { useReducer, useState, Reducer } from 'react';
+import React, { useState, Reducer } from 'react';
 import TextEditor from '@components/TextEditor/TextEditor';
 import {
 	Container,
@@ -38,16 +38,14 @@ const Index = () => {
 	const data = router.query;
 	const { id: entryId, date: postDate, tags, content, emotion } = data;
 
-	const initialState = {
-		tags: stringToArray({ value: tags }) || [],
-		date: postDate ? postDate : new Date().toString(),
-		emotion: (emotion as string) || '',
-		modal: ModalKind.NULL,
-	};
-
 	// experimental
-	const [state, dispatch] = useReducer(stateReducer, initialState);
-	const { modal } = state;
+	// const initialState = {
+	// 	tags: stringToArray({ value: tags }) || [],
+	// 	date: postDate ? postDate : new Date().toString(),
+	// 	emotion: (emotion as string) || '',
+	// 	modal: ModalKind.NULL,
+	// };
+	// const [state] = useReducer(stateReducer, initialState);
 
 	const { createEntry, updateEntry, deleteEntry } = usePersistEntries();
 
@@ -243,6 +241,7 @@ const Index = () => {
 export default Index;
 
 // EXPERIMENTAL
+// btw. enums should not be used, use as const instead
 enum ModalKind {
 	BOTTOM_SHEET = 'bottomSheet',
 	TAGS = 'tags',

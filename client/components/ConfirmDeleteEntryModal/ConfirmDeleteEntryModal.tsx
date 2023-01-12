@@ -35,9 +35,7 @@ export const ConfirmDeleteEntryModal = ({
 	const handleGoBack = () => {
 		if (window?.history?.state?.idx > 0) {
 			router.back();
-			return;
 		}
-		router.push('/');
 	};
 
 	const cancelHandler = () => {

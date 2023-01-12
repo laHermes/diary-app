@@ -27,7 +27,7 @@ const Index = () => {
 	return (
 		<Page>
 			<Page.Layout>
-				<GoBack />
+				<GoBack path='/app' />
 				<SectionTitle>Insights</SectionTitle>
 				<SectionCard className='w-fit'>
 					<InsightsItems>
