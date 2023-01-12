@@ -46,7 +46,7 @@ export const selectGroupedByMonthEntries = createSelector(
 );
 // group all entries based on month
 export const selectTodayEntries = createSelector(selectEntries, (entries) =>
-	entries.filter((entry: IEntry) => isToday({ date: entry.date }))
+	entries.filter((entry: IEntry) => isToday({ date: entry.date })).reverse()
 );
 
 // select sum of total words from all entries

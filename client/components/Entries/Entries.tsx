@@ -7,6 +7,7 @@ const Entries = ({ entries = [] }: { entries: IEntry[] }) => {
 
 	const areaPrefix = router.pathname.includes('app') ? '/app' : '/demo';
 	const path = areaPrefix + '/entry';
+
 	return (
 		<>
 			{entries.map(({ id, content, date, ...entryProps }: IEntry) => {

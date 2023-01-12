@@ -27,7 +27,7 @@ export const useEntriesGroupedByMonth = () =>
 // returns today entries
 export const useEntriesToday = () =>
 	useEntriesQuery((data: any) =>
-		data.filter((entry: IEntry) => isToday({ date: entry.date }))
+		data.filter((entry: IEntry) => isToday({ date: entry.date })).reverse()
 	);
 
 // returns entry by id
