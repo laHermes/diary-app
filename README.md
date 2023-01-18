@@ -48,7 +48,7 @@ diaryapp is a tool for saving, searching, accessing you daily diary entries.
   - [x] Option to pick a suitable emotion
   - [x] Option to delete an entry
   - [x] Display maximum text characters per entry
-  - [ ] Limit amount of tags a user can add
+  - [ ] Limit amount of tags the user can add
 
 - Backend
 
