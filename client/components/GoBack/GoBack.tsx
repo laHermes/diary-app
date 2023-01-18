@@ -10,16 +10,14 @@ const GoBack = ({ path }: IGoBack) => {
 	const router = useRouter();
 
 	const handleGoBack = () => {
-		path && router.push(path);
-
-		if (window?.history?.state?.idx > 0) {
-			router.back();
-			return;
+		if (path) {
+			router.push(path);
 		}
+		router.back();
 	};
 	return (
 		<button className='inline-flex gap-2 font-medium' onClick={handleGoBack}>
-			<ChevronLeftIcon className='self-center w-4 h-4' />
+			<ChevronLeftIcon className='h-4 w-4 self-center' />
 			<span className='self-center'>Back</span>
 		</button>
 	);

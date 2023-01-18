@@ -17,6 +17,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	overflow-x: hidden;
+	overflow-y: auto;
 	justify-content: space-between;
 	-webkit-box-pack: justify;
 }
@@ -30,11 +31,11 @@ root {
 
 @layer base {
 	body {
-		@apply min-h-screen transition-all bg-red-100 dark:bg-black dark:text-white;
+		@apply min-h-screen bg-red-100 transition-all dark:bg-black dark:text-white;
 	}
 
 	p {
-		@apply p-0 m-0;
+		@apply m-0 p-0;
 	}
 
 	h1 {
@@ -114,7 +115,7 @@ root {
 	outline: none;
 	min-height: 40vh;
 	max-height: calc(100vh - 205px);
-	@apply px-5 overflow-x-hidden;
+	@apply overflow-x-hidden px-5;
 }
 
 @media only screen and (max-width: 600px) {
