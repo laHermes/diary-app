@@ -2,6 +2,8 @@
 
 diaryapp is a tool for saving, searching, accessing you daily diary entries.
 
+<img src="client/public/screenshots/home-screen.png" />
+
 # Technologies
 
 - **Next.js 12**
@@ -24,7 +26,6 @@ diaryapp is a tool for saving, searching, accessing you daily diary entries.
   - [x] Custom made responsive components and elements using Tailwind, Tailwind Styled Components and CVA
   - [x] Mobile and desktop navigation
   - [ ] Highlight active route in navigation (Sidebar, ...)
-
   - [x] Demo area where user can try out the app without having to sign up
 
 - Insights
