@@ -31,7 +31,7 @@ const Index = () => {
 								name='name'
 								disabled={true}
 								defaultValue={name || ''}
-								className='bg-transparent border rounded-xl'
+								className='rounded-xl border-opacity-10 bg-transparent'
 							/>
 
 							<label htmlFor='email'>Email</label>
@@ -40,7 +40,7 @@ const Index = () => {
 								name='email'
 								disabled={true}
 								defaultValue={email || ''}
-								className='bg-transparent border rounded-xl'
+								className='rounded-xl border bg-transparent'
 							/>
 						</div>
 
@@ -48,18 +48,19 @@ const Index = () => {
 							<div className='font-normal text-red-600 dark:text-red-400'>
 								Logout
 							</div>
-							<ExclamationIcon className='w-5 h-5 stroke-red-600 dark:stroke-red-400' />
+							<ExclamationIcon className='h-5 w-5 stroke-red-600 dark:stroke-red-400' />
 						</PageCard.Action>
 					</PageCard.Body>
 				</PageCard>
 
-				<PageCard>
+				<PageCard className='bg-red-200 transition-colors hover:bg-red-300 dark:hover:bg-red-300'>
 					<PageCard.Body>
 						<Page.CardAction
 							hasIcon={false}
+							className='bg-transparent hover:bg-transparent dark:hover:bg-transparent'
 							onClick={() => setIsDeleteModalOpen(true)}>
-							<div className='font-medium'>Delete Account</div>
-							<ExclamationCircleIcon className='w-5 h-5' />
+							<div className='font-medium text-red-800'>Delete Account</div>
+							<ExclamationCircleIcon className='h-5 w-5 stroke-red-800' />
 						</Page.CardAction>
 					</PageCard.Body>
 				</PageCard>

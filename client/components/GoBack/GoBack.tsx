@@ -12,6 +12,7 @@ const GoBack = ({ path }: IGoBack) => {
 	const handleGoBack = () => {
 		if (path) {
 			router.push(path);
+			return;
 		}
 		router.back();
 	};

@@ -40,12 +40,17 @@ const CardBody = ({ children }: IChildren) => {
 const Action = ({
 	children,
 	hasIcon = true,
+	className,
 	onClick = () => {},
-}: IChildren & { hasIcon?: boolean; onClick?: (...args: any[]) => void }) => {
+}: IChildren & {
+	hasIcon?: boolean;
+	className?: string;
+	onClick?: (...args: any[]) => void;
+}) => {
 	return (
-		<PageCardAction onClick={() => onClick()}>
+		<PageCardAction className={className} onClick={() => onClick()}>
 			{children}
-			{hasIcon && <ChevronRightIcon className='self-center w-5 h-5' />}
+			{hasIcon && <ChevronRightIcon className='mr-4 h-5 w-5 self-center' />}
 		</PageCardAction>
 	);
 };
@@ -53,6 +58,7 @@ const Action = ({
 const LogoSection = ({ children }: IChildren) => {
 	return <PageLogoSection>{children}</PageLogoSection>;
 };
+
 const Logo = ({ children }: IChildren) => {
 	return <PageLogo>{children}</PageLogo>;
 };

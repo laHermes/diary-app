@@ -1,9 +1,10 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import ThemeSwitcher from '@components/ThemeSwitcher/ThemeSwitcher';
-import GoBack from '@components/GoBack/GoBack';
-import { useRouter } from 'next/router';
 import { APP_ROUTES } from '@features/Routes/routes';
+
+import GoBack from '@components/GoBack/GoBack';
 import Page from '@components/PageComponent/Page';
 import PageCard from '@components/Elements/PageCard/PageCard';
 
