@@ -64,7 +64,7 @@ const Index = () => {
 						<SectionAction
 							onClick={() => router.push(`${router.pathname}/insights`)}>
 							<p className='m-0'>All Insights</p>
-							<ChevronRightIcon className='self-center w-5 h-5' />
+							<ChevronRightIcon className='h-5 w-5 self-center' />
 						</SectionAction>
 					</SectionCard>
 				</Page.Section>
@@ -72,9 +72,11 @@ const Index = () => {
 				{/* Today - recent - activities */}
 				<Page.Section>
 					<SectionTitle>Recent activity</SectionTitle>
-					<div className='flex flex-col w-full gap-4 mb-4 rounded-md'>
+					<div className='mb-4 flex w-full flex-col gap-4 rounded-md'>
 						<Entries entries={entriesToday} />
-						{entriesToday.length === 0 && <p>No today entries</p>}
+						{entriesToday && entriesToday.length === 0 && (
+							<p>No today entries</p>
+						)}
 					</div>
 					<FloatingWrite />
 				</Page.Section>
@@ -97,9 +99,9 @@ export default Index;
 
 const TooltipWarning = () => {
 	return (
-		<div className='relative flex normal-case group'>
+		<div className='group relative flex normal-case'>
 			<InformationCircleIcon width={10} height={10} />
-			<span className='absolute z-50 w-24 px-1 m-4 mx-auto text-sm transition-opacity -translate-x-4 rounded-md opacity-0 bg-zinc-900 text-stone-100 group-hover:opacity-100'>
+			<span className='absolute z-50 m-4 mx-auto w-24 -translate-x-4 rounded-md bg-zinc-900 px-1 text-sm text-stone-100 opacity-0 transition-opacity group-hover:opacity-100'>
 				Available only after signing up
 			</span>
 		</div>
