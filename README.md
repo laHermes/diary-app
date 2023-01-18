@@ -63,6 +63,15 @@ diaryapp is a tool for saving, searching, accessing you daily diary entries.
   - [ ] E2E testing with cypress
   - [ ] Pagination / Lazy Loading for entries
 
+# Screenshots
+
+<img src="client/public/screenshots/journal-screen.png"  width="500"/>
+<img src="client/public/screenshots/entry.png"  width="500"/>
+<img src="client/public/screenshots/tags-modal.png"  width="500"/>
+<img src="client/public/screenshots/emotions-modal.png"  width="500"/>
+<img src="client/public/screenshots/settings-screen.png"  width="500"/>
+<img src="client/public/screenshots/account-screen.png"  width="500"/>
+
 # Disclaimer
 
 _diaryapp_ ("this software") is not a consumer product and provides no warranty of any kind. By using this software, you agree that you are doing so at your own risk. The creators of this software are not responsible for loss of data or other damages that may result in its operation.
