@@ -53,7 +53,7 @@ const Action = ({
 	onClick = () => {},
 }: {
 	children: ReactElement;
-	onClick?: Function;
+	onClick?: () => any;
 }) => {
 	const { getFloatingButtonProps } = useFloatingButtonContext();
 

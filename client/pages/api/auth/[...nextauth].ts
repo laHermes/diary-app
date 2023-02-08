@@ -6,7 +6,6 @@ import clientPromise from '@lib/mongodb';
 //todo add redis adapter
 export const authOptions = {
 	adapter: MongoDBAdapter(clientPromise),
-
 	secret: process.env.NEXTAUTH_SECRET as string,
 	providers: [
 		GoogleProvider({
