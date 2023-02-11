@@ -9,7 +9,7 @@ import { Flex } from '@styles/styles';
 import Sidebar from '@components/Sidebar/Sidebar';
 import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
 import MobileNav from '@components/MobileNav/MobileNav';
-import GroupedEntries from '@components/GroupedEntries/GroupedEntries';
+import GroupedEntries from '@components/Entries/GroupedEntries';
 
 // icons
 import { SearchIcon } from '@heroicons/react/outline';
@@ -50,8 +50,8 @@ const JournalPage = () => {
 							<Page.Title>Journal</Page.Title>
 							<button
 								onClick={handleOpenSearchDialog}
-								className='inline-flex justify-center gap-3 px-2 py-2 transition-all duration-200 rounded-full hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
-								<SearchIcon className='self-center w-8 h-8 stroke-1' />
+								className='inline-flex justify-center gap-3 rounded-full px-2 py-2 transition-all duration-200 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
+								<SearchIcon className='h-8 w-8 self-center stroke-1' />
 							</button>
 						</Flex>
 
@@ -59,7 +59,7 @@ const JournalPage = () => {
 
 						{/* if there are no entries */}
 						{allEntries.length === 0 && (
-							<div className='flex flex-col items-center align-center'>
+							<div className='align-center flex flex-col items-center'>
 								No Entries
 							</div>
 						)}

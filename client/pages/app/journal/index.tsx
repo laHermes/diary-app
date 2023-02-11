@@ -6,7 +6,7 @@ import { useEntriesQuery, useEntriesTags } from '@hooks/useEntriesQuery';
 import MobileNav from '@components/MobileNav/MobileNav';
 import Page from '@components/PageComponent/Page';
 import { Flex } from '@styles/styles';
-import GroupedEntries from '@components/GroupedEntries/GroupedEntries';
+import GroupedEntries from '@components/Entries/GroupedEntries';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import Message, { DEFAULT_ENTRY_MESSAGES } from '@components/Message/Message';
@@ -45,8 +45,8 @@ const JournalPage = () => {
 						<Page.Title>Journal</Page.Title>
 						<button
 							onClick={handleOpenSearchDialog}
-							className='inline-flex justify-center gap-3 px-2 py-2 transition-all duration-200 rounded-full hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
-							<SearchIcon className='self-center w-8 h-8 stroke-1' />
+							className='inline-flex justify-center gap-3 rounded-full px-2 py-2 transition-all duration-200 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
+							<SearchIcon className='h-8 w-8 self-center stroke-1' />
 						</button>
 					</Flex>
 

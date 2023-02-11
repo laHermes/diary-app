@@ -10,7 +10,7 @@ import { filterData, isValueInFilter } from '@utils/filterUtils';
 import MotionContainer from '@components/MotionContainer';
 import { Flex } from '@styles/styles';
 import Page from '@components/PageComponent/Page';
-import GroupedEntries from '@components/GroupedEntries/GroupedEntries';
+import GroupedEntries from '@components/Entries/GroupedEntries';
 import SelectPill from '@components/Elements/SelectPill/SelectPill';
 import CloseSearchOverlayButton from './CloseSearchOverlayButton';
 import {
@@ -127,6 +127,7 @@ const SearchOverlay = ({
 				</FiltersSection>
 
 				<GroupedEntries entries={data} />
+
 				<Message
 					hidden={!isNotFound}
 					message={DEFAULT_ENTRY_MESSAGES.NO_SEARCH_RESULTS}

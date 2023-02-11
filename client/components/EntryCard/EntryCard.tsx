@@ -17,12 +17,10 @@ import { Chip, Container } from '@styles/styles';
 import { CalendarIcon, TagIcon } from '@heroicons/react/outline';
 import DotsHorizontalIcon from '@icons/DotsHorizontalIcon';
 import FaceSmileIcon from '@icons/FaceSmileIcon';
+import { useRouter } from 'next/router';
+import ChipList from '@components/Chip/ChipList';
 
-interface IPath {
-	path: string;
-}
-
-type EntryCardType = IEntry & IPath;
+type EntryCardType = IEntry;
 
 const EntryCard = ({
 	id,
@@ -30,28 +28,22 @@ const EntryCard = ({
 	date: propsDate,
 	emotion,
 	tags,
-	path = '/app/entry',
 }: EntryCardType) => {
-	const date = propsDate as string;
-
+	const router = useRouter();
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
+	const areaPrefix = router.pathname.includes('app') ? '/app' : '/demo';
+	const path = areaPrefix + '/entry';
+
+	const date = propsDate as string;
+
+	// this should be replaced
 	const query = {
 		id: id,
 		content: content,
 		date: date as string,
 		emotion: emotion,
 		tags: tags,
-	};
-
-	const TagsChips = ({ tags }: { tags: string[] }) => {
-		return (
-			<>
-				{tags.map((tag: string) => {
-					return <Chip key={tag}>{tag}</Chip>;
-				})}
-			</>
-		);
 	};
 
 	return (
@@ -77,7 +69,8 @@ const EntryCard = ({
 							<SanitizeHTML content={content} />
 							<div className='flex flex-wrap w-full gap-2 p-2 mt-2'>
 								{emotion && <Chip>{emotion}</Chip>}
-								{!!tags?.length && <TagsChips tags={tags} />}
+								<ChipList data={emotion} />
+								<ChipList data={tags} />
 							</div>
 						</CardRight>
 					</Link>

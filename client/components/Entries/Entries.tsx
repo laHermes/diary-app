@@ -1,29 +1,14 @@
-import EntryCard from '@components/EntryCard/EntryCard';
-import { useRouter } from 'next/router';
 import React from 'react';
+import EntryCard from '@components/EntryCard/EntryCard';
 
-const Entries = ({ entries = [] }: { entries: IEntry[] }) => {
-	const router = useRouter();
-
-	const areaPrefix = router.pathname.includes('app') ? '/app' : '/demo';
-	const path = areaPrefix + '/entry';
-
+const EntriesList = ({ entries = [] }: { entries: IEntry[] }) => {
 	return (
 		<>
-			{entries.map(({ id, content, date, ...entryProps }: IEntry) => {
-				return (
-					<EntryCard
-						path={path}
-						key={id}
-						id={id}
-						content={content}
-						date={date}
-						{...entryProps}
-					/>
-				);
+			{entries.map(({ id, ...entryProps }: IEntry) => {
+				return <EntryCard key={id} id={id} {...entryProps} />;
 			})}
 		</>
 	);
 };
 
-export default Entries;
+export default EntriesList;

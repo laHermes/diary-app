@@ -43,7 +43,11 @@ export const transformEntryDate = (data: any[]): Array<Object> =>
  */
 export const calculateStreaks = ({ array }: IStreak): ICalculatesStreaks => {
 	// group array by day: returns dictionary
-	const grouped = groupStoriesBy(array, 'day', 'created_at');
+	const grouped = groupStoriesBy({
+		array,
+		timeHorizon: 'day',
+		dateSelector: 'created_at',
+	});
 
 	// convert dictionary keys to array of dates
 	const arrayOfDates = Array.from(Object.keys(grouped));
@@ -134,21 +138,28 @@ export const calculateCurrentStreak = ({
 	return currentStreaks;
 };
 
+interface IGroupStoriesByParams<T> {
+	array: Array<T>;
+	timeHorizon: unitOfTime.StartOf;
+	dateSelector?: keyof T;
+	dateFormat?: string;
+}
 /**
  * grouped entries by time horizon
  * @param  { Array<T>} array  dictionary containing date to entries mapping
  * @param  {unitOfTime.StartOf}[timeHorizon="day"] grouping time horizon
- * @param  {keyof T=} selector date selector
+ * @param  {keyof T=} dateSelector date selector
  * @return {Object} grouped stories
  */
-export const groupStoriesBy = <T extends IGroupStoriesBy>(
-	array: Array<T>,
-	timeHorizon: unitOfTime.StartOf = 'day',
-	selector?: keyof T
-): Object => {
+export const groupStoriesBy = <T extends IGroupStoriesBy>({
+	array,
+	timeHorizon = 'day',
+	dateSelector,
+	dateFormat = 'MMMM YYYY',
+}: IGroupStoriesByParams<T>): Object => {
 	return groupBy(array, (entry: T) => {
-		const date = selector ? (entry[selector] as string) : entry.date;
-		return moment(new Date(date)).startOf(timeHorizon).format();
+		const date = dateSelector ? (entry[dateSelector] as string) : entry.date;
+		return moment(new Date(date)).startOf(timeHorizon).format(dateFormat);
 	});
 };
 
