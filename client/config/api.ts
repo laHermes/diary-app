@@ -6,6 +6,10 @@ export const fetchEntries = async (): Promise<any> => {
 	const response = await axios.get('/api/entries');
 	return transformEntryDate(response.data);
 };
+export const fetchInspiration = async (): Promise<any> => {
+	const response = await axios.get('/api/daily-inspiration');
+	return response.data;
+};
 
 export const createEntryMutation = (entry: IEntry) => {
 	return axios.post('/api/entries', entry);

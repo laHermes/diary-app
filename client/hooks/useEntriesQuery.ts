@@ -22,7 +22,13 @@ export const useEntriesCount = () =>
 // returns entries grouped by month
 export const useEntriesGroupedByMonth = () =>
 	useEntriesQuery((data: any) =>
-		formatGroupedStories(groupStoriesBy(data, 'month', 'created_at'))
+		formatGroupedStories(
+			groupStoriesBy({
+				array: data,
+				timeHorizon: 'month',
+				dateSelector: 'created_at',
+			})
+		)
 	);
 // returns today entries
 export const useEntriesToday = () =>

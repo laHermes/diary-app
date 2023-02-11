@@ -8,12 +8,12 @@ export const DEFAULT_ENTRY_MESSAGES = {
 } as const;
 
 type MessageProps = {
-	hidden: boolean | null;
+	hidden?: boolean | null;
 	message?: string | keyof typeof DEFAULT_ENTRY_MESSAGES;
 };
 
 const Message = ({
-	hidden,
+	hidden = false,
 	message = DEFAULT_ENTRY_MESSAGES.NO_ENTRIES,
 }: MessageProps) => {
 	return (

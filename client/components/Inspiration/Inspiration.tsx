@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 
-// hooks
-import useSWR from 'swr';
+// hooks, utils and api
 import { useSession } from 'next-auth/react';
+import { fetchInspiration } from '@config/api';
 
 // components
 import { SectionAction, SectionCard } from '@styles/styles';
@@ -14,26 +14,31 @@ import {
 	ThinBorder,
 } from './Styles';
 import Spinner from '@components/Spinner/Spinner';
+import Message from '@components/Message/Message';
 
 // icons
+import { RefreshIcon } from '@heroicons/react/outline';
 import { ChevronRightIcon } from '@heroicons/react/solid';
+import { useQuery } from '@tanstack/react-query';
+
+export const useInspiration = () => useQuery(['Inspiration'], fetchInspiration);
 
 const Inspiration = () => {
-	const { data, error } = useSWR('/api/daily-inspiration');
+	const { isLoading, error, data, refetch } = useInspiration();
 	const { status } = useSession();
 
+	const quoteData = data ? data?.data : null;
+
 	const SUB_LINK = status === 'authenticated' ? '/app' : '/demo';
+
+	const inspirationQuotePrep = `${data?.data?.content}  -${data?.data?.author}`;
 
 	const linkHref = {
 		pathname: `${SUB_LINK}/entry`,
 		query: {
-			content: `${data?.data?.content}  -${data?.data?.author}
-		`,
+			content: inspirationQuotePrep,
 		},
 	};
-
-	const isLoading = !data && !error;
-	const quoteData = data ? data?.data : null;
 
 	if (isLoading) {
 		return (
@@ -44,6 +49,23 @@ const Inspiration = () => {
 			</SectionCard>
 		);
 	}
+
+	if (!!error) {
+		return (
+			<SectionCard>
+				<InspirationContentWrapper className='flex-row items-center justify-center h-24 gap-4'>
+					<Message message='There has been an error. Try again later!' />
+					<RefreshIcon
+						onClick={() => refetch()}
+						width={22}
+						height={22}
+						className='cursor-pointer opacity-85'
+					/>
+				</InspirationContentWrapper>
+			</SectionCard>
+		);
+	}
+
 	return (
 		<SectionCard>
 			<InspirationContentWrapper>
