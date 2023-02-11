@@ -18,7 +18,7 @@ import { CalendarIcon, TagIcon } from '@heroicons/react/outline';
 import DotsHorizontalIcon from '@icons/DotsHorizontalIcon';
 import FaceSmileIcon from '@icons/FaceSmileIcon';
 import { useRouter } from 'next/router';
-import ChipList from '@components/Chip/ChipList';
+import ChipList from '@components/Elements/Chip/ChipList';
 
 type EntryCardType = IEntry;
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '@components/Modal/Modal';
+import Modal from '@components/Elements/Modal/Modal';
 import Button from '@components/Elements/Button/Button';
 import { Flex } from '@styles/styles';
 import { useMutation } from '@tanstack/react-query';
@@ -45,14 +45,14 @@ export const ConfirmDeleteEntryModal = ({
 	return (
 		<Modal value={isOpen} onChange={setIsOpen}>
 			<Modal.Body>
-				<Flex className='flex-col items-start gap-4 p-5 bg-white dark:bg-zinc-900'>
+				<Flex className='flex-col items-start gap-4 bg-white p-5 dark:bg-zinc-900'>
 					<Flex className='flex-col items-start gap-0 text-left'>
 						<p className='m-0 text-xl font-bold '>Account deletion!</p>
-						<p className='m-0 text-md'>
+						<p className='text-md m-0'>
 							Are you sure you want to delete you&apos;r account?
 						</p>
 					</Flex>
-					<Flex className='flex-col w-full gap-4'>
+					<Flex className='w-full flex-col gap-4'>
 						<Button $negative onClick={handleDeleteEntry} className='w-full'>
 							Yes, delete my account
 						</Button>

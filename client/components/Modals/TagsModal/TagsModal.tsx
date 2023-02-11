@@ -1,12 +1,22 @@
-import Modal from '@components/Modal/Modal';
-import { ModalFooter, ModalFooterButton } from '@components/Modal/Styles.';
-import Tags from '@components/Tags/Tags';
-import { PlusIcon, SearchIcon, TagIcon } from '@heroicons/react/outline';
-import { useEntriesTags } from '@hooks/useEntriesQuery';
 import React, { useEffect, useState } from 'react';
+
+// hooks
+import { useEntriesTags } from '@hooks/useEntriesQuery';
+
+// components
+import Modal from '@components/Elements/Modal/Modal';
+import {
+	ModalFooter,
+	ModalFooterButton,
+} from '@components/Elements/Modal/Styles.';
+import Tags from '@components/Tags/Tags';
 import { AddNewTagButton, TagButton } from './Styles';
 
+// icons
+import { PlusIcon, SearchIcon, TagIcon } from '@heroicons/react/outline';
+
 // select tags for the entry
+// THIS WHOLE AREA SHOULD BE REFACTORED USING REDUCERS
 export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 	const { data: tags } = useEntriesTags();
 
@@ -14,9 +24,9 @@ export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 	const [filteredQuery, setFilteredQuery] = useState<string>('');
 	const [filtered, setFiltered] = useState<string[]>([]);
 
-	useEffect(() => {
-		setValues(tags);
-	}, [tags]);
+	// useEffect(() => {
+	// 	setValues(tags);
+	// }, [tags]);
 
 	// handle select tag
 	const handleSelect = (value: string) => {
@@ -62,7 +72,7 @@ export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 					onClick={() => handleRemoveSelect(value)}
 					$selected
 					$hidden={notInSearch(value)}>
-					<TagIcon className='h-4 w-4' />
+					<TagIcon className='w-4 h-4' />
 					<span>{value}</span>
 				</TagButton>
 			);
@@ -78,7 +88,7 @@ export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 								key={value}
 								onClick={() => handleSelect(value)}
 								$hidden={notInSearch(value) || state.includes(value)}>
-								<TagIcon className='h-4 w-4' />
+								<TagIcon className='w-4 h-4' />
 								<span>{value}</span>
 							</TagButton>
 						);
@@ -96,7 +106,7 @@ export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 					<Tags>
 						<Tags.Title>Tags</Tags.Title>
 						<Tags.SearchSection>
-							<SearchIcon className='h-6 w-6 text-zinc-500' />
+							<SearchIcon className='w-6 h-6 text-zinc-500' />
 							<Tags.Input
 								max={28}
 								value={filteredQuery}
@@ -104,7 +114,7 @@ export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 							/>
 						</Tags.SearchSection>
 
-						<div className='max-h-96 divide-y overflow-y-auto dark:divide-zinc-800'>
+						<div className='overflow-y-auto divide-y max-h-96 dark:divide-zinc-800'>
 							<DefaultTags />
 
 							<SelectedTags />
@@ -112,7 +122,7 @@ export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 							{/* create new tag if no tag exists */}
 							{queryNoMatch && (
 								<AddNewTagButton onClick={() => handleAddNewTag(filteredQuery)}>
-									<PlusIcon className='h-4 w-4' />
+									<PlusIcon className='w-4 h-4' />
 									<span>{filteredQuery}</span>
 								</AddNewTagButton>
 							)}

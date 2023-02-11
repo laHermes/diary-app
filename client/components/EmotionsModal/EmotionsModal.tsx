@@ -4,10 +4,10 @@ import {
 	ModalFooterButton,
 	ModalSubtitle,
 	ModalTitle,
-} from '@components/Modal/Styles.';
+} from '@components/Elements/Modal/Styles.';
 
 import emotionContent from '@config/content.json';
-import Modal from '@components/Modal/Modal';
+import Modal from '@components/Elements/Modal/Modal';
 import { EmotionButton } from './Styles';
 
 //TODO: Refactor
@@ -38,7 +38,7 @@ export const EmotionsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 	return (
 		<Modal value={isOpen} onChange={setIsOpen}>
 			<Modal.Body>
-				<div className='w-full bg-white divide-y rounded-xl dark:divide-zinc-800 dark:bg-zinc-900'>
+				<div className='w-full divide-y rounded-xl bg-white dark:divide-zinc-800 dark:bg-zinc-900'>
 					<div className='px-4 py-5'>
 						<ModalTitle>Emotions</ModalTitle>
 						<ModalSubtitle>How are you feeling?</ModalSubtitle>

@@ -1,6 +1,7 @@
 import { DependencyList, useEffect, useState } from 'react';
 import warning from 'warning';
-//Text editor extensions
+
+// Text editor extensions
 import { Content, Editor as TipTapEditor, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';

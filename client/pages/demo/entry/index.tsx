@@ -1,6 +1,50 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import TextEditor from '@components/TextEditor/TextEditor';
+import { useDispatch, useSelector } from 'react-redux';
+
+// hooks
+import { useRouter } from 'next/router';
+import useTextEditor from '@hooks/useTextEditor';
+import useHasChanges from '@hooks/useHasChanges';
+
+// utils
+import { stringToArray } from '@utils/index';
+
+// store
+import {
+	addDemoEntry,
+	removeDemoEntry,
+	selectTags,
+	updateDemoEntry,
+} from '@store/demoEntrySlice';
+
+// local data
+import emotionContent from '@config/content.json';
+
+// modals
+import Modal from '@components/Elements/Modal/Modal';
+import ConfirmDeleteEntryModal from '@components/Modals/ConfirmDeleteEntryModal/ConfirmDeleteEntryModal';
+
+// components
 import { Container, Flex } from '@styles/styles';
+import Page from '@components/PageComponent/Page';
+import TextEditor from '@components/TextEditor/TextEditor';
+import BottomSheet from '@components/Elements/BottomSheet/BottomSheet';
+import Button from '@components/Elements/Button/Button';
+import EntryNavigation from '@components/EntryNavigation/EntryNavigation';
+import { ShortVerticalBorder } from '@components/EntryNavigation/Styles';
+import FloatingButton from '@components/FloatingButton/FloatingButton';
+
+//icons
+import FaceSmileIcon from '@icons/FaceSmileIcon';
+import {
+	StyledCheckIcon,
+	StyledXIcon,
+} from '@components/FloatingButton/Styles';
+import {
+	StyledDotsHorizontalIcon,
+	StyledFaceSmileIcon,
+	StyledTagIcon,
+} from '@styles/styles';
 import {
 	CalendarIcon,
 	TrashIcon,
@@ -8,36 +52,6 @@ import {
 	SearchIcon,
 	PlusIcon,
 } from '@heroicons/react/outline';
-import BottomSheet from '@components/Elements/BottomSheet/BottomSheet';
-import { useRouter } from 'next/router';
-import Button from '@components/Elements/Button/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-	addDemoEntry,
-	removeDemoEntry,
-	selectTags,
-	updateDemoEntry,
-} from '@store/demoEntrySlice';
-import useTextEditor from '@hooks/useTextEditor';
-import Modal from '@components/Modal/Modal';
-import FaceSmileIcon from '@icons/FaceSmileIcon';
-import emotionContent from '@config/content.json';
-import { stringToArray } from '@utils/index';
-import EntryNavigation from '@components/EntryNavigation/EntryNavigation';
-import { ShortVerticalBorder } from '@components/EntryNavigation/Styles';
-import {
-	StyledDotsHorizontalIcon,
-	StyledFaceSmileIcon,
-	StyledTagIcon,
-} from '@styles/styles';
-import Page from '@components/PageComponent/Page';
-import FloatingButton from '@components/FloatingButton/FloatingButton';
-import {
-	StyledCheckIcon,
-	StyledXIcon,
-} from '@components/FloatingButton/Styles';
-import useHasChanges from '@hooks/useHasChanges';
-import ConfirmDeleteEntryModal from '@components/ConfirmDeleteEntryModal/ConfirmDeleteEntryModal';
 
 const Index = () => {
 	const router = useRouter();

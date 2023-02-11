@@ -1,4 +1,22 @@
 import React, { useState, Reducer } from 'react';
+
+// hooks
+import { useRouter } from 'next/router';
+import useHasChanges from '@hooks/useHasChanges';
+import useTextEditor from '@hooks/useTextEditor';
+import usePersistEntries from '@hooks/usePersistEntries';
+
+// utils
+import { stringToArray } from '@utils/index';
+import { uniqueId } from 'lodash';
+
+// modals
+import EmotionsModal from '@components/EmotionsModal/EmotionsModal';
+import UnsavedChangesModal from '@components/Modals/UnsavedChangesModal/UnsavedChangesModal';
+import TagsModal from '@components/Modals/TagsModal/TagsModal';
+import ConfirmDeleteEntryModal from '@components/Modals/ConfirmDeleteEntryModal/ConfirmDeleteEntryModal';
+
+// components
 import TextEditor from '@components/TextEditor/TextEditor';
 import {
 	Container,
@@ -9,26 +27,18 @@ import {
 } from '@styles/styles';
 import { CalendarIcon, TrashIcon, TagIcon } from '@heroicons/react/outline';
 import BottomSheet from '@components/Elements/BottomSheet/BottomSheet';
-import { useRouter } from 'next/router';
-import useTextEditor from '@hooks/useTextEditor';
 import FaceSmileIcon from '@icons/FaceSmileIcon';
-import { stringToArray } from '@utils/index';
-import { uniqueId } from 'lodash';
 import FloatingButton from '@components/FloatingButton/FloatingButton';
 import EntryNavigation from '@components/EntryNavigation/EntryNavigation';
-import UnsavedChangesModal from '@components/UnsavedChangesModal/UnsavedChangesModal';
 import Page from '@components/PageComponent/Page';
-import useHasChanges from '@hooks/useHasChanges';
-import EmotionsModal from '@components/EmotionsModal/EmotionsModal';
-import TagsModal from '@components/TagsModal/TagsModal';
 import { APP_ROUTES } from '@features/Routes/routes';
-import usePersistEntries from '@hooks/usePersistEntries';
 import { ShortVerticalBorder } from '@components/EntryNavigation/Styles';
+
+// icons
 import {
 	StyledCheckIcon,
 	StyledXIcon,
 } from '@components/FloatingButton/Styles';
-import ConfirmDeleteEntryModal from '@components/ConfirmDeleteEntryModal/ConfirmDeleteEntryModal';
 
 const Index = () => {
 	const router = useRouter();
@@ -71,7 +81,7 @@ const Index = () => {
 	});
 
 	// modal states
-	// can be refactored into single set state/useReducer if needed
+	// can be refactored into single set state/useReducer
 	const [isEmotionModalOpen, setIsEmotionModalOpen] = useState<boolean>(false);
 	const [isTagsModalOpen, setIsTagsModalOpen] = useState<boolean>(false);
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
