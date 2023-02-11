@@ -10,6 +10,9 @@ import usePersistEntries from '@hooks/usePersistEntries';
 import { stringToArray } from '@utils/index';
 import { uniqueId } from 'lodash';
 
+// local data
+import { APP_ROUTES } from '@features/Routes/routes';
+
 // modals
 import EmotionsModal from '@components/EmotionsModal/EmotionsModal';
 import UnsavedChangesModal from '@components/Modals/UnsavedChangesModal/UnsavedChangesModal';
@@ -27,14 +30,13 @@ import {
 } from '@styles/styles';
 import { CalendarIcon, TrashIcon, TagIcon } from '@heroicons/react/outline';
 import BottomSheet from '@components/Elements/BottomSheet/BottomSheet';
-import FaceSmileIcon from '@icons/FaceSmileIcon';
 import FloatingButton from '@components/FloatingButton/FloatingButton';
 import EntryNavigation from '@components/EntryNavigation/EntryNavigation';
 import Page from '@components/PageComponent/Page';
-import { APP_ROUTES } from '@features/Routes/routes';
 import { ShortVerticalBorder } from '@components/EntryNavigation/Styles';
 
 // icons
+import FaceSmileIcon from '@icons/FaceSmileIcon';
 import {
 	StyledCheckIcon,
 	StyledXIcon,
@@ -67,10 +69,16 @@ const Index = () => {
 	const [emotionState, setEmotionState] = useState<string>(
 		(emotion as string) || ''
 	);
-
 	const [tagState, setTagState] = useState<string[]>(
 		stringToArray({ value: tags })
 	);
+	// modal states
+	// can be refactored into single set state/useReducer
+	const [isEmotionModalOpen, setIsEmotionModalOpen] = useState<boolean>(false);
+	const [isTagsModalOpen, setIsTagsModalOpen] = useState<boolean>(false);
+	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+	const [isDeleteEntryModalOpen, setIsDeleteEntryModalOpen] =
+		useState<boolean>(false);
 
 	// placeholder can be extracted
 	// the use of i18 for localization is possible
@@ -79,14 +87,6 @@ const Index = () => {
 		defaultValue: (content as string) ?? '',
 		placeholder: "What's on your mind today?",
 	});
-
-	// modal states
-	// can be refactored into single set state/useReducer
-	const [isEmotionModalOpen, setIsEmotionModalOpen] = useState<boolean>(false);
-	const [isTagsModalOpen, setIsTagsModalOpen] = useState<boolean>(false);
-	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
-	const [isDeleteEntryModalOpen, setIsDeleteEntryModalOpen] =
-		useState<boolean>(false);
 
 	const { hasChanges } = useHasChanges({
 		deps: [emotionState, tagState, editorState],
