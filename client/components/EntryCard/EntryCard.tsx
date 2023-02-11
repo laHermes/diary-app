@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import moment from 'moment';
+
+// components
 import BottomSheet from '@components/Elements/BottomSheet/BottomSheet';
 import {
 	Card,
@@ -8,10 +10,12 @@ import {
 	CardLeft,
 	CardRight,
 } from '@components/Elements/Card/Styles';
+import SanitizeHTML from '@components/Elements/SanitizeHTML/SanitizeHTML';
+import { Chip, Container } from '@styles/styles';
+
+// icons
 import { CalendarIcon, TagIcon } from '@heroicons/react/outline';
 import DotsHorizontalIcon from '@icons/DotsHorizontalIcon';
-import { Chip, Container } from '@styles/styles';
-import SanitizeHTML from '@components/Elements/SanitizeHTML/SanitizeHTML';
 import FaceSmileIcon from '@icons/FaceSmileIcon';
 
 interface IPath {

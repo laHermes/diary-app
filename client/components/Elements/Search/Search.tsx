@@ -5,7 +5,7 @@ import { ClearSearchButton, SearchIconWrapper, SearchInput } from './Styles';
 
 interface ISearch {
 	placeholder?: string;
-	onChange: Function;
+	onChange: (value: string | number) => void;
 	disabled?: boolean;
 	name?: string;
 	value?: string | number;

@@ -1,7 +1,12 @@
-import { SectionAction, SectionCard } from '@styles/styles';
 import React from 'react';
+import Link from 'next/link';
 
-import { ChevronRightIcon } from '@heroicons/react/solid';
+// store
+import { selectEntries } from '@store/demoEntrySlice';
+import { useSelector } from 'react-redux';
+
+// components
+import { SectionAction, SectionCard } from '@styles/styles';
 import {
 	InsightsItems,
 	InsightsItem,
@@ -9,9 +14,9 @@ import {
 	InsightsValue,
 	ThinBorder,
 } from './Styles';
-import { selectEntries } from '@store/demoEntrySlice';
-import { useSelector } from 'react-redux';
-import Link from 'next/link';
+
+// icons
+import { ChevronRightIcon } from '@heroicons/react/solid';
 
 const Insights = () => {
 	const entries = useSelector(selectEntries);

@@ -48,7 +48,7 @@ interface ITextEditor {
 	editor?: TipTapEditor | null;
 	defaultValue?: string | Node;
 	placeholder?: string;
-	onChange?: Function;
+	onChange?: React.Dispatch<React.ChangeEventHandler<any>>;
 	depList?: DependencyList;
 }
 

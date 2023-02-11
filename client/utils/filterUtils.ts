@@ -57,6 +57,19 @@ interface FilterFieldValueProps<T> {
 	removeMarkup?: boolean;
 }
 
+export const isValueInFilter = (
+	filterState: Record<string, any>,
+	providedValue: string | number,
+	key: keyof IEntry
+) => {
+	const filterType = filterState[key];
+	if (typeof providedValue === 'string') {
+		const targetValue = providedValue.toLowerCase();
+		return filterType.includes(targetValue);
+	}
+	return filterType === providedValue;
+};
+
 /**
  * NOT USED
  */

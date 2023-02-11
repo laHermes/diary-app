@@ -1,8 +1,12 @@
+import React from 'react';
+import moment from 'moment';
+
+// utils
+import { formatGroupedStories, groupStoriesBy } from '@utils/dates';
+
+// components
 import Entries from '@components/Entries/Entries';
 import { Flex } from '@styles/styles';
-import { formatGroupedStories, groupStoriesBy } from '@utils/dates';
-import moment from 'moment';
-import React from 'react';
 
 const GroupedEntries = ({ entries = [] }: { entries: any }) => {
 	// entries grouped by month

@@ -14,8 +14,8 @@ import clsx from 'clsx';
 interface IBottomSheet {
 	children: ReactNode;
 	isOpen?: boolean;
-	onDismiss?: Function;
-	onToggle?: Function;
+	onDismiss?: () => any;
+	onToggle?: () => any;
 }
 const BottomSheetContext = createContext<any>({});
 
@@ -114,7 +114,7 @@ const Section = ({
 	className = '',
 }: {
 	children: ReactNode;
-	onClick?: Function;
+	onClick?: () => any;
 	className?: string;
 }) => {
 	return (
@@ -152,7 +152,7 @@ const ActionWithClose = ({
 	onClick = () => {},
 }: {
 	children: ReactElement;
-	onClick?: Function;
+	onClick?: () => any;
 }) => {
 	const { getBottomSheetProps } = useBottomSheetContext();
 

@@ -24,7 +24,7 @@ function useModalContext() {
 interface IModal {
 	children: ReactNode;
 	value?: boolean;
-	onChange?: Function;
+	onChange?: (state: any) => any;
 }
 
 // MODAL

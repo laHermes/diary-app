@@ -10,7 +10,7 @@ export enum FILTER {
 export type FilterObject = {
 	value: string | number;
 	filterType: FILTER;
-	action: Function;
+	action: (instance: any) => any;
 	moreThenOneType?: boolean;
 };
 

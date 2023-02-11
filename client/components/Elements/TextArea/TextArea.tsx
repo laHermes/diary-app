@@ -3,14 +3,10 @@ import { StyledTextArea, StyledTextContainer } from './Styles';
 
 interface ITextAreaProp {
 	className: string;
+	onChange: React.Dispatch<React.ChangeEventHandler<any>>;
 	invalid?: boolean;
 	value?: string;
-	onChange: Function;
 }
-
-const defaultProps = {
-	onChange: () => {},
-};
 
 const TextArea = forwardRef(
 	(
@@ -47,6 +43,5 @@ const TextArea = forwardRef(
 	}
 );
 TextArea.displayName = 'TextArea';
-TextArea.defaultProps = defaultProps;
 
 export default TextArea;

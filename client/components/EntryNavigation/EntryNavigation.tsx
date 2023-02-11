@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react';
 
 const EntryNavigation = ({ children }: { children: ReactNode }) => {
 	return (
-		<div className='fixed bottom-0 left-0 w-screen md:px-5 drop-shadow-2xl'>
-			<div className='flex items-center h-12 md:h-fit justify-end w-full max-w-screen-md bg-zinc-800 mx-auto rounded-t-2xl overflow-hidden'>
+		<div className='fixed bottom-0 left-0 w-screen drop-shadow-2xl md:px-5'>
+			<div className='flex items-center justify-end w-full h-12 max-w-screen-md mx-auto overflow-hidden rounded-t-2xl bg-zinc-800 md:h-fit'>
 				{children}
 			</div>
 		</div>
@@ -15,12 +15,12 @@ const Action = ({
 	onClick = () => {},
 }: {
 	children: ReactNode;
-	onClick?: Function;
+	onClick?: () => any;
 }) => {
 	return (
 		<button
-			onClick={() => onClick()}
-			className='flex-1 inline-flex justify-center px-1 py-3 text-left hover:bg-zinc-700'>
+			onClick={onClick}
+			className='inline-flex justify-center flex-1 px-1 py-3 text-left hover:bg-zinc-700'>
 			{children}
 		</button>
 	);

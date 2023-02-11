@@ -2,15 +2,11 @@ import React, { forwardRef } from 'react';
 import { InputElement, StyledIcon, StyledInput } from './Styles';
 
 interface IInput {
-	onChange: Function;
+	onChange: (value: any, event: Event) => any;
 	icon?: HTMLElement;
 	className?: string;
 	filter?: RegExp;
 }
-
-const defaultProps = {
-	onChange: () => {},
-};
 
 const Input = forwardRef(
 	(
@@ -34,6 +30,5 @@ const Input = forwardRef(
 );
 
 Input.displayName = 'Input';
-Input.defaultProps = defaultProps;
 
 export default Input;

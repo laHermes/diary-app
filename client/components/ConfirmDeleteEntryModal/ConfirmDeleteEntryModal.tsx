@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 
 interface ConfirmDeleteEntryModalProps {
 	isOpen: boolean;
-	setIsOpen: Function;
+	setIsOpen: React.Dispatch<React.SetStateAction<any>>;
 	entryId?: string;
 }
 

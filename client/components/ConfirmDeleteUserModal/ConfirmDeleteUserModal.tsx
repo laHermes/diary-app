@@ -8,7 +8,7 @@ import { signOut } from 'next-auth/react';
 
 interface ConfirmDeleteUserModalProps {
 	isOpen: boolean;
-	setIsOpen: Function;
+	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ConfirmDeleteUserModal = ({

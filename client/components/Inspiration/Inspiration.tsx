@@ -1,22 +1,29 @@
-import { SectionAction, SectionCard } from '@styles/styles';
 import React from 'react';
-import useSWR from 'swr';
 import Link from 'next/link';
+
+// hooks
+import useSWR from 'swr';
+import { useSession } from 'next-auth/react';
+
+// components
+import { SectionAction, SectionCard } from '@styles/styles';
 import {
 	InspirationAuthor,
 	InspirationContentWrapper,
 	InspirationQuote,
 	ThinBorder,
 } from './Styles';
-import { ChevronRightIcon } from '@heroicons/react/solid';
 import Spinner from '@components/Spinner/Spinner';
-import { useSession } from 'next-auth/react';
+
+// icons
+import { ChevronRightIcon } from '@heroicons/react/solid';
 
 const Inspiration = () => {
 	const { data, error } = useSWR('/api/daily-inspiration');
 	const { status } = useSession();
 
 	const SUB_LINK = status === 'authenticated' ? '/app' : '/demo';
+
 	const linkHref = {
 		pathname: `${SUB_LINK}/entry`,
 		query: {
