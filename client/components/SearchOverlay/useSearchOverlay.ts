@@ -1,4 +1,4 @@
-import React from 'react';
+import { Reducer, useReducer } from 'react';
 
 const useSearchOverlay = () => {
 	const [searchFilterState, dispatch] = useReducer(
@@ -46,8 +46,6 @@ const useSearchOverlay = () => {
 };
 
 export default useSearchOverlay;
-
-import { Reducer, useReducer } from 'react';
 
 type EntryCustomType = Pick<IEntry, 'content' | 'emotion' | 'tags'>;
 

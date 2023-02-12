@@ -17,16 +17,12 @@ import { PlusIcon, SearchIcon, TagIcon } from '@heroicons/react/outline';
 
 // select tags for the entry
 // THIS WHOLE AREA SHOULD BE REFACTORED USING REDUCERS
-export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
+export const TagsModal = ({ state, setState, isOpen, onCloseModal }: any) => {
 	const { data: tags } = useEntriesTags();
 
 	const [values, setValues] = useState<string[]>(tags || []);
 	const [filteredQuery, setFilteredQuery] = useState<string>('');
 	const [filtered, setFiltered] = useState<string[]>([]);
-
-	// useEffect(() => {
-	// 	setValues(tags);
-	// }, [tags]);
 
 	// handle select tag
 	const handleSelect = (value: string) => {
@@ -100,7 +96,7 @@ export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 	};
 
 	return (
-		<Modal value={isOpen} onChange={setIsOpen}>
+		<Modal value={isOpen} onCloseModal={onCloseModal}>
 			<Modal.Body>
 				<div className='w-full max-w-md'>
 					<Tags>
@@ -129,9 +125,7 @@ export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 						</div>
 
 						<ModalFooter>
-							<ModalFooterButton onClick={() => setIsOpen(false)}>
-								Done
-							</ModalFooterButton>
+							<ModalFooterButton onClick={onCloseModal}>Done</ModalFooterButton>
 						</ModalFooter>
 					</Tags>
 				</div>

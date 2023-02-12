@@ -41,6 +41,10 @@ import {
 	StyledCheckIcon,
 	StyledXIcon,
 } from '@components/FloatingButton/Styles';
+import useModalState from '@hooks/useModalState';
+
+// constants
+const CHARACTER_LIMIT = 500;
 
 const Index = () => {
 	const router = useRouter();
@@ -50,19 +54,11 @@ const Index = () => {
 	const data = router.query;
 	const { id: entryId, date: postDate, tags, content, emotion } = data;
 
-	// experimental
-	// const initialState = {
-	// 	tags: stringToArray({ value: tags }) || [],
-	// 	date: postDate ? postDate : new Date().toString(),
-	// 	emotion: (emotion as string) || '',
-	// 	modal: ModalKind.NULL,
-	// };
-	// const [state] = useReducer(stateReducer, initialState);
-
+	console.log(tags);
+	const { onOpenModal, onCloseModal, isModalOpen } = useModalState({});
 	const { createEntry, updateEntry, deleteEntry } = usePersistEntries();
 
 	// default states
-	const characterLimit = 1000;
 	const date = postDate ? postDate : new Date();
 
 	// state
@@ -72,10 +68,9 @@ const Index = () => {
 	const [tagState, setTagState] = useState<string[]>(
 		stringToArray({ value: tags })
 	);
+
 	// modal states
-	// can be refactored into single set state/useReducer
-	const [isEmotionModalOpen, setIsEmotionModalOpen] = useState<boolean>(false);
-	const [isTagsModalOpen, setIsTagsModalOpen] = useState<boolean>(false);
+	// to be refactored into single set state/useReducer
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
 	const [isDeleteEntryModalOpen, setIsDeleteEntryModalOpen] =
 		useState<boolean>(false);
@@ -83,7 +78,7 @@ const Index = () => {
 	// placeholder can be extracted
 	// the use of i18 for localization is possible
 	const { editor, editorState } = useTextEditor({
-		characterLimit,
+		characterLimit: CHARACTER_LIMIT,
 		defaultValue: (content as string) ?? '',
 		placeholder: "What's on your mind today?",
 	});
@@ -128,6 +123,7 @@ const Index = () => {
 			<Page.LogoSection>
 				<Page.Logo>diaryapp</Page.Logo>
 			</Page.LogoSection>
+
 			<TextEditor editor={editor}>
 				<TextEditor.MenuBar />
 				<TextEditor.Editor />
@@ -148,17 +144,18 @@ const Index = () => {
 
 			{/* CONFIRM DISCARD UNSAVED Changes */}
 			{hasChanges && <UnsavedChangesModal />}
+
 			<EmotionsModal
 				state={emotionState}
 				setState={setEmotionState}
-				isOpen={isEmotionModalOpen}
-				setIsOpen={setIsEmotionModalOpen}
+				isOpen={isModalOpen('emotion')}
+				onCloseModal={onCloseModal}
 			/>
 			<TagsModal
 				state={tagState}
 				setState={setTagState}
-				isOpen={isTagsModalOpen}
-				setIsOpen={setIsTagsModalOpen}
+				isOpen={isModalOpen('tags')}
+				onCloseModal={onCloseModal}
 			/>
 			<ConfirmDeleteEntryModal
 				isOpen={isDeleteEntryModalOpen}
@@ -170,22 +167,22 @@ const Index = () => {
 			<EntryNavigation>
 				<EntryNavigation.Action>
 					<span className='font-semibold text-zinc-300'>
-						{totalCharTyped} / {characterLimit}
+						{totalCharTyped} / {CHARACTER_LIMIT}
 					</span>
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
 				{/* open tags modal */}
-				<EntryNavigation.Action onClick={() => setIsTagsModalOpen(true)}>
+				<EntryNavigation.Action onClick={() => onOpenModal('tags')}>
 					<StyledTagIcon />
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
 				{/* open emotions modal */}
-				<EntryNavigation.Action onClick={() => setIsEmotionModalOpen(true)}>
+				<EntryNavigation.Action onClick={() => onOpenModal('emotion')}>
 					<StyledFaceSmileIcon />
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
 				{/* open bottom sheet */}
-				<EntryNavigation.Action onClick={() => setIsBottomSheetOpen(true)}>
+				<EntryNavigation.Action onClick={() => onOpenModal('bottomSheet')}>
 					<StyledDotsHorizontalIcon />
 				</EntryNavigation.Action>
 			</EntryNavigation>

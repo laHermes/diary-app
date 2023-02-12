@@ -12,7 +12,12 @@ import { EmotionButton } from './Styles';
 
 //TODO: Refactor
 // select emotions for the entry
-export const EmotionsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
+export const EmotionsModal = ({
+	state,
+	setState,
+	isOpen,
+	onCloseModal,
+}: any) => {
 	const handleSetState = (emotion: string) => {
 		setState((state: any) => (state !== emotion ? emotion : ''));
 	};
@@ -36,9 +41,9 @@ export const EmotionsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 	};
 
 	return (
-		<Modal value={isOpen} onChange={setIsOpen}>
+		<Modal value={isOpen} onCloseModal={onCloseModal}>
 			<Modal.Body>
-				<div className='w-full divide-y rounded-xl bg-white dark:divide-zinc-800 dark:bg-zinc-900'>
+				<div className='w-full bg-white divide-y rounded-xl dark:divide-zinc-800 dark:bg-zinc-900'>
 					<div className='px-4 py-5'>
 						<ModalTitle>Emotions</ModalTitle>
 						<ModalSubtitle>How are you feeling?</ModalSubtitle>
@@ -48,9 +53,7 @@ export const EmotionsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
 					<EmotionButtons />
 
 					<ModalFooter>
-						<ModalFooterButton onClick={() => setIsOpen(false)}>
-							Done
-						</ModalFooterButton>
+						<ModalFooterButton onClick={onCloseModal}>Done</ModalFooterButton>
 					</ModalFooter>
 				</div>
 			</Modal.Body>
