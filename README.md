@@ -12,8 +12,8 @@ diaryapp is a tool for saving, searching, accessing you daily diary entries.
 - **ESLint**
 - **Prettier**
 - **Husky**
-- **Redux-Toolkit** - State Management
-- **React Query** - State Management
+- **Redux-Toolkit** - Client side State Management
+- **React Query** - Server side State Management
 - **NextAuth.js** - Authentication
 - **Absolute import** - Import folders and files using the `@` prefix
 
