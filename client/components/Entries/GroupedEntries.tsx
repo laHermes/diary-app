@@ -6,7 +6,7 @@ import { formatGroupedStories, groupStoriesBy } from '@utils/dates';
 // components
 import { Flex } from '@styles/styles';
 import { EntriesDate, EntriesSection } from './Styles';
-import EntriesList from './Entries';
+import EntriesList from './EntriesList';
 
 const GroupedEntries = ({ entries = [] }: { entries: any }) => {
 	// entries grouped by month
@@ -26,7 +26,7 @@ const GroupedEntries = ({ entries = [] }: { entries: any }) => {
 					return (
 						<EntriesSection key={date}>
 							<EntriesDate>{date}</EntriesDate>
-							<Flex className='flex-col gap-4 mt-2 '>
+							<Flex className='mt-2 flex-col gap-4 '>
 								<EntriesList entries={entries} />
 							</Flex>
 						</EntriesSection>

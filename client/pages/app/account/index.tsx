@@ -8,11 +8,13 @@ import {
 	ExclamationIcon,
 } from '@heroicons/react/outline';
 import ConfirmDeleteUserModal from '@components/Modals/ConfirmDeleteUserModal/ConfirmDeleteUserModal';
+import useModalState from '@hooks/useModalState';
 
 const Index = () => {
 	const { data: session } = useSession();
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
+	const { isModalOpen, onCloseModal } = useModalState({});
 	const name = session?.user?.name;
 	const email = session?.user?.email;
 
@@ -66,8 +68,8 @@ const Index = () => {
 				</PageCard>
 				{/* User has to confirm to delete its account */}
 				<ConfirmDeleteUserModal
-					isOpen={isDeleteModalOpen}
-					setIsOpen={setIsDeleteModalOpen}
+					isOpen={isModalOpen('DELETE_USER')}
+					onCloseModal={onCloseModal}
 				/>
 			</Page.Layout>
 		</Page>

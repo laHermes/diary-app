@@ -9,7 +9,6 @@ module.exports = {
 	darkMode: ['class', '[data-mode="dark"]'],
 
 	plugins: [
-		require('flowbite/plugin'),
 		require('@tailwindcss/typography'),
 		require('prettier-plugin-tailwindcss'),
 		require('@tailwindcss/line-clamp'),

@@ -1,8 +1,8 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AppState } from './store';
 import { getTotalWordsWritten, getUniqueTags } from '@utils/entriesUtils';
 import { uniqueId } from 'lodash';
 import { formatGroupedStories, groupStoriesBy, isToday } from 'utils/dates';
-import { AppState } from './store';
 
 const initialState: Array<IEntry> = [];
 
@@ -42,7 +42,10 @@ export const selectEntries = (state: AppState) => state.reducer.demoEntry;
 // group all entries based on month
 export const selectGroupedByMonthEntries = createSelector(
 	selectEntries,
-	(entries) => formatGroupedStories(groupStoriesBy(entries, 'month'))
+	(entries) =>
+		formatGroupedStories(
+			groupStoriesBy({ array: entries, timeHorizon: 'month' })
+		)
 );
 // group all entries based on month
 export const selectTodayEntries = createSelector(selectEntries, (entries) =>

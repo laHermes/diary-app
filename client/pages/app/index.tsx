@@ -19,7 +19,7 @@ import {
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import Page from '@components/PageComponent/Page';
-import Entries from '@components/Entries/Entries';
+import Entries from '@components/Entries/EntriesList';
 import Inspiration from '@components/Inspiration/Inspiration';
 
 const Index = () => {

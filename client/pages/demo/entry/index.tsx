@@ -146,7 +146,7 @@ const Index = () => {
 			</TextEditor>
 
 			{/* FLOATING BUTTON */}
-			<FloatingButton hasChanges={false}>
+			<FloatingButton>
 				{hasChanges && (
 					<FloatingButton.Action onClick={() => handleSaveEntry()}>
 						<StyledCheckIcon />
@@ -185,7 +185,7 @@ const Index = () => {
 
 			<ConfirmDeleteEntryModal
 				isOpen={isDeleteEntryModalOpen}
-				setIsOpen={setIsDeleteEntryModalOpen}
+				onCloseModal={setIsDeleteEntryModalOpen}
 				entryId={entryId as string}
 			/>
 

@@ -15,7 +15,7 @@ import {
 	ThinBorder,
 } from '@components/Insights/Styles';
 import { ChevronRightIcon } from '@heroicons/react/outline';
-import Entries from '@components/Entries/Entries';
+import Entries from '@components/Entries/EntriesList';
 import { useRouter } from 'next/router';
 import { InformationCircleIcon } from '@heroicons/react/solid';
 

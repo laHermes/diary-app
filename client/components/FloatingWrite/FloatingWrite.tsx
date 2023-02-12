@@ -1,7 +1,7 @@
-import PenLineIcon from '@icons/PenLineIcon';
+import React from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import React from 'react';
+import PenLineIcon from '@icons/PenLineIcon';
 
 const FloatingWrite = () => {
 	const TARGET = '/entry';

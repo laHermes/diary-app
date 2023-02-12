@@ -8,7 +8,7 @@ import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Providers from '@providers/Providers';
 import '../styles/globals.css';
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 

@@ -1,20 +1,25 @@
 import React from 'react';
+import Link from 'next/link';
+
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+import useHandleNavigate from '@hooks/useHandleNavigate';
+
+// components
 import {
 	StyledSidebar,
 	StyledSidebarBody,
 	StyledSidebarButton,
 	StyledSidebarButtonText,
 } from './Styles';
-import Link from 'next/link';
-import NoteBoldIcon from '@icons/NoteBoldIcon';
-import LoginBoldIcon from '@icons/LoginBoldIcon';
-import TodayIcon from '@icons/TodayIcon';
-import { useSession } from 'next-auth/react';
-import SettingsPanelIcon from '@icons/SettingsPanelIcon';
 import ThemeSwitcher from '@components/ThemeSwitcher/ThemeSwitcher';
 import { TextLogo } from '@styles/styles';
-import useHandleNavigate from '@hooks/useHandleNavigate';
+
+// icons
+import TodayIcon from '@icons/TodayIcon';
+import NoteBoldIcon from '@icons/NoteBoldIcon';
+import LoginBoldIcon from '@icons/LoginBoldIcon';
+import SettingsPanelIcon from '@icons/SettingsPanelIcon';
 
 const Sidebar = () => {
 	const router = useRouter();
