@@ -11,7 +11,7 @@ import {
 	CardRight,
 } from '@components/Elements/Card/Styles';
 import SanitizeHTML from '@components/Elements/SanitizeHTML/SanitizeHTML';
-import { Chip, Container } from '@styles/styles';
+import { Container } from '@styles/styles';
 
 // icons
 import { CalendarIcon, TagIcon } from '@heroicons/react/outline';
@@ -68,7 +68,6 @@ const EntryCard = ({
 						<CardRight>
 							<SanitizeHTML content={content} />
 							<div className='flex flex-wrap w-full gap-2 p-2 mt-2'>
-								{emotion && <Chip>{emotion}</Chip>}
 								<ChipList data={emotion} />
 								<ChipList data={tags} />
 							</div>
@@ -80,7 +79,7 @@ const EntryCard = ({
 			<BottomSheet
 				isOpen={isBottomSheetOpen}
 				onDismiss={() => setIsBottomSheetOpen(false)}
-				onToggle={() => setIsBottomSheetOpen((state) => !state)}>
+				onOpen={() => setIsBottomSheetOpen((state) => !state)}>
 				<BottomSheet.Sheet>
 					<Container className='flex flex-col px-2 pb-5 divide-y divide-zinc-800 font-jost text-zinc-200'>
 						<BottomSheet.Section>

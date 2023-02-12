@@ -21,7 +21,6 @@ export const useRequest = ({ url, method, onSuccess }: any) => {
 				resolve(response.data);
 				return response.data;
 			} catch (err: any) {
-				console.log(err);
 				reject(err);
 				setErrors(err.message);
 			}

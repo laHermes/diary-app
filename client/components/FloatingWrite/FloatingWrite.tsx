@@ -17,7 +17,7 @@ const FloatingWrite = () => {
 	return (
 		<button
 			onClick={() => handleRedirect()}
-			className='fixed p-4 transition-all duration-200 bg-indigo-800 rounded-full shadow-2xl bottom-14 right-5 drop-shadow-md hover:bg-indigo-900 md:bottom-5 md:bottom-20 '>
+			className='fixed p-4 transition-all duration-200 bg-indigo-800 rounded-full shadow-2xl bottom-14 right-5 drop-shadow-md hover:bg-indigo-900 md:bottom-20 '>
 			<PenLineIcon className='stroke-zinc-100' />
 		</button>
 	);

@@ -19,7 +19,6 @@ import { PlusIcon, SearchIcon, TagIcon } from '@heroicons/react/outline';
 // THIS WHOLE AREA SHOULD BE REFACTORED USING REDUCERS
 export const TagsModal = ({ state, setState, isOpen, onCloseModal }: any) => {
 	const { data: tags } = useEntriesTags();
-
 	const [values, setValues] = useState<string[]>(tags || []);
 	const [filteredQuery, setFilteredQuery] = useState<string>('');
 	const [filtered, setFiltered] = useState<string[]>([]);
@@ -112,7 +111,6 @@ export const TagsModal = ({ state, setState, isOpen, onCloseModal }: any) => {
 
 						<div className='overflow-y-auto divide-y max-h-96 dark:divide-zinc-800'>
 							<DefaultTags />
-
 							<SelectedTags />
 
 							{/* create new tag if no tag exists */}
@@ -135,3 +133,48 @@ export const TagsModal = ({ state, setState, isOpen, onCloseModal }: any) => {
 };
 
 export default TagsModal;
+
+// EXPERIMENTAL
+// btw. enums should not be used, use as const instead
+
+// enum ModalActionKind {
+// 	OPEN = 'openModal',
+// 	CLOSE = 'closeModal',
+// }
+
+// interface ModalAction {
+// 	type: ModalActionKind;
+// 	payload: ModalKind;
+// }
+
+// enum TagActionKind {
+// 	ADD = 'addTag',
+// 	REMOVE = 'removeTag',
+// }
+
+// interface TagAction {
+// 	type: TagActionKind;
+// 	payload: string;
+// }
+
+// type ReducerActionTypes = ModalAction | TagAction;
+
+// const stateReducer: Reducer<any, ReducerActionTypes> = (
+// 	state: any,
+// 	action: ReducerActionTypes
+// ) => {
+// 	switch (action.type) {
+// 		case TagActionKind.ADD:
+// 			return [...state, action.payload.toLowerCase()];
+// 		case TagActionKind.REMOVE:
+// 			return [...state].filter(
+// 				(instance: string) => instance !== action.payload.toLowerCase()
+// 			);
+// 		case ModalActionKind.OPEN:
+// 			return { ...state, modal: action.payload };
+// 		case ModalActionKind.CLOSE:
+// 			return { ...state, modal: ModalKind.NULL };
+// 		default:
+// 			throw Error('Unknown action');
+// 	}
+// };

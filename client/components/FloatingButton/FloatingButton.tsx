@@ -8,7 +8,6 @@ import React, {
 
 interface IFloatingButton {
 	children: ReactNode;
-	hasChanges: boolean;
 }
 
 const FloatingButtonContext = createContext<any>({});
@@ -24,14 +23,14 @@ const useFloatingButtonContext = () => {
 	return context;
 };
 
-const FloatingButton = ({ children, hasChanges = false }: IFloatingButton) => {
+const FloatingButton = ({ children }: IFloatingButton) => {
 	const getFloatingButtonProps = ({ onClick = () => {}, ...props }) => {
 		return {
 			onClick: callAll(onClick),
 			...props,
 		};
 	};
-	const value = { hasChanges, getFloatingButtonProps };
+	const value = { getFloatingButtonProps };
 
 	return (
 		<FloatingButtonContext.Provider value={value}>

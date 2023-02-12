@@ -46,6 +46,13 @@ import useModalState from '@hooks/useModalState';
 // constants
 const CHARACTER_LIMIT = 500;
 
+const MODALS = {
+	BOTTOM_SHEET: 'BOTTOM_SHEET',
+	TAGS: 'TAGS',
+	EMOTIONS: 'EMOTIONS',
+	DELETE_ENTRY: 'DELETE_ENTRY',
+} as const;
+
 const Index = () => {
 	const router = useRouter();
 
@@ -54,7 +61,6 @@ const Index = () => {
 	const data = router.query;
 	const { id: entryId, date: postDate, tags, content, emotion } = data;
 
-	console.log(tags);
 	const { onOpenModal, onCloseModal, isModalOpen } = useModalState({});
 	const { createEntry, updateEntry, deleteEntry } = usePersistEntries();
 
@@ -71,7 +77,6 @@ const Index = () => {
 
 	// modal states
 	// to be refactored into single set state/useReducer
-	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
 	const [isDeleteEntryModalOpen, setIsDeleteEntryModalOpen] =
 		useState<boolean>(false);
 
@@ -86,6 +91,7 @@ const Index = () => {
 	const { hasChanges } = useHasChanges({
 		deps: [emotionState, tagState, editorState],
 	});
+	const totalCharTyped = editor?.storage.characterCount.characters();
 
 	// save entry
 	const handleSaveEntry = () => {
@@ -115,8 +121,7 @@ const Index = () => {
 		entryId && deleteEntry.mutate(entryId as string);
 		router.back();
 	};
-
-	const totalCharTyped = editor?.storage.characterCount.characters();
+	console.log(isModalOpen(MODALS.DELETE_ENTRY));
 
 	return (
 		<Container>
@@ -129,12 +134,13 @@ const Index = () => {
 				<TextEditor.Editor />
 			</TextEditor>
 
-			<FloatingButton hasChanges={false}>
+			<FloatingButton>
 				{hasChanges && (
-					<FloatingButton.Action onClick={() => handleSaveEntry()}>
+					<FloatingButton.Action onClick={handleSaveEntry}>
 						<StyledCheckIcon />
 					</FloatingButton.Action>
 				)}
+
 				{!hasChanges && (
 					<FloatingButton.Action onClick={() => router.back()}>
 						<StyledXIcon />
@@ -148,18 +154,19 @@ const Index = () => {
 			<EmotionsModal
 				state={emotionState}
 				setState={setEmotionState}
-				isOpen={isModalOpen('emotion')}
+				isOpen={isModalOpen(MODALS.EMOTIONS)}
 				onCloseModal={onCloseModal}
 			/>
+
 			<TagsModal
 				state={tagState}
 				setState={setTagState}
-				isOpen={isModalOpen('tags')}
+				isOpen={isModalOpen(MODALS.TAGS)}
 				onCloseModal={onCloseModal}
 			/>
 			<ConfirmDeleteEntryModal
-				isOpen={isDeleteEntryModalOpen}
-				setIsOpen={setIsDeleteEntryModalOpen}
+				isOpen={isModalOpen(MODALS.DELETE_ENTRY)}
+				onCloseModal={onCloseModal}
 				entryId={entryId as string}
 			/>
 
@@ -172,26 +179,27 @@ const Index = () => {
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
 				{/* open tags modal */}
-				<EntryNavigation.Action onClick={() => onOpenModal('tags')}>
+				<EntryNavigation.Action onClick={() => onOpenModal(MODALS.TAGS)}>
 					<StyledTagIcon />
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
 				{/* open emotions modal */}
-				<EntryNavigation.Action onClick={() => onOpenModal('emotion')}>
+				<EntryNavigation.Action onClick={() => onOpenModal(MODALS.EMOTIONS)}>
 					<StyledFaceSmileIcon />
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
 				{/* open bottom sheet */}
-				<EntryNavigation.Action onClick={() => onOpenModal('bottomSheet')}>
+				<EntryNavigation.Action
+					onClick={() => onOpenModal(MODALS.BOTTOM_SHEET)}>
 					<StyledDotsHorizontalIcon />
 				</EntryNavigation.Action>
 			</EntryNavigation>
 
 			{/* Bottom sheet */}
 			<BottomSheet
-				isOpen={isBottomSheetOpen}
-				onDismiss={() => setIsBottomSheetOpen(false)}
-				onToggle={() => setIsBottomSheetOpen((state) => !state)}>
+				isOpen={isModalOpen(MODALS.BOTTOM_SHEET)}
+				onDismiss={onCloseModal}
+				onOpen={() => onOpenModal(MODALS.BOTTOM_SHEET)}>
 				<BottomSheet.Sheet>
 					<Container className='flex flex-col pb-5 divide-y divide-zinc-800 font-noto text-zinc-200'>
 						{/* Date */}
@@ -201,8 +209,7 @@ const Index = () => {
 						</BottomSheet.Section>
 
 						{/* Emotions */}
-						<BottomSheet.ActionWithClose
-							onClick={() => setIsEmotionModalOpen(true)}>
+						<BottomSheet.ActionWithClose onClick={onCloseModal}>
 							<BottomSheet.Section>
 								<Flex>
 									<FaceSmileIcon className='w-6 h-6 stroke-2 min-w-fit' />
@@ -216,8 +223,7 @@ const Index = () => {
 						</BottomSheet.ActionWithClose>
 
 						{/* TAGS */}
-						<BottomSheet.ActionWithClose
-							onClick={() => setIsTagsModalOpen(true)}>
+						<BottomSheet.ActionWithClose onClick={onCloseModal}>
 							<BottomSheet.Section>
 								<Flex>
 									<TagIcon className='w-6 h-6 min-w-fit' />
@@ -232,7 +238,8 @@ const Index = () => {
 							</BottomSheet.Section>
 						</BottomSheet.ActionWithClose>
 
-						<BottomSheet.ActionWithClose onClick={handleDeleteEntry}>
+						<BottomSheet.ActionWithClose
+							onClick={() => onOpenModal(MODALS.DELETE_ENTRY)}>
 							<BottomSheet.Section className='bg-red-900/5'>
 								<TrashIcon className='w-6 h-6 min-w-fit stroke-red-500' />
 								<p className='m-0 text-right text-red-500'>Delete Entry</p>
@@ -246,54 +253,3 @@ const Index = () => {
 };
 
 export default Index;
-
-// EXPERIMENTAL
-// btw. enums should not be used, use as const instead
-enum ModalKind {
-	BOTTOM_SHEET = 'bottomSheet',
-	TAGS = 'tags',
-	EMOTIONS = 'emotions',
-	NULL = 'null',
-}
-
-enum ModalActionKind {
-	OPEN = 'openModal',
-	CLOSE = 'closeModal',
-}
-
-interface ModalAction {
-	type: ModalActionKind;
-	payload: ModalKind;
-}
-
-enum TagActionKind {
-	ADD = 'addTag',
-	REMOVE = 'removeTag',
-}
-
-interface TagAction {
-	type: TagActionKind;
-	payload: string;
-}
-
-type ReducerActionTypes = ModalAction | TagAction;
-
-const stateReducer: Reducer<any, ReducerActionTypes> = (
-	state: any,
-	action: ReducerActionTypes
-) => {
-	switch (action.type) {
-		case TagActionKind.ADD:
-			return [...state, action.payload.toLowerCase()];
-		case TagActionKind.REMOVE:
-			return [...state].filter(
-				(instance: string) => instance !== action.payload.toLowerCase()
-			);
-		case ModalActionKind.OPEN:
-			return { ...state, modal: action.payload };
-		case ModalActionKind.CLOSE:
-			return { ...state, modal: ModalKind.NULL };
-		default:
-			throw Error('Unknown action');
-	}
-};

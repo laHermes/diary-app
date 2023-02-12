@@ -15,7 +15,7 @@ interface IBottomSheet {
 	children: ReactNode;
 	isOpen?: boolean;
 	onDismiss?: () => any;
-	onToggle?: () => any;
+	onOpen?: () => any;
 }
 const BottomSheetContext = createContext<any>({});
 
@@ -34,12 +34,7 @@ const callAll =
 	(...args: any) =>
 		fns.forEach((fn: Function) => fn && fn(...args));
 
-const BottomSheet = ({
-	children,
-	isOpen,
-	onDismiss,
-	onToggle,
-}: IBottomSheet) => {
+const BottomSheet = ({ children, isOpen, onDismiss, onOpen }: IBottomSheet) => {
 	const [stateValue, setStateValue] = useState<boolean>(false);
 
 	const isControlled = isOpen != null;
@@ -65,12 +60,12 @@ const BottomSheet = ({
 		if (!isControlled) {
 			setStateValue((state) => !state);
 		}
-		onToggle?.();
+		onOpen?.();
 	};
 
 	const getBottomSheetProps = ({ onClick = () => {}, ...props }) => {
 		return {
-			onClick: callAll(onClick, handleToggle),
+			onClick: callAll(handleToggle, onClick),
 			...props,
 		};
 	};

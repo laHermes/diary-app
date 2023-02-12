@@ -12,8 +12,6 @@ const useSearchOverlay = () => {
 	};
 
 	const handelAddFilter = ({ key, payload }: Omit<SearchActions, 'type'>) => {
-		console.log(key, payload);
-
 		dispatch({ type: ActionTypes.ADD, key, payload });
 	};
 
@@ -25,8 +23,6 @@ const useSearchOverlay = () => {
 
 	// Input field
 	const handleQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
-		console.log('target', event.target.value);
-
 		handelSetFilter({ key: 'content', payload: event.target.value });
 	};
 
