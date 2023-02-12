@@ -1,4 +1,4 @@
-import React, { useState, Reducer } from 'react';
+import React, { useState } from 'react';
 
 // hooks
 import { useRouter } from 'next/router';
@@ -62,7 +62,7 @@ const Index = () => {
 	const { id: entryId, date: postDate, tags, content, emotion } = data;
 
 	const { onOpenModal, onCloseModal, isModalOpen } = useModalState({});
-	const { createEntry, updateEntry, deleteEntry } = usePersistEntries();
+	const { createEntry, updateEntry } = usePersistEntries();
 
 	// default states
 	const date = postDate ? postDate : new Date();
@@ -74,11 +74,6 @@ const Index = () => {
 	const [tagState, setTagState] = useState<string[]>(
 		stringToArray({ value: tags })
 	);
-
-	// modal states
-	// to be refactored into single set state/useReducer
-	const [isDeleteEntryModalOpen, setIsDeleteEntryModalOpen] =
-		useState<boolean>(false);
 
 	// placeholder can be extracted
 	// the use of i18 for localization is possible
@@ -115,13 +110,6 @@ const Index = () => {
 		}
 		router.push(APP_ROUTES.JOURNAL);
 	};
-
-	// delete entry
-	const handleDeleteEntry = () => {
-		entryId && deleteEntry.mutate(entryId as string);
-		router.back();
-	};
-	console.log(isModalOpen(MODALS.DELETE_ENTRY));
 
 	return (
 		<Container>

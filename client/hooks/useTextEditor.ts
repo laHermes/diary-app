@@ -44,7 +44,7 @@ const useTextEditor = ({
 		if (!isControlled) {
 			setStateValue(editorValue);
 		}
-		onChange && onChange(editorValue);
+		onChange?.(editorValue);
 	};
 
 	useEffect(() => {
