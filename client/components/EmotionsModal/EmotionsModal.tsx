@@ -43,7 +43,7 @@ export const EmotionsModal = ({
 	return (
 		<Modal value={isOpen} onCloseModal={onCloseModal}>
 			<Modal.Body>
-				<div className='w-full bg-white divide-y rounded-xl dark:divide-zinc-800 dark:bg-zinc-900'>
+				<div className='w-full divide-y rounded-xl bg-white dark:divide-zinc-800 dark:bg-zinc-900'>
 					<div className='px-4 py-5'>
 						<ModalTitle>Emotions</ModalTitle>
 						<ModalSubtitle>How are you feeling?</ModalSubtitle>
