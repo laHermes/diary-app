@@ -1,7 +1,11 @@
 import React from 'react';
-import LoginButton from '@components/SignIn/SignIn';
-import { LoginPage, PrivacyPolicy, Wrapper } from '@components/SignIn/Styles';
-import { Title } from '@components/Tags/Tags';
+import LoginButton from '@components/Auth/SignIn/SignIn';
+import {
+	LoginPage,
+	PrivacyPolicy,
+	Wrapper,
+} from '@components/Auth/SignIn/Styles';
+import { Title } from '@components/Modals/TagsModal/Tags';
 import { TextLogo } from '@styles/styles';
 import { useRouter } from 'next/router';
 

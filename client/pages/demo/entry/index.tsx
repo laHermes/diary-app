@@ -26,12 +26,12 @@ import ConfirmDeleteEntryModal from '@components/Modals/ConfirmDeleteEntryModal/
 
 // components
 import { Container, Flex } from '@styles/styles';
-import Page from '@components/PageComponent/Page';
+import Page from '@components/Layout/Page/Page';
 import TextEditor from '@components/TextEditor/TextEditor';
 import BottomSheet from '@components/Elements/BottomSheet/BottomSheet';
 import Button from '@components/Elements/Button/Button';
-import EntryNavigation from '@components/EntryNavigation/EntryNavigation';
-import { ShortVerticalBorder } from '@components/EntryNavigation/Styles';
+import EntryNavigation from '@components/Entry/EntryNavigation/EntryNavigation';
+import { ShortVerticalBorder } from '@components/Entry/EntryNavigation/Styles';
 import FloatingButton from '@components/FloatingButton/FloatingButton';
 
 //icons
@@ -52,6 +52,21 @@ import {
 	SearchIcon,
 	PlusIcon,
 } from '@heroicons/react/outline';
+import useModalState from '@hooks/useModalState';
+import EmotionsModal from '@components/Modals/EmotionsModal/EmotionsModal';
+import TagsModal from '@components/Modals/TagsModal/TagsModal';
+import { DEMO_ROUTES } from '@features/Routes/routes';
+
+// constants
+const CHARACTER_LIMIT = 500;
+
+// Modal types
+const MODALS = {
+	BOTTOM_SHEET: 'BOTTOM_SHEET',
+	TAGS: 'TAGS',
+	EMOTIONS: 'EMOTIONS',
+	DELETE_ENTRY: 'DELETE_ENTRY',
+} as const;
 
 const Index = () => {
 	const router = useRouter();
@@ -64,28 +79,25 @@ const Index = () => {
 	const { id: entryId, date: postDate, tags, content, emotion } = data;
 
 	// default states
-	const defaultContent = (content as string) ?? '';
-	const defaultTags = stringToArray({ value: tags });
-	const defaultEmotion = (emotion as string) || '';
-	const characterLimit = 1000;
-
-	// state
-	const [emotionState, setEmotionState] = useState<string>(defaultEmotion);
-	const [tagState, setTagState] = useState<string[]>(defaultTags);
-	const { editor, editorState } = useTextEditor({
-		characterLimit,
-		defaultValue: defaultContent,
-		placeholder: "Hello Anonymous, what's on your mind today?",
-	});
-
 	const date = postDate ? postDate : new Date();
 
-	// modal states
-	const [isEmotionModalOpen, setIsEmotionModalOpen] = useState<boolean>(false);
-	const [isTagsModalOpen, setIsTagsModalOpen] = useState<boolean>(false);
-	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
-	const [isDeleteEntryModalOpen, setIsDeleteEntryModalOpen] =
-		useState<boolean>(false);
+	// state
+	const [emotionState, setEmotionState] = useState<string>(
+		(emotion as string) || ''
+	);
+	const [tagState, setTagState] = useState<string[]>(
+		stringToArray({ value: tags })
+	);
+
+	// placeholder can be extracted
+	// the use of i18 for localization is possible
+	const { editor, editorState } = useTextEditor({
+		characterLimit: CHARACTER_LIMIT,
+		defaultValue: (content as string) ?? '',
+		placeholder: "What's on your mind today?",
+	});
+
+	const { onOpenModal, onCloseModal, isModalOpen } = useModalState({});
 
 	const { hasChanges } = useHasChanges({
 		deps: [emotionState, tagState, editorState],
@@ -122,7 +134,7 @@ const Index = () => {
 			dispatch(addDemoEntry({ ...entryToSave }));
 		}
 
-		handleGoBack();
+		router.push(DEMO_ROUTES.JOURNAL);
 	};
 
 	// delete entry
@@ -130,7 +142,6 @@ const Index = () => {
 		if (entryId) {
 			dispatch(removeDemoEntry({ id: entryId }));
 		}
-		handleGoBack();
 	};
 
 	const totalCharTyped = editor?.storage.characterCount.characters();
@@ -163,65 +174,66 @@ const Index = () => {
 			<EntryNavigation>
 				<EntryNavigation.Action>
 					<span className='font-semibold text-zinc-300'>
-						{totalCharTyped} / {characterLimit}
+						{totalCharTyped} / {CHARACTER_LIMIT}
 					</span>
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
 				{/* open tags modal */}
-				<EntryNavigation.Action onClick={() => setIsTagsModalOpen(true)}>
+				<EntryNavigation.Action onClick={() => onOpenModal(MODALS.TAGS)}>
 					<StyledTagIcon />
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
 				{/* open emotions modal */}
-				<EntryNavigation.Action onClick={() => setIsEmotionModalOpen(true)}>
+				<EntryNavigation.Action onClick={() => onOpenModal(MODALS.EMOTIONS)}>
 					<StyledFaceSmileIcon />
 				</EntryNavigation.Action>
 				<ShortVerticalBorder />
 				{/* open bottom sheet */}
-				<EntryNavigation.Action onClick={() => setIsBottomSheetOpen(true)}>
+				<EntryNavigation.Action
+					onClick={() => onOpenModal(MODALS.BOTTOM_SHEET)}>
 					<StyledDotsHorizontalIcon />
 				</EntryNavigation.Action>
 			</EntryNavigation>
 
 			<ConfirmDeleteEntryModal
-				isOpen={isDeleteEntryModalOpen}
-				onCloseModal={setIsDeleteEntryModalOpen}
-				entryId={entryId as string}
+				onDeleteFunction={handleDeleteEntry}
+				onSuccess={() => router.push('/demo/journal')}
+				isOpen={isModalOpen(MODALS.DELETE_ENTRY)}
+				onCloseModal={onCloseModal}
 			/>
 
 			<EmotionsModal
 				state={emotionState}
 				setState={setEmotionState}
-				isOpen={isEmotionModalOpen}
-				setIsOpen={setIsEmotionModalOpen}
+				isOpen={isModalOpen(MODALS.EMOTIONS)}
+				onCloseModal={onCloseModal}
 			/>
 
 			<TagsModal
 				state={tagState}
 				setState={setTagState}
-				isOpen={isTagsModalOpen}
-				setIsOpen={setIsTagsModalOpen}
+				isOpen={isModalOpen(MODALS.TAGS)}
+				onCloseModal={onCloseModal}
 			/>
 
-			{/* Bottom Sheet */}
+			{/* Bottom sheet */}
 			<BottomSheet
-				isOpen={isBottomSheetOpen}
-				onDismiss={() => setIsBottomSheetOpen(false)}
-				onToggle={() => setIsBottomSheetOpen((state) => !state)}>
+				isOpen={isModalOpen(MODALS.BOTTOM_SHEET)}
+				onDismiss={onCloseModal}
+				onOpen={() => onOpenModal(MODALS.BOTTOM_SHEET)}>
 				<BottomSheet.Sheet>
-					<Container className='flex flex-col pb-5 divide-y divide-zinc-800 font-noto text-zinc-200'>
+					<Container className='flex flex-col divide-y divide-zinc-800 pb-5 font-noto text-zinc-200'>
 						{/* Date */}
 						<BottomSheet.Section>
-							<CalendarIcon className='w-6 h-6 min-w-fit' />
+							<CalendarIcon className='h-6 w-6 min-w-fit' />
 							<p className='m-0 text-right'>{date.toString()}</p>
 						</BottomSheet.Section>
 
 						{/* Emotions */}
-						<BottomSheet.ActionWithClose
-							onClick={() => setIsEmotionModalOpen(true)}>
+						<BottomSheet.ActionWithClose onClick={onCloseModal}>
 							<BottomSheet.Section>
 								<Flex>
-									<FaceSmileIcon className='w-6 h-6 stroke-2 min-w-fit' />
+									<FaceSmileIcon className='h-6 w-6 min-w-fit stroke-2' />
 									Emotion
 								</Flex>
 
@@ -232,11 +244,10 @@ const Index = () => {
 						</BottomSheet.ActionWithClose>
 
 						{/* TAGS */}
-						<BottomSheet.ActionWithClose
-							onClick={() => setIsTagsModalOpen(true)}>
+						<BottomSheet.ActionWithClose onClick={onCloseModal}>
 							<BottomSheet.Section>
 								<Flex>
-									<TagIcon className='w-6 h-6 min-w-fit' />
+									<TagIcon className='h-6 w-6 min-w-fit' />
 									Tags
 								</Flex>
 								<Flex className='uppercase '>
@@ -248,9 +259,10 @@ const Index = () => {
 							</BottomSheet.Section>
 						</BottomSheet.ActionWithClose>
 
-						<BottomSheet.ActionWithClose onClick={handleDeleteEntry}>
+						<BottomSheet.ActionWithClose
+							onClick={() => onOpenModal(MODALS.DELETE_ENTRY)}>
 							<BottomSheet.Section className='bg-red-900/5'>
-								<TrashIcon className='w-6 h-6 min-w-fit stroke-red-500' />
+								<TrashIcon className='h-6 w-6 min-w-fit stroke-red-500' />
 								<p className='m-0 text-right text-red-500'>Delete Entry</p>
 							</BottomSheet.Section>
 						</BottomSheet.ActionWithClose>
@@ -262,229 +274,3 @@ const Index = () => {
 };
 
 export default Index;
-
-// on click back
-export const ConfirmModal = () => {
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [finishStatus, setFinishStatus] = useState<boolean>(false);
-	const router = useRouter();
-
-	const onBackButtonEvent = useCallback(
-		(e: any) => {
-			e.preventDefault();
-			setIsModalOpen(true);
-			if (finishStatus) {
-				router.push('/demo/journal');
-			} else {
-				window.history.pushState(null, '', window.location.pathname);
-				setFinishStatus(false);
-			}
-		},
-		[router, finishStatus]
-	);
-
-	useEffect(() => {
-		window.history.pushState(null, '', window.location.pathname);
-		window.addEventListener('popstate', onBackButtonEvent);
-		return () => {
-			window.removeEventListener('popstate', onBackButtonEvent);
-		};
-	}, [onBackButtonEvent]);
-
-	const cancelHandler = () => {
-		setIsModalOpen(false);
-	};
-
-	const backHandler = () => {
-		setFinishStatus(true);
-		router.push('/demo/journal');
-	};
-
-	if (isModalOpen) {
-		return (
-			<Modal value={isModalOpen} onChange={setIsModalOpen}>
-				<Modal.Body>
-					<div className='p-3 text-center bg-white rounded-md dark:bg-zinc-900 '>
-						<p className='text-xl font-semibold'>Unsaved entry will be lost!</p>
-						<p className='text-xl'>Are you sure you want to quit?</p>
-						<div className='inline-flex items-center justify-between gap-2 '>
-							<Button $positive onClick={cancelHandler}>
-								Cancel
-							</Button>
-							<Button $negative onClick={backHandler}>
-								Quit
-							</Button>
-						</div>
-					</div>
-				</Modal.Body>
-			</Modal>
-		);
-	}
-
-	return null;
-};
-
-//TODO: Refactor
-// select emotions for the entry
-export const EmotionsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
-	const handleSetState = (emotion: string) => {
-		setState((state: any) => (state !== emotion ? emotion : ''));
-	};
-
-	return (
-		<Modal value={isOpen} onChange={setIsOpen}>
-			<Modal.Body>
-				<div className='w-full bg-white divide-y rounded-xl dark:bg-zinc-900'>
-					<div className='px-4 pt-4'>
-						<p className='font-medium text-left'>Emotions</p>
-						<p className='text-left '>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-							eiusmod tempor incididunt
-						</p>
-					</div>
-					{emotionContent.emotions.map((emotion) => {
-						return (
-							<div key={emotion.value}>
-								<button
-									onClick={() => handleSetState(emotion.text)}
-									className={`${
-										emotion.text === (state.text || state) &&
-										'bg-indigo-100 text-indigo-700 hover:bg-indigo-100'
-									}   w-full p-3  text-left font-jost text-sm uppercase tracking-wider hover:bg-indigo-200/80`}>
-									<span>{emotion.value}</span>
-								</button>
-							</div>
-						);
-					})}
-
-					<div className='flex justify-center py-4'>
-						<button
-							onClick={() => setIsOpen(false)}
-							className='inline-flex justify-center gap-3 px-8 py-4 text-xl font-semibold text-center text-white transition-all duration-200 bg-indigo-800 rounded-full w-fit font-jost hover:bg-indigo-900 hover:dark:bg-slate-800'>
-							Done
-						</button>
-					</div>
-				</div>
-			</Modal.Body>
-		</Modal>
-	);
-};
-
-//TODO: Refactor
-// select tags for the entry
-export const TagsModal = ({ state, setState, isOpen, setIsOpen }: any) => {
-	const tags = useSelector(selectTags);
-	const [values, setValues] = useState<string[]>(tags);
-
-	const [filteredQuery, setFilteredQuery] = useState<string>('');
-	const [filtered, setFiltered] = useState<string[]>([]);
-
-	// handle select tag
-	const handleSelect = (value: string) => {
-		setState((state: any) => [...state, value.toLowerCase()]);
-	};
-
-	// handle remove selected tag
-	const handleRemoveSelect = (value: string) => {
-		setState((state: any) =>
-			[...state].filter((instance: string) => instance !== value)
-		);
-	};
-
-	// handle search tag
-	const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const targetValue = event.target.value;
-		setFilteredQuery(targetValue.toUpperCase());
-		setFiltered(
-			values.filter((value: string) => value === targetValue.toLowerCase())
-		);
-	};
-
-	// handle add new tag
-	const handleAddNewTag = (value: string) => {
-		setValues((state) => [...state, value.toLowerCase()]);
-		handleSelect(value);
-		setFilteredQuery('');
-		setFiltered([]);
-	};
-
-	return (
-		<Modal value={isOpen} onChange={setIsOpen}>
-			<Modal.Body>
-				<div className='w-full bg-white divide-y rounded-xl dark:bg-zinc-900 '>
-					<div className='px-4 pt-4'>
-						<p className='font-medium text-left'>Tags</p>
-					</div>
-
-					<div className='flex items-center w-full px-4'>
-						<SearchIcon className='w-6 h-6 text-zinc-500' />
-						<input
-							type='text'
-							max={28}
-							className='w-full h-12 text-sm tracking-wider bg-transparent border-0 text-zinc-800 placeholder-zinc-400 focus:ring-0'
-							placeholder='Search...'
-							value={filteredQuery}
-							onChange={handleSearch}
-						/>
-					</div>
-					<div className='overflow-y-auto divide-y max-h-96'>
-						{state &&
-							state.map((value: string) => {
-								const isHidden = !value.startsWith(filteredQuery.toLowerCase());
-								return (
-									<button
-										key={value}
-										onClick={() => handleRemoveSelect(value)}
-										className={`${
-											value === value &&
-											'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
-										} ${
-											isHidden && 'hidden'
-										} flex w-full items-center gap-4 p-3 text-left font-jost text-sm font-medium uppercase tracking-wider hover:bg-indigo-100`}>
-										<TagIcon className='w-4 h-4' />
-
-										<span>{value}</span>
-									</button>
-								);
-							})}
-
-						{values?.length &&
-							values.map((value) => {
-								const isHidden =
-									state.includes(value) ||
-									!value.startsWith(filteredQuery.toLowerCase());
-
-								return (
-									<button
-										key={value}
-										onClick={() => handleSelect(value)}
-										className={`${isHidden && 'hidden'}	
-								   flex w-full items-center gap-4 p-3 text-left font-jost text-sm font-medium uppercase tracking-wider hover:bg-indigo-100/80`}>
-										<TagIcon className='w-4 h-4' />
-										<span>{value}</span>
-									</button>
-								);
-							})}
-
-						{filteredQuery && !filtered.length && (
-							<button
-								onClick={() => handleAddNewTag(filteredQuery)}
-								className='flex w-full items-center gap-4 p-3 text-left font-jost text-sm uppercase tracking-wider hover:bg-indigo-200/80'>
-								<PlusIcon className='w-4 h-4' />
-								<span>{filteredQuery}</span>
-							</button>
-						)}
-					</div>
-
-					<div className='flex justify-center py-4'>
-						<button
-							onClick={() => setIsOpen(false)}
-							className='inline-flex justify-center gap-3 px-8 py-4 text-xl font-semibold text-center text-white transition-all duration-200 bg-indigo-500 rounded-full w-fit font-jost hover:bg-indigo-600 hover:dark:bg-slate-800'>
-							Done
-						</button>
-					</div>
-				</div>
-			</Modal.Body>
-		</Modal>
-	);
-};

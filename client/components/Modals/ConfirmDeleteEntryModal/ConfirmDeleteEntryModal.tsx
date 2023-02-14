@@ -1,10 +1,5 @@
 import React from 'react';
 
-// hooks
-import { useRouter } from 'next/router';
-import { useMutation } from '@tanstack/react-query';
-import { deleteEntryMutation } from '@config/api';
-
 // components
 import Modal from '@components/Elements/Modal/Modal';
 import Button from '@components/Elements/Button/Button';
@@ -13,35 +8,19 @@ import { Flex } from '@styles/styles';
 interface ConfirmDeleteEntryModalProps {
 	isOpen: boolean;
 	onCloseModal: () => any;
-	entryId?: string;
+	onDeleteFunction: () => void;
+	onSuccess?: () => void;
 }
 
 export const ConfirmDeleteEntryModal = ({
 	isOpen,
 	onCloseModal,
-	entryId = undefined,
+	onDeleteFunction,
+	onSuccess,
 }: ConfirmDeleteEntryModalProps) => {
-	// Update Entry
-	const router = useRouter();
-
-	const deleteEntry = useMutation({
-		mutationFn: deleteEntryMutation,
-		onSuccess: () => router.push('/app/journal'),
-	});
-
 	const handleDeleteEntry = () => {
-		if (!entryId) {
-			handleGoBack();
-		}
-		entryId && deleteEntry.mutate(entryId);
-	};
-
-	const handleGoBack = () => {
-		if (window?.history?.state?.idx > 0) {
-			router.back();
-			return;
-		}
-		router.push('/app/journal');
+		onDeleteFunction();
+		onSuccess?.();
 	};
 
 	return (

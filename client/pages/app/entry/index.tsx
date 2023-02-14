@@ -14,7 +14,7 @@ import { uniqueId } from 'lodash';
 import { APP_ROUTES } from '@features/Routes/routes';
 
 // modals
-import EmotionsModal from '@components/EmotionsModal/EmotionsModal';
+import EmotionsModal from '@components/Modals/EmotionsModal/EmotionsModal';
 import UnsavedChangesModal from '@components/Modals/UnsavedChangesModal/UnsavedChangesModal';
 import TagsModal from '@components/Modals/TagsModal/TagsModal';
 import ConfirmDeleteEntryModal from '@components/Modals/ConfirmDeleteEntryModal/ConfirmDeleteEntryModal';
@@ -31,9 +31,9 @@ import {
 import { CalendarIcon, TrashIcon, TagIcon } from '@heroicons/react/outline';
 import BottomSheet from '@components/Elements/BottomSheet/BottomSheet';
 import FloatingButton from '@components/FloatingButton/FloatingButton';
-import EntryNavigation from '@components/EntryNavigation/EntryNavigation';
-import Page from '@components/PageComponent/Page';
-import { ShortVerticalBorder } from '@components/EntryNavigation/Styles';
+import EntryNavigation from '@components/Entry/EntryNavigation/EntryNavigation';
+import Page from '@components/Layout/Page/Page';
+import { ShortVerticalBorder } from '@components/Entry/EntryNavigation/Styles';
 
 // icons
 import FaceSmileIcon from '@icons/FaceSmileIcon';
@@ -42,6 +42,8 @@ import {
 	StyledXIcon,
 } from '@components/FloatingButton/Styles';
 import useModalState from '@hooks/useModalState';
+import { deleteEntryMutation } from '@config/api';
+import { useMutation } from '@tanstack/react-query';
 
 // constants
 const CHARACTER_LIMIT = 500;
@@ -111,6 +113,11 @@ const Index = () => {
 		router.push(APP_ROUTES.JOURNAL);
 	};
 
+	const handleDeleteEntry = useMutation({
+		mutationFn: deleteEntryMutation,
+		onSuccess: () => router.push('/app/journal'),
+	});
+
 	return (
 		<Container>
 			<Page.LogoSection>
@@ -153,9 +160,9 @@ const Index = () => {
 				onCloseModal={onCloseModal}
 			/>
 			<ConfirmDeleteEntryModal
+				onDeleteFunction={() => handleDeleteEntry.mutate(entryId as string)}
 				isOpen={isModalOpen(MODALS.DELETE_ENTRY)}
 				onCloseModal={onCloseModal}
-				entryId={entryId as string}
 			/>
 
 			{/* Bottom navigation */}
@@ -189,10 +196,10 @@ const Index = () => {
 				onDismiss={onCloseModal}
 				onOpen={() => onOpenModal(MODALS.BOTTOM_SHEET)}>
 				<BottomSheet.Sheet>
-					<Container className='flex flex-col pb-5 divide-y divide-zinc-800 font-noto text-zinc-200'>
+					<Container className='flex flex-col divide-y divide-zinc-800 pb-5 font-noto text-zinc-200'>
 						{/* Date */}
 						<BottomSheet.Section>
-							<CalendarIcon className='w-6 h-6 min-w-fit' />
+							<CalendarIcon className='h-6 w-6 min-w-fit' />
 							<p className='m-0 text-right'>{date.toString()}</p>
 						</BottomSheet.Section>
 
@@ -200,7 +207,7 @@ const Index = () => {
 						<BottomSheet.ActionWithClose onClick={onCloseModal}>
 							<BottomSheet.Section>
 								<Flex>
-									<FaceSmileIcon className='w-6 h-6 stroke-2 min-w-fit' />
+									<FaceSmileIcon className='h-6 w-6 min-w-fit stroke-2' />
 									Emotion
 								</Flex>
 
@@ -214,7 +221,7 @@ const Index = () => {
 						<BottomSheet.ActionWithClose onClick={onCloseModal}>
 							<BottomSheet.Section>
 								<Flex>
-									<TagIcon className='w-6 h-6 min-w-fit' />
+									<TagIcon className='h-6 w-6 min-w-fit' />
 									Tags
 								</Flex>
 								<Flex className='uppercase '>
@@ -229,7 +236,7 @@ const Index = () => {
 						<BottomSheet.ActionWithClose
 							onClick={() => onOpenModal(MODALS.DELETE_ENTRY)}>
 							<BottomSheet.Section className='bg-red-900/5'>
-								<TrashIcon className='w-6 h-6 min-w-fit stroke-red-500' />
+								<TrashIcon className='h-6 w-6 min-w-fit stroke-red-500' />
 								<p className='m-0 text-right text-red-500'>Delete Entry</p>
 							</BottomSheet.Section>
 						</BottomSheet.ActionWithClose>

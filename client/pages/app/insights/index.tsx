@@ -12,8 +12,8 @@ import {
 	useEntriesStreaks,
 	useEntriesTotalWords,
 } from '@hooks/useEntriesQuery';
-import GoBack from '@components/GoBack/GoBack';
-import Page from '@components/PageComponent/Page';
+import GoBack from '@components/Navigation/GoBack/GoBack';
+import Page from '@components/Layout/Page/Page';
 
 const Index = () => {
 	const { data: totalWords } = useEntriesTotalWords();

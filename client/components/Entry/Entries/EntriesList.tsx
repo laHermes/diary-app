@@ -1,5 +1,5 @@
 import React from 'react';
-import EntryCard from '@components/EntryCard/EntryCard';
+import EntryCard from '@components/Entry/EntryCard/EntryCard';
 
 const EntriesList = ({ entries = [] }: { entries: IEntry[] }) => {
 	return (

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import { SectionAction, SectionCard, SectionTitle } from '@styles/styles';
-import Sidebar from '@components/Sidebar/Sidebar';
+import Sidebar from '@components/Navigation/Sidebar/Sidebar';
 import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
-import MobileNav from '@components/MobileNav/MobileNav';
+import MobileNav from '@components/Navigation/MobileNav/MobileNav';
 import {
 	useEntriesCount,
 	useEntriesStreaks,
@@ -18,8 +18,8 @@ import {
 } from '@components/Insights/Styles';
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
-import Page from '@components/PageComponent/Page';
-import Entries from '@components/Entries/EntriesList';
+import Page from '@components/Layout/Page/Page';
+import Entries from '@components/Entry/Entries/EntriesList';
 import Inspiration from '@components/Inspiration/Inspiration';
 
 const Index = () => {

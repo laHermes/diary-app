@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 // hooks
 import { useEntriesTags } from '@hooks/useEntriesQuery';
@@ -9,7 +9,7 @@ import {
 	ModalFooter,
 	ModalFooterButton,
 } from '@components/Elements/Modal/Styles.';
-import Tags from '@components/Tags/Tags';
+import Tags from '@components/Modals/TagsModal/Tags';
 import { AddNewTagButton, TagButton } from './Styles';
 
 // icons

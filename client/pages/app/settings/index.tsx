@@ -4,8 +4,8 @@ import { useSession } from 'next-auth/react';
 import ThemeSwitcher from '@components/ThemeSwitcher/ThemeSwitcher';
 import { APP_ROUTES } from '@features/Routes/routes';
 
-import GoBack from '@components/GoBack/GoBack';
-import Page from '@components/PageComponent/Page';
+import GoBack from '@components/Navigation/GoBack/GoBack';
+import Page from '@components/Layout/Page/Page';
 import PageCard from '@components/Elements/PageCard/PageCard';
 
 const Settings = () => {

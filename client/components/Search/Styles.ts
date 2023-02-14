@@ -11,3 +11,5 @@ export const FiltersSectionItem = tw(
 	Flex
 )<any>`max-w-1/2 flex-col items-start gap-4`;
 export const FiltersSectionTitle = tw.span<any>`text-base uppercase`;
+
+export const CloseButton = tw.button<any>`inline-flex justify-center gap-3 px-2 py-2 transition-all duration-200 rounded-full hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start`;

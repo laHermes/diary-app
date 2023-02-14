@@ -8,21 +8,21 @@ import { useEntriesQuery, useEntriesTags } from '@hooks/useEntriesQuery';
 import Message, { DEFAULT_ENTRY_MESSAGES } from '@components/Message/Message';
 
 // components
-import Page from '@components/PageComponent/Page';
+import Page from '@components/Layout/Page/Page';
 import { Flex } from '@styles/styles';
 import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
-import GroupedEntries from '@components/Entries/GroupedEntries';
+import GroupedEntries from '@components/Entry/Entries/GroupedEntries';
 
 // navigation
-import Sidebar from '@components/Sidebar/Sidebar';
-import MobileNav from '@components/MobileNav/MobileNav';
+import Sidebar from '@components/Navigation/Sidebar/Sidebar';
+import MobileNav from '@components/Navigation/MobileNav/MobileNav';
 
 // icons
 import { SearchIcon } from '@heroicons/react/outline';
 
 // reduce bundle size
 const DynamicSearchOverlay = dynamic(
-	() => import('@components/SearchOverlay/SearchOverlay'),
+	() => import('@components/Search/Search'),
 	{
 		suspense: true,
 	}
@@ -54,8 +54,8 @@ const JournalPage = () => {
 						<Page.Title>Journal</Page.Title>
 						<button
 							onClick={handleOpenSearchDialog}
-							className='inline-flex justify-center gap-3 px-2 py-2 transition-all duration-200 rounded-full hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
-							<SearchIcon className='self-center w-8 h-8 stroke-1' />
+							className='inline-flex justify-center gap-3 rounded-full px-2 py-2 transition-all duration-200 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
+							<SearchIcon className='h-8 w-8 self-center stroke-1' />
 						</button>
 					</Flex>
 

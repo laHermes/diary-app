@@ -3,16 +3,16 @@ import React from 'react';
 import clsx from 'clsx';
 
 // hooks & utils
-import useSearchOverlay from './useSearchOverlay';
+import useSearch from './useSearch';
 import { filterData, isValueInFilter } from '@utils/filterUtils';
 
 // components
-import MotionContainer from '@components/MotionContainer';
+import MotionContainer from '@components/Layout/MotionContainer';
 import { Flex } from '@styles/styles';
-import Page from '@components/PageComponent/Page';
-import GroupedEntries from '@components/Entries/GroupedEntries';
+import Page from '@components/Layout/Page/Page';
+import GroupedEntries from '@components/Entry/Entries/GroupedEntries';
 import SelectPill from '@components/Elements/SelectPill/SelectPill';
-import CloseSearchOverlayButton from './CloseSearchOverlayButton';
+import CloseSearchButton from './CloseSearchButton';
 import {
 	FiltersSection,
 	FiltersSectionItem,
@@ -28,17 +28,13 @@ import { SearchIcon, XIcon } from '@heroicons/react/outline';
 import emotionContent from '@config/content.json';
 import Message, { DEFAULT_ENTRY_MESSAGES } from '../Message/Message';
 
-interface SearchOverlayProps {
+interface SearchProps {
 	setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 	data: any[];
 	tags: string[];
 }
 
-const SearchOverlay = ({
-	setIsOpen,
-	data: propsData,
-	tags,
-}: SearchOverlayProps) => {
+const Search = ({ setIsOpen, data: propsData, tags }: SearchProps) => {
 	// manages filter state
 	const {
 		searchFilterState,
@@ -46,7 +42,7 @@ const SearchOverlay = ({
 		handelAddFilter,
 		handleQuery,
 		handleResetQuery,
-	} = useSearchOverlay();
+	} = useSearch();
 
 	// filters data
 	const { data: filteredData, filter } = filterData({
@@ -65,9 +61,7 @@ const SearchOverlay = ({
 			<Page.Layout>
 				<Flex className='justify-between'>
 					<Page.Title>Search</Page.Title>
-					<CloseSearchOverlayButton
-						onClick={() => setIsOpen && setIsOpen(false)}
-					/>
+					<CloseSearchButton onClick={() => setIsOpen && setIsOpen(false)} />
 				</Flex>
 
 				<SearchInputWrapper>
@@ -137,4 +131,4 @@ const SearchOverlay = ({
 	);
 };
 
-export default SearchOverlay;
+export default Search;

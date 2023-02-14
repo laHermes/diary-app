@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import { SectionAction, SectionCard, SectionTitle } from '@styles/styles';
 import Inspiration from '@components/Inspiration/Inspiration';
 import { selectEntries, selectTodayEntries } from '@store/demoEntrySlice';
-import Sidebar from '@components/Sidebar/Sidebar';
+import Sidebar from '@components/Navigation/Sidebar/Sidebar';
 import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
-import MobileNav from '@components/MobileNav/MobileNav';
-import Page from '@components/PageComponent/Page';
+import MobileNav from '@components/Navigation/MobileNav/MobileNav';
+import Page from '@components/Layout/Page/Page';
 import {
 	InsightsItem,
 	InsightsItems,
@@ -15,7 +15,7 @@ import {
 	ThinBorder,
 } from '@components/Insights/Styles';
 import { ChevronRightIcon } from '@heroicons/react/outline';
-import Entries from '@components/Entries/EntriesList';
+import Entries from '@components/Entry/Entries/EntriesList';
 import { useRouter } from 'next/router';
 import { InformationCircleIcon } from '@heroicons/react/solid';
 

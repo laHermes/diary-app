@@ -13,7 +13,7 @@ import {
 	InspirationQuote,
 	ThinBorder,
 } from './Styles';
-import Spinner from '@components/Spinner/Spinner';
+import Spinner from '@components/Elements/Spinner/Spinner';
 import Message from '@components/Message/Message';
 
 // icons

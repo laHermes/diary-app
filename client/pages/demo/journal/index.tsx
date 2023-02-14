@@ -4,19 +4,19 @@ import { useSelector } from 'react-redux';
 import { selectEntries, selectTags } from '@store/demoEntrySlice';
 
 // components
-import Page from '@components/PageComponent/Page';
+import Page from '@components/Layout/Page/Page';
 import { Flex } from '@styles/styles';
-import Sidebar from '@components/Sidebar/Sidebar';
+import Sidebar from '@components/Navigation/Sidebar/Sidebar';
 import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
-import MobileNav from '@components/MobileNav/MobileNav';
-import GroupedEntries from '@components/Entries/GroupedEntries';
+import MobileNav from '@components/Navigation/MobileNav/MobileNav';
+import GroupedEntries from '@components/Entry/Entries/GroupedEntries';
 
 // icons
 import { SearchIcon } from '@heroicons/react/outline';
 
 // reduce bundle size
 const DynamicSearchOverlay = dynamic(
-	() => import('@components/SearchOverlay/SearchOverlay'),
+	() => import('@components/Search/Search'),
 	{
 		suspense: true,
 	}

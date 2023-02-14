@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+
+// components
 import Modal from '@components/Elements/Modal/Modal';
 import Button from '@components/Elements/Button/Button';
 import { Flex } from '@styles/styles';
@@ -49,16 +51,16 @@ export const UnsavedChangesModal = () => {
 
 	if (isModalOpen) {
 		return (
-			<Modal value={isModalOpen} onChange={setIsModalOpen}>
+			<Modal value={isModalOpen} onCloseModal={() => setIsModalOpen(false)}>
 				<Modal.Body>
-					<Flex className='flex-col items-start gap-4 bg-white p-5 dark:bg-zinc-900'>
+					<Flex className='flex-col items-start gap-4 p-5 bg-white dark:bg-zinc-900'>
 						<Flex className='flex-col items-start gap-0 text-left'>
 							<p className='m-0 text-xl font-bold '>Unsaved changes!</p>
-							<p className='text-md m-0'>
+							<p className='m-0 text-md'>
 								Are you sure you want to discard changes?
 							</p>
 						</Flex>
-						<Flex className='w-full flex-col gap-4'>
+						<Flex className='flex-col w-full gap-4'>
 							<Button $negative onClick={backHandler} className='w-full'>
 								Yes, discard changes
 							</Button>
