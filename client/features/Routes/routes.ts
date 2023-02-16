@@ -7,7 +7,7 @@ export const APP_ROUTES = {
 } as const;
 
 export const DEMO_ROUTES = {
-	INDEX: '/app/index',
-	JOURNAL: '/app/journal',
-	ENTRY: '/app/entry',
+	INDEX: '/demo/index',
+	JOURNAL: '/demo/journal',
+	ENTRY: '/demo/entry',
 } as const;

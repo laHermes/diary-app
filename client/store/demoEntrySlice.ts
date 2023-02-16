@@ -1,8 +1,8 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from './store';
 import { getTotalWordsWritten, getUniqueTags } from '@utils/entriesUtils';
-import { uniqueId } from 'lodash';
 import { formatGroupedStories, groupStoriesBy, isToday } from 'utils/dates';
+import uuid from 'react-uuid';
 
 const initialState: Array<IEntry> = [];
 
@@ -10,10 +10,16 @@ export const demoEntrySlice: any = createSlice({
 	name: 'demoEntry',
 	initialState: initialState,
 	reducers: {
-		addDemoEntry(state, { payload }: PayloadAction<Omit<IEntry, 'id'>>) {
-			const id = uniqueId();
-			const { tags } = payload;
-			state.push({ id, tags: tags || [], ...payload });
+		addDemoEntry: {
+			reducer: (state, { payload }: PayloadAction<IEntry>) => {
+				const { tags } = payload;
+				state.push({ tags: tags || [], ...payload });
+			},
+			prepare: (payload) => {
+				return {
+					payload: { ...payload, id: uuid() },
+				};
+			},
 		},
 		updateDemoEntry(state, { payload }: PayloadAction<IEntry>) {
 			const { id: entryId, ...payloadProps } = payload;
