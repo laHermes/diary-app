@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { ReactNode } from 'react';
 
 const EntryNavigation = ({ children }: { children: ReactNode }) => {
@@ -10,17 +11,25 @@ const EntryNavigation = ({ children }: { children: ReactNode }) => {
 	);
 };
 
+type ActionProps = React.DetailedHTMLProps<
+	React.ButtonHTMLAttributes<HTMLButtonElement>,
+	HTMLButtonElement
+>;
+
 const Action = ({
 	children,
 	onClick = () => {},
-}: {
-	children: ReactNode;
-	onClick?: () => any;
-}) => {
+	className,
+	...props
+}: ActionProps) => {
 	return (
 		<button
 			onClick={onClick}
-			className='inline-flex justify-center flex-1 px-1 py-3 text-left hover:bg-zinc-700'>
+			className={clsx(
+				'inline-flex flex-1 justify-center px-1 py-3 text-left hover:bg-zinc-700',
+				className
+			)}
+			{...props}>
 			{children}
 		</button>
 	);

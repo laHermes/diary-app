@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // hooks
@@ -18,10 +18,8 @@ import {
 } from '@store/demoEntrySlice';
 
 // local data
-import emotionContent from '@config/content.json';
 
 // modals
-import Modal from '@components/Elements/Modal/Modal';
 import ConfirmDeleteEntryModal from '@components/Modals/ConfirmDeleteEntryModal/ConfirmDeleteEntryModal';
 
 // components
@@ -29,7 +27,6 @@ import { Container, Flex } from '@styles/styles';
 import Page from '@components/Layout/Page/Page';
 import TextEditor from '@components/TextEditor/TextEditor';
 import BottomSheet from '@components/Elements/BottomSheet/BottomSheet';
-import Button from '@components/Elements/Button/Button';
 import EntryNavigation from '@components/Entry/EntryNavigation/EntryNavigation';
 import { ShortVerticalBorder } from '@components/Entry/EntryNavigation/Styles';
 import FloatingButton from '@components/FloatingButton/FloatingButton';
@@ -45,13 +42,7 @@ import {
 	StyledFaceSmileIcon,
 	StyledTagIcon,
 } from '@styles/styles';
-import {
-	CalendarIcon,
-	TrashIcon,
-	TagIcon,
-	SearchIcon,
-	PlusIcon,
-} from '@heroicons/react/outline';
+import { CalendarIcon, TrashIcon, TagIcon } from '@heroicons/react/outline';
 import useModalState from '@hooks/useModalState';
 import EmotionsModal from '@components/Modals/EmotionsModal/EmotionsModal';
 import TagsModal from '@components/Modals/TagsModal/TagsModal';
@@ -188,6 +179,7 @@ const Index = () => {
 				</EntryNavigation.Action>
 			</EntryNavigation>
 
+			{/* lazy load */}
 			<ConfirmDeleteEntryModal
 				onDeleteFunction={handleDeleteEntry}
 				onSuccess={() => router.push(DEMO_ROUTES.JOURNAL)}
