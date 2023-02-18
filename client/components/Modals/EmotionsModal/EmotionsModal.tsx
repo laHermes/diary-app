@@ -6,7 +6,7 @@ import {
 	ModalTitle,
 } from '@components/Elements/Modal/Styles.';
 
-import emotionContent from '@config/content.json';
+import emotionContent from '@data/content.json';
 import Modal from '@components/Elements/Modal/Modal';
 import { EmotionButton } from './Styles';
 

@@ -3,7 +3,7 @@ import {
 	deleteEntryMutation,
 	updateEntryMutation,
 } from '@config/api';
-import { APP_ROUTES } from '@features/Routes/routes';
+import { APP_ROUTES } from '@config/routes';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';

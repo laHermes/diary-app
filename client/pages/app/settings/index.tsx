@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import ThemeSwitcher from '@components/ThemeSwitcher/ThemeSwitcher';
-import { APP_ROUTES } from '@features/Routes/routes';
+import { APP_ROUTES } from '@config/routes';
 
 import GoBack from '@components/Navigation/GoBack/GoBack';
 import Page from '@components/Layout/Page/Page';

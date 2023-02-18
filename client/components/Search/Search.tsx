@@ -8,11 +8,12 @@ import { filterData, isValueInFilter } from '@utils/filterUtils';
 
 // components
 import MotionContainer from '@components/Layout/MotionContainer';
-import { Flex } from '@styles/styles';
+import Message from '@components/Message/Message';
 import Page from '@components/Layout/Page/Page';
 import GroupedEntries from '@components/Entry/Entries/GroupedEntries';
 import SelectPill from '@components/Elements/SelectPill/SelectPill';
 import CloseSearchButton from './CloseSearchButton';
+import { Flex } from '@styles/styles';
 import {
 	FiltersSection,
 	FiltersSectionItem,
@@ -25,8 +26,8 @@ import {
 import { SearchIcon, XIcon } from '@heroicons/react/outline';
 
 // local data
-import emotionContent from '@config/content.json';
-import Message, { DEFAULT_ENTRY_MESSAGES } from '../Message/Message';
+import emotionContent from '@data/content.json';
+import { DEFAULT_ENTRY_MESSAGES } from '@config/messages';
 
 interface SearchProps {
 	setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -61,7 +62,7 @@ const Search = ({ setIsOpen, data: propsData, tags }: SearchProps) => {
 			<Page.Layout>
 				<Flex className='justify-between'>
 					<Page.Title>Search</Page.Title>
-					<CloseSearchButton onClick={() => setIsOpen && setIsOpen(false)} />
+					<CloseSearchButton onClick={() => setIsOpen?.(false)} />
 				</Flex>
 
 				<SearchInputWrapper>

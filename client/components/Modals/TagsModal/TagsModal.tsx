@@ -14,17 +14,30 @@ import { AddNewTagButton, TagButton } from './Styles';
 
 // icons
 import { PlusIcon, SearchIcon, TagIcon } from '@heroicons/react/outline';
+import useTags from './useTags';
+import { DEFAULT_TAGS } from '@data/tags';
 
 // select tags for the entry
 // THIS WHOLE AREA SHOULD BE REFACTORED USING REDUCERS
 export const TagsModal = ({ state, setState, isOpen, onCloseModal }: any) => {
 	const { data: tags } = useEntriesTags();
-	const [values, setValues] = useState<string[]>(tags || []);
-	const [filteredQuery, setFilteredQuery] = useState<string>('');
-	const [filtered, setFiltered] = useState<string[]>([]);
+	const tagsFromPrevEntries = tags || [];
+	const defaultTags = [...tagsFromPrevEntries, ...DEFAULT_TAGS];
+
+	const {
+		state: tagState,
+		handleCreateTag,
+		handleRemoveSelectedTag,
+		handleSearchTag,
+		handleSelectTag,
+		isTagInSearch,
+	} = useTags({ selectedTags: state, defaultTags: defaultTags });
+
+	const { values, filteredQuery, filtered } = tagState;
 
 	// handle select tag
 	const handleSelect = (value: string) => {
+		handleSelectTag(value);
 		setState((state: any) => [...state, value.toLowerCase()]);
 	};
 
@@ -33,66 +46,22 @@ export const TagsModal = ({ state, setState, isOpen, onCloseModal }: any) => {
 		setState((state: any) =>
 			[...state].filter((instance: string) => instance !== value)
 		);
+		handleRemoveSelectedTag(value);
 	};
 
 	// handle search tag
 	const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const targetValue = event.target.value;
-		setFilteredQuery(targetValue.toUpperCase());
-		setFiltered(
-			values.filter((value: string) => value === targetValue.toLowerCase())
-		);
+		handleSearchTag(targetValue);
 	};
 
 	// handle add new tag
 	const handleAddNewTag = (value: string) => {
-		setValues((state) => [...state, value.toLowerCase()]);
+		handleCreateTag(value);
 		handleSelect(value);
-		setFilteredQuery('');
-		setFiltered([]);
-	};
-
-	const notInSearch = (value: string) => {
-		return !value.startsWith(filteredQuery.toLowerCase());
 	};
 
 	const queryNoMatch = filteredQuery && !filtered.length;
-
-	const DefaultTags = () =>
-		!!state?.length &&
-		state.map((value: string) => {
-			return (
-				<TagButton
-					key={value}
-					onClick={() => handleRemoveSelect(value)}
-					$selected
-					$hidden={notInSearch(value)}>
-					<TagIcon className='w-4 h-4' />
-					<span>{value}</span>
-				</TagButton>
-			);
-		});
-
-	const SelectedTags = () => {
-		if (!!values?.length) {
-			return (
-				<>
-					{values.map((value: string) => {
-						return (
-							<TagButton
-								key={value}
-								onClick={() => handleSelect(value)}
-								$hidden={notInSearch(value) || state.includes(value)}>
-								<TagIcon className='w-4 h-4' />
-								<span>{value}</span>
-							</TagButton>
-						);
-					})}
-				</>
-			);
-		}
-		return null;
-	};
 
 	return (
 		<Modal value={isOpen} onCloseModal={onCloseModal}>
@@ -110,8 +79,32 @@ export const TagsModal = ({ state, setState, isOpen, onCloseModal }: any) => {
 						</Tags.SearchSection>
 
 						<div className='overflow-y-auto divide-y max-h-96 dark:divide-zinc-800'>
-							<DefaultTags />
-							<SelectedTags />
+							{!!state?.length &&
+								state.map((value: string) => {
+									return (
+										<TagButton
+											key={value}
+											onClick={() => handleRemoveSelect(value)}
+											$selected
+											$hidden={!isTagInSearch(value)}>
+											<TagIcon className='w-4 h-4' />
+											<span>{value}</span>
+										</TagButton>
+									);
+								})}
+
+							{!!values?.length &&
+								values.map((value: string) => {
+									return (
+										<TagButton
+											key={value}
+											onClick={() => handleSelect(value)}
+											$hidden={!isTagInSearch(value) || state.includes(value)}>
+											<TagIcon className='w-4 h-4' />
+											<span>{value}</span>
+										</TagButton>
+									);
+								})}
 
 							{/* create new tag if no tag exists */}
 							{queryNoMatch && (
@@ -133,48 +126,3 @@ export const TagsModal = ({ state, setState, isOpen, onCloseModal }: any) => {
 };
 
 export default TagsModal;
-
-// EXPERIMENTAL
-// btw. enums should not be used, use as const instead
-
-// enum ModalActionKind {
-// 	OPEN = 'openModal',
-// 	CLOSE = 'closeModal',
-// }
-
-// interface ModalAction {
-// 	type: ModalActionKind;
-// 	payload: ModalKind;
-// }
-
-// enum TagActionKind {
-// 	ADD = 'addTag',
-// 	REMOVE = 'removeTag',
-// }
-
-// interface TagAction {
-// 	type: TagActionKind;
-// 	payload: string;
-// }
-
-// type ReducerActionTypes = ModalAction | TagAction;
-
-// const stateReducer: Reducer<any, ReducerActionTypes> = (
-// 	state: any,
-// 	action: ReducerActionTypes
-// ) => {
-// 	switch (action.type) {
-// 		case TagActionKind.ADD:
-// 			return [...state, action.payload.toLowerCase()];
-// 		case TagActionKind.REMOVE:
-// 			return [...state].filter(
-// 				(instance: string) => instance !== action.payload.toLowerCase()
-// 			);
-// 		case ModalActionKind.OPEN:
-// 			return { ...state, modal: action.payload };
-// 		case ModalActionKind.CLOSE:
-// 			return { ...state, modal: ModalKind.NULL };
-// 		default:
-// 			throw Error('Unknown action');
-// 	}
-// };

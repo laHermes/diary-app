@@ -11,7 +11,7 @@ import { stringToArray } from '@utils/index';
 import { uniqueId } from 'lodash';
 
 // local data
-import { APP_ROUTES } from '@features/Routes/routes';
+import { APP_ROUTES } from '@config/routes';
 
 // modals
 import EmotionsModal from '@components/Modals/EmotionsModal/EmotionsModal';
@@ -30,17 +30,14 @@ import {
 } from '@styles/styles';
 import { CalendarIcon, TrashIcon, TagIcon } from '@heroicons/react/outline';
 import BottomSheet from '@components/Elements/BottomSheet/BottomSheet';
-import FloatingButton from '@components/FloatingButton/FloatingButton';
+import FloatingButton from '@components/Elements/FOB/FOB';
 import EntryNavigation from '@components/Entry/EntryNavigation/EntryNavigation';
 import Page from '@components/Layout/Page/Page';
 import { ShortVerticalBorder } from '@components/Entry/EntryNavigation/Styles';
 
 // icons
 import FaceSmileIcon from '@icons/FaceSmileIcon';
-import {
-	StyledCheckIcon,
-	StyledXIcon,
-} from '@components/FloatingButton/Styles';
+import { StyledCheckIcon, StyledXIcon } from '@components/Elements/FOB/Styles';
 import useModalState from '@hooks/useModalState';
 import { deleteEntryMutation } from '@config/api';
 import { useMutation } from '@tanstack/react-query';

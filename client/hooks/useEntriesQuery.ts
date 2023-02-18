@@ -32,8 +32,10 @@ export const useEntriesGroupedByMonth = () =>
 	);
 // returns today entries
 export const useEntriesToday = () =>
-	useEntriesQuery((data: any) =>
-		data.filter((entry: IEntry) => isToday({ date: entry.date })).reverse()
+	useEntriesQuery(
+		(data: any) =>
+			data.filter((entry: IEntry) => isToday({ date: entry.date })).reverse() ||
+			[]
 	);
 
 // returns entry by id
@@ -43,7 +45,7 @@ export const useEntry = (id: string) =>
 // returns entries tags
 // combine entry tags with default or just return default tags
 export const useEntriesTags = () =>
-	useEntriesQuery((data: any) => getUniqueTags(data));
+	useEntriesQuery((data: any) => getUniqueTags(data) || []);
 
 // calculates total words written from all entries
 export const useEntriesTotalWords = () =>

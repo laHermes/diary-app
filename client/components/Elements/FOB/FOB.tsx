@@ -6,34 +6,34 @@ import React, {
 	useContext,
 } from 'react';
 
-interface IFloatingButton {
+interface IFOB {
 	children: ReactNode;
 }
 
-const FloatingButtonContext = createContext<any>({});
+const FOBContext = createContext<any>({});
 
-const useFloatingButtonContext = () => {
-	const context = useContext(FloatingButtonContext);
+const useFOBContext = () => {
+	const context = useContext(FOBContext);
 
 	if (!context) {
 		throw new Error(
-			`This compound components cannot be rendered outside the FloatingButton component`
+			`This compound components cannot be rendered outside the FOB component`
 		);
 	}
 	return context;
 };
 
-const FloatingButton = ({ children }: IFloatingButton) => {
-	const getFloatingButtonProps = ({ onClick = () => {}, ...props }) => {
+const FOB = ({ children }: IFOB) => {
+	const getFOBProps = ({ onClick = () => {}, ...props }) => {
 		return {
 			onClick: callAll(onClick),
 			...props,
 		};
 	};
-	const value = { getFloatingButtonProps };
+	const value = { getFOBProps };
 
 	return (
-		<FloatingButtonContext.Provider value={value}>
+		<FOBContext.Provider value={value}>
 			<div className='fixed transition-all duration-200 bg-indigo-800 rounded-full shadow-2xl right-10 bottom-20 drop-shadow-md hover:bg-indigo-900 md:right-5'>
 				<div className='relative flex items-center justify-end w-full h-12 max-w-screen-md mx-auto md:h-fit '>
 					<div className='z-50 -top-5 right-10'>
@@ -43,7 +43,7 @@ const FloatingButton = ({ children }: IFloatingButton) => {
 					</div>
 				</div>
 			</div>
-		</FloatingButtonContext.Provider>
+		</FOBContext.Provider>
 	);
 };
 
@@ -54,15 +54,13 @@ const Action = ({
 	children: ReactElement;
 	onClick?: () => any;
 }) => {
-	const { getFloatingButtonProps } = useFloatingButtonContext();
+	const { getFOBProps } = useFOBContext();
 
 	return (
-		<button {...getFloatingButtonProps({ onClick: () => onClick() })}>
-			{children}
-		</button>
+		<button {...getFOBProps({ onClick: () => onClick() })}>{children}</button>
 	);
 };
 
-FloatingButton.Action = Action;
+FOB.Action = Action;
 
-export default FloatingButton;
+export default FOB;

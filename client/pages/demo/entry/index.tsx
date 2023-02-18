@@ -29,14 +29,11 @@ import TextEditor from '@components/TextEditor/TextEditor';
 import BottomSheet from '@components/Elements/BottomSheet/BottomSheet';
 import EntryNavigation from '@components/Entry/EntryNavigation/EntryNavigation';
 import { ShortVerticalBorder } from '@components/Entry/EntryNavigation/Styles';
-import FloatingButton from '@components/FloatingButton/FloatingButton';
+import FloatingButton from '@components/Elements/FOB/FOB';
 
 //icons
 import FaceSmileIcon from '@icons/FaceSmileIcon';
-import {
-	StyledCheckIcon,
-	StyledXIcon,
-} from '@components/FloatingButton/Styles';
+import { StyledCheckIcon, StyledXIcon } from '@components/Elements/FOB/Styles';
 import {
 	StyledDotsHorizontalIcon,
 	StyledFaceSmileIcon,
@@ -46,7 +43,7 @@ import { CalendarIcon, TrashIcon, TagIcon } from '@heroicons/react/outline';
 import useModalState from '@hooks/useModalState';
 import EmotionsModal from '@components/Modals/EmotionsModal/EmotionsModal';
 import TagsModal from '@components/Modals/TagsModal/TagsModal';
-import { DEMO_ROUTES } from '@features/Routes/routes';
+import { DEMO_ROUTES } from '@config/routes';
 
 // constants
 const CHARACTER_LIMIT = 500;
@@ -209,10 +206,10 @@ const Index = () => {
 				onDismiss={onCloseModal}
 				onOpen={() => onOpenModal(MODALS.BOTTOM_SHEET)}>
 				<BottomSheet.Sheet>
-					<Container className='flex flex-col pb-5 divide-y divide-zinc-800 font-noto text-zinc-200'>
+					<Container className='flex flex-col divide-y divide-zinc-800 pb-5 font-noto text-zinc-200'>
 						{/* Date */}
 						<BottomSheet.Section>
-							<CalendarIcon className='w-6 h-6 min-w-fit' />
+							<CalendarIcon className='h-6 w-6 min-w-fit' />
 							<p className='m-0 text-right'>{date.toString()}</p>
 						</BottomSheet.Section>
 
@@ -220,7 +217,7 @@ const Index = () => {
 						<BottomSheet.ActionWithClose onClick={onCloseModal}>
 							<BottomSheet.Section>
 								<Flex>
-									<FaceSmileIcon className='w-6 h-6 stroke-2 min-w-fit' />
+									<FaceSmileIcon className='h-6 w-6 min-w-fit stroke-2' />
 									Emotion
 								</Flex>
 
@@ -234,7 +231,7 @@ const Index = () => {
 						<BottomSheet.ActionWithClose onClick={onCloseModal}>
 							<BottomSheet.Section>
 								<Flex>
-									<TagIcon className='w-6 h-6 min-w-fit' />
+									<TagIcon className='h-6 w-6 min-w-fit' />
 									Tags
 								</Flex>
 								<Flex className='uppercase '>
@@ -249,7 +246,7 @@ const Index = () => {
 						<BottomSheet.ActionWithClose
 							onClick={() => onOpenModal(MODALS.DELETE_ENTRY)}>
 							<BottomSheet.Section className='bg-red-900/5'>
-								<TrashIcon className='w-6 h-6 min-w-fit stroke-red-500' />
+								<TrashIcon className='h-6 w-6 min-w-fit stroke-red-500' />
 								<p className='m-0 text-right text-red-500'>Delete Entry</p>
 							</BottomSheet.Section>
 						</BottomSheet.ActionWithClose>

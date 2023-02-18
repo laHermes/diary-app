@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { ComponentType, ReactElement, ReactNode } from 'react';
 import 'tailwindcss/tailwind.css';
-import ChangeThemeButton from '@features/Theme/components/ChangeThemeButton';
+import ChangeThemeButton from '@components/ThemeSwitcher/ChangeThemeButton';
 import ArrowRightIcon from '@icons/ArrowRight';
 import Button from '@components/Elements/Button/Button';
 import {
