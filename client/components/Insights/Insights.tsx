@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 // store
-import { selectEntries } from '@store/demoEntrySlice';
+import { selectEntries } from '@store/entrySlice';
 import { useSelector } from 'react-redux';
 
 // components
@@ -42,7 +42,7 @@ const Insights = () => {
 			<Link href='/demo/insights'>
 				<SectionAction>
 					<p className='m-0 text-accent'>All Insights</p>
-					<ChevronRightIcon className='self-center w-5 h-5' />
+					<ChevronRightIcon className='h-5 w-5 self-center' />
 				</SectionAction>
 			</Link>
 		</SectionCard>

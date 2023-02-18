@@ -1,7 +1,7 @@
 import React, { Suspense, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
-import { selectEntries, selectTags } from '@store/demoEntrySlice';
+import { selectEntries, selectTags } from '@store/entrySlice';
 
 // components
 import Page from '@components/Layout/Page/Page';

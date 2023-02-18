@@ -6,13 +6,18 @@ import uuid from 'react-uuid';
 
 const initialState: Array<IEntry> = [];
 
-export const demoEntrySlice: any = createSlice({
-	name: 'demoEntry',
+type IAddEntryPayload = PayloadAction<IEntry>;
+type IUpdateEntryPayload = PayloadAction<IEntry>;
+type IRemoveEntryPayload = PayloadAction<Pick<IEntry, 'id'>>;
+
+export const EntrySlice = createSlice({
+	name: 'Entry',
 	initialState: initialState,
 	reducers: {
-		addDemoEntry: {
-			reducer: (state, { payload }: PayloadAction<IEntry>) => {
+		addEntry: {
+			reducer: (state, { payload }: IAddEntryPayload) => {
 				const { tags } = payload;
+				return [...state, { tags: tags || [], ...payload }];
 				state.push({ tags: tags || [], ...payload });
 			},
 			prepare: (payload) => {
@@ -21,8 +26,16 @@ export const demoEntrySlice: any = createSlice({
 				};
 			},
 		},
-		updateDemoEntry(state, { payload }: PayloadAction<IEntry>) {
+		updateEntry: (state, { payload }: IUpdateEntryPayload) => {
 			const { id: entryId, ...payloadProps } = payload;
+
+			return state.map((entry) => {
+				if (entry.id === entryId) {
+					return { ...entry, ...payloadProps };
+				}
+				return entry;
+			});
+
 			const elemIndex = state.findIndex(({ id }) => id === entryId);
 			const newState = [...state];
 
@@ -33,17 +46,16 @@ export const demoEntrySlice: any = createSlice({
 
 			return newState;
 		},
-		removeDemoEntry(state, { payload }: PayloadAction<Pick<IEntry, 'id'>>) {
+		removeEntry: (state, { payload }: IRemoveEntryPayload) => {
 			return state.filter((entry) => entry.id !== payload.id);
 		},
 	},
 });
 
-export const { addDemoEntry, removeDemoEntry, updateDemoEntry } =
-	demoEntrySlice.actions;
+export const { addEntry, removeEntry, updateEntry } = EntrySlice.actions;
 
 // select all entries
-export const selectEntries = (state: AppState) => state.reducer.demoEntry;
+export const selectEntries = (state: AppState) => state.reducer.Entry;
 
 // group all entries based on month
 export const selectGroupedByMonthEntries = createSelector(
@@ -69,4 +81,4 @@ export const selectTags = createSelector(selectEntries, (entries) =>
 	getUniqueTags(entries)
 );
 
-export default demoEntrySlice.reducer;
+export default EntrySlice.reducer;

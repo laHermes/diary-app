@@ -7,10 +7,10 @@ import {
 } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 
-import demoEntrySlice from './demoEntrySlice';
+import EntrySlice from './entrySlice';
 
 export const combinedReducer = combineReducers({
-	demoEntry: demoEntrySlice,
+	Entry: EntrySlice,
 });
 
 const reducer = (

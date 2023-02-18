@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { SectionAction, SectionCard, SectionTitle } from '@styles/styles';
 import Inspiration from '@components/Inspiration/Inspiration';
-import { selectEntries, selectTodayEntries } from '@store/demoEntrySlice';
+import { selectEntries, selectTodayEntries } from '@store/entrySlice';
 import Sidebar from '@components/Navigation/Sidebar/Sidebar';
 import FloatingWrite from '@components/FloatingWrite/FloatingWrite';
 import MobileNav from '@components/Navigation/MobileNav/MobileNav';

@@ -7,7 +7,7 @@ import {
 	InsightsItem,
 } from '@components/Insights/Styles';
 import { useSelector } from 'react-redux';
-import { selectEntries, selectEntriesTotalWords } from '@store/demoEntrySlice';
+import { selectEntries, selectEntriesTotalWords } from '@store/entrySlice';
 import Page from '@components/Layout/Page/Page';
 import GoBack from '@components/Navigation/GoBack/GoBack';
 

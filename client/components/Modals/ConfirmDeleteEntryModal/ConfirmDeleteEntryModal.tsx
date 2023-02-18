@@ -20,6 +20,7 @@ export const ConfirmDeleteEntryModal = ({
 }: ConfirmDeleteEntryModalProps) => {
 	const handleDeleteEntry = () => {
 		onDeleteFunction();
+
 		onSuccess?.();
 	};
 

@@ -11,11 +11,11 @@ import { stringToArray } from '@utils/index';
 
 // store
 import {
-	addDemoEntry,
-	removeDemoEntry,
+	addEntry,
+	removeEntry,
 	selectTags,
-	updateDemoEntry,
-} from '@store/demoEntrySlice';
+	updateEntry,
+} from '@store/entrySlice';
 
 // local data
 
@@ -108,14 +108,16 @@ const Index = () => {
 		// if entry id exists -> update entry
 		// else create new entry
 		if (entryId) {
+			const { content, ...newEntry } = entryToSave;
 			dispatch(
-				updateDemoEntry({
-					id: entryId,
-					...entryToSave,
+				updateEntry({
+					id: entryId as string,
+					content: content as string,
+					...newEntry,
 				})
 			);
 		} else {
-			dispatch(addDemoEntry({ ...entryToSave }));
+			dispatch(addEntry({ ...entryToSave }));
 		}
 
 		router.push(DEMO_ROUTES.JOURNAL);
@@ -124,7 +126,7 @@ const Index = () => {
 	// delete entry
 	const handleDeleteEntry = () => {
 		if (entryId) {
-			dispatch(removeDemoEntry({ id: entryId }));
+			dispatch(removeEntry({ id: entryId as string }));
 		}
 	};
 
