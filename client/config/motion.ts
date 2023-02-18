@@ -3,7 +3,7 @@ export const motionVariants = {
 	enter: {
 		opacity: 1,
 		transition: {
-			delayChildren: 0.5,
+			delayChildren: 0.1,
 		},
 	},
 	exit: { opacity: 0, x: 0, y: 0 },
