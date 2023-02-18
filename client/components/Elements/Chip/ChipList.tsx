@@ -9,9 +9,10 @@ const ChipList = ({ data = [] }: ChipListProps) => {
 		return <Chip>{data}</Chip>;
 	}
 
+	const hasData = Boolean(data?.length);
 	return (
 		<>
-			{!!data?.length &&
+			{hasData &&
 				data.map((value, index) => {
 					return <Chip key={`${index}-${value}`}>{value}</Chip>;
 				})}

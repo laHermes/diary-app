@@ -4,6 +4,7 @@ import axios from 'axios';
 // Entries APIs
 export const fetchEntries = async (): Promise<any> => {
 	const response = await axios.get('/api/entries');
+
 	return transformEntryDate(response.data);
 };
 export const fetchInspiration = async (): Promise<any> => {

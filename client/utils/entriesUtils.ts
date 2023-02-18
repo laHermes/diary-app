@@ -3,8 +3,8 @@ const defaultTags = ['home', 'soul', 'love', 'work'];
 
 export const getUniqueTags = (data: any) => {
 	// combine entry tags with default or just return default tags
-	console.log('TAGSSS', data);
-	if (data.length === 0) {
+
+	if (Boolean(data.length)) {
 		return defaultTags;
 	}
 	const entryTags = data.map(({ tags }: IEntry) => tags);

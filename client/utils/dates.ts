@@ -31,10 +31,15 @@ interface ICalculatesStreaks {
  * @param  { Array<any>} data  array of dates
  * @return {Array<Object>} array of date
  */
-export const transformEntryDate = (data: any[]): Array<Object> =>
-	data.map((entry: any) => {
+export const transformEntryDate = (data: any[]): Array<Object> => {
+	if (!Boolean(data.length)) {
+		return [];
+	}
+
+	return data.map((entry: any) => {
 		return { ...entry, date: entry.clientDate };
 	});
+};
 
 /**
  * calculates current and longest streak

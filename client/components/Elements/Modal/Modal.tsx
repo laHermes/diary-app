@@ -78,7 +78,7 @@ const Body = ({ children }: { children: ReactElement }) => {
 							leave='ease-in duration-200'
 							leaveFrom='opacity-100 scale-100'
 							leaveTo='opacity-0 scale-95'>
-							<Dialog.Panel className='max-w-md overflow-hidden text-left align-middle transition-all transform bg-transparent shadow-xl rounded-2xl'>
+							<Dialog.Panel className='w-full max-w-md overflow-hidden text-left align-middle transition-all transform bg-transparent shadow-xl rounded-2xl'>
 								{children}
 							</Dialog.Panel>
 						</Transition.Child>

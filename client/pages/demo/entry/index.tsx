@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -206,10 +207,10 @@ const Index = () => {
 				onDismiss={onCloseModal}
 				onOpen={() => onOpenModal(MODALS.BOTTOM_SHEET)}>
 				<BottomSheet.Sheet>
-					<Container className='flex flex-col divide-y divide-zinc-800 pb-5 font-noto text-zinc-200'>
+					<Container className='flex flex-col pb-5 divide-y divide-zinc-800 font-noto text-zinc-200'>
 						{/* Date */}
 						<BottomSheet.Section>
-							<CalendarIcon className='h-6 w-6 min-w-fit' />
+							<CalendarIcon className='w-6 h-6 min-w-fit' />
 							<p className='m-0 text-right'>{date.toString()}</p>
 						</BottomSheet.Section>
 
@@ -217,7 +218,7 @@ const Index = () => {
 						<BottomSheet.ActionWithClose onClick={onCloseModal}>
 							<BottomSheet.Section>
 								<Flex>
-									<FaceSmileIcon className='h-6 w-6 min-w-fit stroke-2' />
+									<FaceSmileIcon className='w-6 h-6 stroke-2 min-w-fit' />
 									Emotion
 								</Flex>
 
@@ -231,7 +232,7 @@ const Index = () => {
 						<BottomSheet.ActionWithClose onClick={onCloseModal}>
 							<BottomSheet.Section>
 								<Flex>
-									<TagIcon className='h-6 w-6 min-w-fit' />
+									<TagIcon className='w-6 h-6 min-w-fit' />
 									Tags
 								</Flex>
 								<Flex className='uppercase '>
@@ -246,7 +247,7 @@ const Index = () => {
 						<BottomSheet.ActionWithClose
 							onClick={() => onOpenModal(MODALS.DELETE_ENTRY)}>
 							<BottomSheet.Section className='bg-red-900/5'>
-								<TrashIcon className='h-6 w-6 min-w-fit stroke-red-500' />
+								<TrashIcon className='w-6 h-6 min-w-fit stroke-red-500' />
 								<p className='m-0 text-right text-red-500'>Delete Entry</p>
 							</BottomSheet.Section>
 						</BottomSheet.ActionWithClose>

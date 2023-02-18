@@ -5,16 +5,16 @@ import {
 	PrivacyPolicy,
 	Wrapper,
 } from '@components/Auth/SignIn/Styles';
-import { Title } from '@components/Modals/TagsModal/Tags';
 import { TextLogo } from '@styles/styles';
 import { useRouter } from 'next/router';
+import { TagsHeader } from '@components/Modals/TagsModal/Styles';
 
 const Index = () => {
 	const router = useRouter();
 	return (
 		<LoginPage>
 			<Wrapper>
-				<Title>Sign in</Title>
+				<TagsHeader>Sign in</TagsHeader>
 				<TextLogo onClick={() => router.push('/')}>diaryapp</TextLogo>
 			</Wrapper>
 			<Wrapper>

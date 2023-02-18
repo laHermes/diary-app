@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+'use client';
+import React from 'react';
 
 // hooks
 import { useEntriesTags } from '@hooks/useEntriesQuery';
@@ -9,19 +10,38 @@ import {
 	ModalFooter,
 	ModalFooterButton,
 } from '@components/Elements/Modal/Styles.';
-import Tags from '@components/Modals/TagsModal/Tags';
-import { AddNewTagButton, TagButton } from './Styles';
+import {
+	AddNewTagButton,
+	TagsHeader,
+	TagsInput,
+	TagsListWrapper,
+	TagsSearchSection,
+	TagsWrapper,
+} from './Styles';
 
 // icons
-import { PlusIcon, SearchIcon, TagIcon } from '@heroicons/react/outline';
+import { PlusIcon, SearchIcon } from '@heroicons/react/outline';
 import useTags from './useTags';
 import { DEFAULT_TAGS } from '@data/tags';
+import TagsList from './TagsList';
 
 // select tags for the entry
-// THIS WHOLE AREA SHOULD BE REFACTORED USING REDUCERS
-export const TagsModal = ({ state, setState, isOpen, onCloseModal }: any) => {
-	const { data: tags } = useEntriesTags();
-	const tagsFromPrevEntries = tags || [];
+interface ITagsModal {
+	state: string[];
+	setState: React.Dispatch<React.SetStateAction<string[]>>;
+	isOpen: boolean;
+	onCloseModal: () => void;
+	additionalTags?: string[];
+}
+
+export const TagsModal = ({
+	state,
+	setState,
+	isOpen,
+	onCloseModal,
+	additionalTags,
+}: ITagsModal) => {
+	const tagsFromPrevEntries = additionalTags || [];
 	const defaultTags = [...tagsFromPrevEntries, ...DEFAULT_TAGS];
 
 	const {
@@ -31,9 +51,10 @@ export const TagsModal = ({ state, setState, isOpen, onCloseModal }: any) => {
 		handleSearchTag,
 		handleSelectTag,
 		isTagInSearch,
+		notSelectedTags,
 	} = useTags({ selectedTags: state, defaultTags: defaultTags });
 
-	const { values, filteredQuery, filtered } = tagState;
+	const { filteredQuery, filtered } = tagState;
 
 	// handle select tag
 	const handleSelect = (value: string) => {
@@ -66,60 +87,46 @@ export const TagsModal = ({ state, setState, isOpen, onCloseModal }: any) => {
 	return (
 		<Modal value={isOpen} onCloseModal={onCloseModal}>
 			<Modal.Body>
-				<div className='w-full max-w-md'>
-					<Tags>
-						<Tags.Title>Tags</Tags.Title>
-						<Tags.SearchSection>
-							<SearchIcon className='w-6 h-6 text-zinc-500' />
-							<Tags.Input
-								max={28}
-								value={filteredQuery}
-								onChange={handleSearch}
-							/>
-						</Tags.SearchSection>
+				<TagsWrapper>
+					<TagsHeader>Tags</TagsHeader>
+					<TagsSearchSection>
+						<SearchIcon className='w-6 h-6 text-zinc-500' />
+						<TagsInput
+							value={filteredQuery}
+							onChange={handleSearch}
+							type='text'
+							max={28}
+							placeholder='Search...'
+						/>
+					</TagsSearchSection>
 
-						<div className='overflow-y-auto divide-y max-h-96 dark:divide-zinc-800'>
-							{!!state?.length &&
-								state.map((value: string) => {
-									return (
-										<TagButton
-											key={value}
-											onClick={() => handleRemoveSelect(value)}
-											$selected
-											$hidden={!isTagInSearch(value)}>
-											<TagIcon className='w-4 h-4' />
-											<span>{value}</span>
-										</TagButton>
-									);
-								})}
+					<TagsListWrapper>
+						<TagsList
+							data={state}
+							filterFunction={isTagInSearch}
+							onClick={handleRemoveSelect}
+							selected={true}
+						/>
 
-							{!!values?.length &&
-								values.map((value: string) => {
-									return (
-										<TagButton
-											key={value}
-											onClick={() => handleSelect(value)}
-											$hidden={!isTagInSearch(value) || state.includes(value)}>
-											<TagIcon className='w-4 h-4' />
-											<span>{value}</span>
-										</TagButton>
-									);
-								})}
+						<TagsList
+							data={notSelectedTags}
+							filterFunction={isTagInSearch}
+							onClick={handleSelect}
+						/>
 
-							{/* create new tag if no tag exists */}
-							{queryNoMatch && (
-								<AddNewTagButton onClick={() => handleAddNewTag(filteredQuery)}>
-									<PlusIcon className='w-4 h-4' />
-									<span>{filteredQuery}</span>
-								</AddNewTagButton>
-							)}
-						</div>
+						{/* create new tag if no tag exists */}
+						{queryNoMatch && (
+							<AddNewTagButton onClick={() => handleAddNewTag(filteredQuery)}>
+								<PlusIcon className='w-4 h-4' />
+								<span>{filteredQuery}</span>
+							</AddNewTagButton>
+						)}
+					</TagsListWrapper>
 
-						<ModalFooter>
-							<ModalFooterButton onClick={onCloseModal}>Done</ModalFooterButton>
-						</ModalFooter>
-					</Tags>
-				</div>
+					<ModalFooter>
+						<ModalFooterButton onClick={onCloseModal}>Done</ModalFooterButton>
+					</ModalFooter>
+				</TagsWrapper>
 			</Modal.Body>
 		</Modal>
 	);

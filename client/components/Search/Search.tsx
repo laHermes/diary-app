@@ -77,7 +77,7 @@ const Search = ({ setIsOpen, data: propsData, tags }: SearchProps) => {
 					<XIcon
 						onClick={handleResetQuery}
 						className={clsx(
-							' h-6 w-6 cursor-pointer text-zinc-700',
+							'h-6 w-6 cursor-pointer text-zinc-700',
 							searchFilterState.content ? 'block' : 'hidden'
 						)}
 					/>

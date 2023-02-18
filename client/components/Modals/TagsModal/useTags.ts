@@ -1,4 +1,4 @@
-import { useReducer, useCallback } from 'react';
+import { useReducer, useMemo, useCallback } from 'react';
 
 interface IUseTagsProps {
 	selectedTags?: string[];
@@ -18,6 +18,7 @@ interface IUseTagsReturn {
 	handleSearchTag: (value: string) => void;
 	handleCreateTag: (value: string) => void;
 	isTagInSearch: (value: string) => boolean;
+	notSelectedTags: string[];
 }
 
 const ActionTypes = {
@@ -70,6 +71,9 @@ const useTags = ({
 		},
 		[state]
 	);
+	const notSelectedTags = useMemo(() => {
+		return state.values.filter((value) => !state.selected.includes(value));
+	}, [state]);
 
 	return {
 		state,
@@ -78,6 +82,7 @@ const useTags = ({
 		handleSearchTag,
 		handleSelectTag,
 		isTagInSearch,
+		notSelectedTags,
 	};
 };
 
