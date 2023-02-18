@@ -50,7 +50,7 @@ const useTags = ({
 		dispatch({ type: ActionTypes.SELECT_TAG, value });
 	};
 
-	// handle remove selected tag
+	// handles removing tag that was already selected
 	const handleRemoveSelectedTag = (value: string) => {
 		dispatch({ type: ActionTypes.REMOVE_SELECTED_TAG, value });
 	};
@@ -60,7 +60,7 @@ const useTags = ({
 		dispatch({ type: ActionTypes.SEARCH_TAGS, value });
 	};
 
-	// handle add new tag
+	// handles creating new tag
 	const handleCreateTag = (value: string) => {
 		dispatch({ type: ActionTypes.CREATE_TAG, value });
 	};

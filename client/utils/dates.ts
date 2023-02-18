@@ -27,11 +27,13 @@ interface ICalculatesStreaks {
 }
 
 /**
- * transforms array of data to include date field
- * @param  { Array<any>} data  array of dates
- * @return {Array<Object>} array of date
+ * Transforms an array of data to include a date field.
+ * @param  { Array<any>} data - An array of data objects with a "clientDate" field.
+ * @return {Array<{date: string, [key: string]: any}>} - An array of data objects with a "date" field added.
  */
-export const transformEntryDate = (data: any[]): Array<Object> => {
+export const transformEntryDate = (
+	data: any[]
+): Array<{ date: string; [key: string]: any }> => {
 	if (!Boolean(data.length)) {
 		return [];
 	}
@@ -42,29 +44,29 @@ export const transformEntryDate = (data: any[]): Array<Object> => {
 };
 
 /**
- * calculates current and longest streak
- * @param  { Array<string>} array  array of dates
- * @return {ICalculatesStreaks} array of date
+ * Calculates current and longest streaks for an array of dates
+ * @param  { Array<string> } array - An array of dates to calculate streaks for
+ * @return { ICalculatesStreaks } - An object containing current and longest streaks and their respective dates
  */
 export const calculateStreaks = ({ array }: IStreak): ICalculatesStreaks => {
-	// group array by day: returns dictionary
-	const grouped = groupStoriesBy({
+	// Group array by day, returning a dictionary with each day as a key
+	const groupedByDay = groupStoriesBy({
 		array,
 		timeHorizon: 'day',
 		dateSelector: 'created_at',
 	});
 
-	// convert dictionary keys to array of dates
-	const arrayOfDates = Array.from(Object.keys(grouped));
-
-	// sort dates by newest
-	const sortedArray = arrayOfDates.sort((a: string, b: string) => {
-		return new Date(b).getTime() - new Date(a).getTime();
-	});
-
+	// Sort dates by newest
+	const sortedArray = Object.keys(groupedByDay).sort(
+		(a, b) => new Date(b).getTime() - new Date(a).getTime()
+	);
+	// Calculate the current streak by finding the longest consecutive sequence of dates
 	const currentStreak = calculateCurrentStreak({ array: sortedArray });
+
+	// Calculate the longest streak by finding the longest consecutive sequence of dates across the entire array
 	const longestStreak = calculateLongestStreak({ array: sortedArray });
 
+	// Return an object containing current and longest streaks and their respective dates
 	return {
 		currentStreak: currentStreak.length,
 		longestStreak: longestStreak.length,
@@ -74,8 +76,8 @@ export const calculateStreaks = ({ array }: IStreak): ICalculatesStreaks => {
 };
 
 /**
- * takes the array of dates and compares each consecutive date to find the longest streak
- * @param  { Array<string>} array  array of dates
+ * Takes an array of dates and calculates the longest streak of consecutive days.
+ * @param  { Array<string>} array - An array of dates in string format (e.g. "2022-01-01").
  * @return {string[]} array of date
  */
 export const calculateLongestStreak = ({
