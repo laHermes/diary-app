@@ -21,13 +21,14 @@ import { useRouter } from 'next/router';
 import Page from '@components/Layout/Page/Page';
 import Entries from '@components/Entry/Entries/EntriesList';
 import Inspiration from '@components/Inspiration/Inspiration';
+import { DEFAULT_ENTRY_MESSAGES } from '@config/messages';
 
 const Index = () => {
 	const { data } = useSession();
 	const router = useRouter();
 	const { data: count } = useEntriesCount();
 	const { data: streak } = useEntriesStreaks();
-	const { data: entriesToday } = useEntriesToday();
+	const { data: entriesToday, status } = useEntriesToday();
 
 	const username = data?.user?.name ? data.user.name : 'Anonymous';
 
@@ -65,18 +66,24 @@ const Index = () => {
 						<SectionAction
 							onClick={() => router.push(`${router.pathname}/insights`)}>
 							<p className='m-0 dark:text-accent'>All Insights</p>
-							<ChevronRightIcon className='h-5 w-5 self-center dark:fill-accent' />
+							<ChevronRightIcon className='self-center w-5 h-5 dark:fill-accent' />
 						</SectionAction>
 					</SectionCard>
 				</Page.Section>
 
 				<Page.Section>
 					<SectionTitle>Recent activity</SectionTitle>
-					<div className='mb-4 flex w-full flex-col gap-4 rounded-md'>
+					<div className='flex flex-col w-full gap-4 mb-4 rounded-md'>
 						<Entries entries={entriesToday} />
-						{entriesToday && entriesToday.length === 0 && (
-							<p>No today entries</p>
+						{status === 'error' && (
+							<p>{DEFAULT_ENTRY_MESSAGES.ERROR_FETCHING}</p>
 						)}
+						{status === 'loading' && <p>{DEFAULT_ENTRY_MESSAGES.LOADING}</p>}
+						{status === 'success' &&
+							entriesToday &&
+							entriesToday.length === 0 && (
+								<p>{DEFAULT_ENTRY_MESSAGES.NO_RECENT_ENTRIES}</p>
+							)}
 					</div>
 
 					<FloatingWrite />
