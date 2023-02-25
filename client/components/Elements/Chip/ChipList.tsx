@@ -11,6 +11,7 @@ const ChipList = ({ data = [] }: ChipListProps) => {
 	}
 
 	const hasData = Boolean(data?.length);
+
 	return (
 		<>
 			{hasData &&

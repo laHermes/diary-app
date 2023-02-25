@@ -34,7 +34,7 @@ interface ICalculatesStreaks {
 export const transformEntryDate = (
 	data: any[]
 ): Array<{ date: string; [key: string]: any }> => {
-	if (!Boolean(data.length)) {
+	if (!Boolean(data.length) || !Array.isArray(data)) {
 		return [];
 	}
 

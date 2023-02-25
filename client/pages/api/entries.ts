@@ -2,7 +2,6 @@ import { unstable_getServerSession } from 'next-auth/next';
 import connectMongo from '@lib/connection';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { authOptions } from './auth/[...nextauth]';
-import { User } from 'models/user';
 import { Story } from 'models/story';
 import { z } from 'zod';
 
@@ -23,35 +22,32 @@ export const config = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const session = await unstable_getServerSession(req, res, authOptions);
+	const userEmail = session?.user?.email;
 
-	if (!session) {
+	if (!session || !session?.user?.email) {
 		res.redirect('/login');
+	}
+
+	if (typeof userEmail === 'undefined' || userEmail === null) {
+		throw new Error('No email address found!');
 	}
 
 	connectMongo().catch(() =>
 		res.status(405).json({ message: 'Error connecting to Mongo' })
 	);
-
-	const user = await User.findOne({ email: session?.user?.email });
-
-	if (!user) {
-		res.redirect('/login');
-		return;
-	}
-
+	console.log(userEmail);
 	switch (req.method) {
 		case 'GET':
-			getEntriesController(req, res, user.id);
+			getEntriesController(req, res, userEmail);
 			return;
 		case 'POST':
-			addEntryController(req, res, user.id);
+			addEntryController(req, res, userEmail);
 			return;
-
 		case 'PUT':
-			updateEntryController(req, res, user.id);
+			updateEntryController(req, res, userEmail);
 			return;
 		case 'DELETE':
-			deleteEntryController(req, res, user.id);
+			deleteEntryController(req, res, userEmail);
 			return;
 		default:
 			return null;
@@ -64,10 +60,10 @@ export default handler;
 const getEntriesController = async (
 	req: NextApiRequest,
 	res: NextApiResponse,
-	userId: string
+	authorEmail: string
 ) => {
 	try {
-		const entries = await Story.find({ author: userId });
+		const entries = await Story.find({ authorEmail: authorEmail });
 		res.send(entries);
 	} catch (err) {
 		res.status(400).send({ message: 'Bad request!' });
@@ -78,14 +74,14 @@ const getEntriesController = async (
 const addEntryController = async (
 	req: NextApiRequest,
 	res: NextApiResponse,
-	userId: string
+	authorEmail: string
 ) => {
 	if (!StoryValidationSchema.parse(req.body)) {
 		res.status(400).send({ message: 'Invalid Entry' });
 
 		return;
 	}
-
+	console.log('Author', authorEmail);
 	try {
 		const entry = await Story.create({
 			content: req.body.content,
@@ -93,7 +89,7 @@ const addEntryController = async (
 			tags: req.body.tags,
 			numberOfWords: req.body.numberOfWords,
 			clientDate: req.body.date,
-			author: userId,
+			authorEmail: authorEmail,
 		});
 		await entry.save();
 		res.send(entry);
@@ -106,7 +102,7 @@ const addEntryController = async (
 const updateEntryController = async (
 	req: NextApiRequest,
 	res: NextApiResponse,
-	userId: string
+	authorEmail: string
 ) => {
 	if (!StoryValidationSchema.parse(req.body)) {
 		res.status(400).send({ message: 'Invalid Entry' });
@@ -116,7 +112,7 @@ const updateEntryController = async (
 
 	try {
 		const entry = await Story.findOneAndUpdate(
-			{ author: userId, _id: req.body.id },
+			{ authorEmail: authorEmail, _id: req.body.id },
 			{ ...req.body },
 			{ new: true }
 		);
@@ -134,10 +130,13 @@ const updateEntryController = async (
 const deleteEntryController = async (
 	req: NextApiRequest,
 	res: NextApiResponse,
-	userId: string
+	authorEmail: string
 ) => {
 	try {
-		await Story.findOneAndDelete({ author: userId, _id: req.body.id });
+		await Story.findOneAndDelete({
+			authorEmail: authorEmail,
+			_id: req.body.id,
+		});
 		res.status(200).send({});
 	} catch (err) {
 		res.status(400).send('Failed to delete entry!');

@@ -5,7 +5,7 @@ export interface IStorySchema {
 	content: string;
 	emotion: string;
 	tags: string[];
-	author: Types.ObjectId;
+	authorEmail: Types.ObjectId;
 	clientDate: string;
 	numberOfWords: string | number;
 	created_at: string;
@@ -14,7 +14,7 @@ export interface IStorySchema {
 
 // an interface that describes the properties that a Story model has
 export interface IStoryModel extends mongoose.Model<IStoryDoc> {
-	build({ content, emotion, tags, author }: IStorySchema): IStoryDoc;
+	build({ content, emotion, tags, authorEmail }: IStorySchema): IStoryDoc;
 }
 
 // an interface that describes the properties that a Story Document has
@@ -26,7 +26,7 @@ interface IStoryDoc extends mongoose.Document {
 	clientDate: string;
 	numberOfWords: string | number;
 	tags: string[];
-	author: Types.ObjectId;
+	authorEmail: Types.ObjectId;
 }
 
 const storySchema = new Schema(
@@ -54,7 +54,10 @@ const storySchema = new Schema(
 			required: false,
 			default: 0,
 		},
-		author: { type: Schema.Types.ObjectId, ref: 'User' },
+		authorEmail: {
+			type: String,
+			required: true,
+		},
 	},
 	{
 		timestamps: {
@@ -76,7 +79,7 @@ storySchema.statics.build = ({
 	content,
 	emotion,
 	tags,
-	author,
+	authorEmail,
 	numberOfWords,
 	clientDate,
 }: IStorySchema) => {
@@ -84,7 +87,7 @@ storySchema.statics.build = ({
 		content,
 		emotion,
 		tags,
-		author,
+		authorEmail,
 		clientDate,
 		numberOfWords,
 	});
