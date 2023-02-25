@@ -1,11 +1,14 @@
 import NextAuth, { SessionStrategy } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
-import clientPromise from '@lib/mongodb';
+
+// NOT USED
+// import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
+// import clientPromise from '@lib/mongodb';
 
 //todo add redis adapter
 export const authOptions = {
-	adapter: MongoDBAdapter(clientPromise),
+	// I have encountered so many issues with MongoDBAdapter
+	// adapter: MongoDBAdapter(clientPromise),
 	secret: process.env.NEXTAUTH_SECRET as string,
 	providers: [
 		GoogleProvider({
