@@ -13,6 +13,8 @@ import GroupedEntries from '@components/Entry/Entries/GroupedEntries';
 
 // icons
 import { SearchIcon } from '@heroicons/react/outline';
+import Message from '@components/Message/Message';
+import { DEFAULT_ENTRY_MESSAGES } from '@config/messages';
 
 // reduce bundle size
 const DynamicSearchOverlay = dynamic(
@@ -40,36 +42,33 @@ const JournalPage = () => {
 			</Suspense>
 		);
 	}
+	if (!isSearchDialogOpen) {
+		return (
+			<Page>
+				<Page.Layout>
+					<Flex className='justify-between'>
+						<Page.Title>Journal</Page.Title>
+						<button
+							onClick={handleOpenSearchDialog}
+							className='inline-flex justify-center gap-3 px-2 py-2 transition-all duration-200 rounded-full hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
+							<SearchIcon className='self-center w-8 h-8 stroke-1' />
+						</button>
+					</Flex>
 
-	return (
-		<Page>
-			<Page.Layout>
-				{!isSearchDialogOpen && (
-					<>
-						<Flex className='justify-between'>
-							<Page.Title>Journal</Page.Title>
-							<button
-								onClick={handleOpenSearchDialog}
-								className='inline-flex justify-center gap-3 rounded-full px-2 py-2 transition-all duration-200 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:justify-start'>
-								<SearchIcon className='h-8 w-8 self-center stroke-1' />
-							</button>
-						</Flex>
+					<GroupedEntries entries={allEntries} />
 
-						<GroupedEntries entries={allEntries} />
+					<Message
+						hidden={!!allEntries?.length}
+						message={DEFAULT_ENTRY_MESSAGES.NO_ENTRIES}
+					/>
 
-						{/* if there are no entries */}
-						{allEntries.length === 0 && (
-							<div className='align-center flex flex-col items-center'>
-								No Entries
-							</div>
-						)}
-					</>
-				)}
+					<FloatingWrite />
+				</Page.Layout>
+			</Page>
+		);
+	}
 
-				<FloatingWrite />
-			</Page.Layout>
-		</Page>
-	);
+	return null;
 };
 
 JournalPage.getLayout = function getLayout(page: React.ReactElement) {

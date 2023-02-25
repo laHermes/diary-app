@@ -2,6 +2,7 @@ import React from 'react';
 import EntryCard from '@components/Entry/EntryCard/EntryCard';
 
 const EntriesList = ({ entries = [] }: { entries: IEntry[] }) => {
+	if (entries?.length === 0) return null;
 	return (
 		<>
 			{entries.map(({ id, ...entryProps }: IEntry) => {

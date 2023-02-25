@@ -18,7 +18,6 @@ export const EntrySlice = createSlice({
 			reducer: (state, { payload }: IAddEntryPayload) => {
 				const { tags } = payload;
 				return [...state, { tags: tags || [], ...payload }];
-				state.push({ tags: tags || [], ...payload });
 			},
 			prepare: (payload) => {
 				return {
@@ -35,16 +34,6 @@ export const EntrySlice = createSlice({
 				}
 				return entry;
 			});
-
-			const elemIndex = state.findIndex(({ id }) => id === entryId);
-			const newState = [...state];
-
-			newState[elemIndex] = {
-				id: entryId,
-				...payloadProps,
-			};
-
-			return newState;
 		},
 		removeEntry: (state, { payload }: IRemoveEntryPayload) => {
 			return state.filter((entry) => entry.id !== payload.id);

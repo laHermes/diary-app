@@ -24,13 +24,6 @@ export const authOptions = {
 		encryption: false,
 	},
 	callbacks: {
-		async signIn() {
-			// TODO: only if profile is verified
-			return true;
-		},
-		async jwt({ token }: any) {
-			return token;
-		},
 		async redirect({ url, baseUrl }: any) {
 			// // Allows relative callback URLs
 			if (url.startsWith('/')) return `${baseUrl}${url}`;

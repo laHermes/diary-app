@@ -43,7 +43,6 @@ export const TagsModal = ({
 }: ITagsModal) => {
 	const tagsFromPrevEntries = additionalTags || [];
 	const defaultTags = [...tagsFromPrevEntries, ...DEFAULT_TAGS];
-
 	const {
 		state: tagState,
 		handleCreateTag,

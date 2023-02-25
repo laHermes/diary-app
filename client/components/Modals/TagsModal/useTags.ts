@@ -33,6 +33,7 @@ const useTags = ({
 	defaultTags: defaultPropsTags,
 }: IUseTagsProps): IUseTagsReturn => {
 	const defaultSelectedValues = selectedPropsTags || [];
+
 	const defaultTags = defaultPropsTags || [];
 
 	// values to pick from
@@ -71,8 +72,11 @@ const useTags = ({
 		},
 		[state]
 	);
+
 	const notSelectedTags = useMemo(() => {
-		return state.values.filter((value) => !state.selected.includes(value));
+		return Array.from(
+			new Set(state.values.filter((value) => !state.selected.includes(value)))
+		);
 	}, [state]);
 
 	return {

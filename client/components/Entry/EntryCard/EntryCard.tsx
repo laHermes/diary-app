@@ -32,8 +32,11 @@ const EntryCard = ({
 	const router = useRouter();
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
+	const handleBottomSheetToggle = () =>
+		setIsBottomSheetOpen((prevState) => !prevState);
+
 	const areaPrefix = router.pathname.includes('app') ? '/app' : '/demo';
-	const path = areaPrefix + '/entry';
+	const path = `${areaPrefix}/entry`;
 
 	const date = propsDate as string;
 
@@ -64,7 +67,8 @@ const EntryCard = ({
 							pathname: path,
 							query: query,
 						}}
-						as={path}>
+						as={path}
+						passHref>
 						<CardRight>
 							<SanitizeHTML content={content} />
 							<div className='flex flex-wrap w-full gap-2 p-2 mt-2'>
@@ -75,11 +79,10 @@ const EntryCard = ({
 					</Link>
 				</CardBody>
 			</Card>
-
 			<BottomSheet
 				isOpen={isBottomSheetOpen}
 				onDismiss={() => setIsBottomSheetOpen(false)}
-				onOpen={() => setIsBottomSheetOpen((state) => !state)}>
+				onOpen={handleBottomSheetToggle}>
 				<BottomSheet.Sheet>
 					<Container className='flex flex-col px-2 pb-5 divide-y divide-zinc-800 font-jost text-zinc-200'>
 						<BottomSheet.Section>
