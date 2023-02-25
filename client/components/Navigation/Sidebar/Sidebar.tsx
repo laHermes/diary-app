@@ -37,12 +37,22 @@ const Sidebar = () => {
 						</TextLogo>
 					</button>
 					<div className='flex flex-col items-center gap-3'>
-						<StyledSidebarButton onClick={() => handleRedirect('/')}>
+						<StyledSidebarButton
+							onClick={() => handleRedirect('/')}
+							className={
+								router.pathname.endsWith('/app') &&
+								'bg-accent/20 dark:bg-accent/20'
+							}>
 							<TodayIcon className='h-6 w-6 self-center fill-accent/80 dark:fill-accent/50' />
 							<StyledSidebarButtonText>Today</StyledSidebarButtonText>
 						</StyledSidebarButton>
 
-						<StyledSidebarButton onClick={() => handleRedirect('/journal')}>
+						<StyledSidebarButton
+							onClick={() => handleRedirect('/journal')}
+							className={
+								router.pathname.includes('/journal') &&
+								'bg-accent/20 dark:bg-accent/20'
+							}>
 							<NoteBoldIcon className='h-6 w-6 self-center fill-accent/80 dark:fill-accent/50' />
 							<StyledSidebarButtonText>Journal</StyledSidebarButtonText>
 						</StyledSidebarButton>
