@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
+
+// hooks
 import { signOut, useSession } from 'next-auth/react';
+import useModalState from '@hooks/useModalState';
+
+// components
 import GoBack from '@components/Navigation/GoBack/GoBack';
 import Page from '@components/Layout/Page/Page';
 import PageCard from '@components/Elements/PageCard/PageCard';
+import ConfirmDeleteUserModal from '@components/Modals/ConfirmDeleteUserModal/ConfirmDeleteUserModal';
+
+// icons
 import {
 	ExclamationCircleIcon,
 	ExclamationIcon,
 } from '@heroicons/react/outline';
-import ConfirmDeleteUserModal from '@components/Modals/ConfirmDeleteUserModal/ConfirmDeleteUserModal';
-import useModalState from '@hooks/useModalState';
 
 const Index = () => {
 	const { data: session } = useSession();
-	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-	const { isModalOpen, onCloseModal } = useModalState({});
+	const { isModalOpen, onOpenModal, onCloseModal } = useModalState({});
 	const name = session?.user?.name;
 	const email = session?.user?.email;
 
@@ -60,7 +65,7 @@ const Index = () => {
 						<Page.CardAction
 							hasIcon={false}
 							className='bg-transparent hover:bg-transparent dark:hover:bg-transparent'
-							onClick={() => setIsDeleteModalOpen(true)}>
+							onClick={() => onOpenModal('DELETE_USER')}>
 							<div className='font-medium text-red-800'>Delete Account</div>
 							<ExclamationCircleIcon className='w-5 h-5 stroke-red-800' />
 						</Page.CardAction>

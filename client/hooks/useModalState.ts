@@ -29,11 +29,11 @@ const reducer: Reducer<any, ReducerType> = (
 	}
 };
 
-type TuseModalState = {
+type useModalStateType = {
 	initialModal?: string;
 };
 
-const useModalState = ({ initialModal = '' }: TuseModalState) => {
+const useModalState = ({ initialModal = '' }: useModalStateType) => {
 	const initialState = {
 		modal: initialModal || null,
 	};
