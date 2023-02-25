@@ -40,8 +40,9 @@ const Sidebar = () => {
 						<StyledSidebarButton
 							onClick={() => handleRedirect('/')}
 							className={
-								router.pathname.endsWith('/app') &&
-								'bg-accent/20 dark:bg-accent/20'
+								(router.pathname.endsWith('/app') ||
+									router.pathname.endsWith('/demo')) &&
+								'bg-accent/10 dark:bg-accent/10'
 							}>
 							<TodayIcon className='h-6 w-6 self-center fill-accent/80 dark:fill-accent/50' />
 							<StyledSidebarButtonText>Today</StyledSidebarButtonText>
@@ -51,7 +52,7 @@ const Sidebar = () => {
 							onClick={() => handleRedirect('/journal')}
 							className={
 								router.pathname.includes('/journal') &&
-								'bg-accent/20 dark:bg-accent/20'
+								'bg-accent/10 dark:bg-accent/10'
 							}>
 							<NoteBoldIcon className='h-6 w-6 self-center fill-accent/80 dark:fill-accent/50' />
 							<StyledSidebarButtonText>Journal</StyledSidebarButtonText>
