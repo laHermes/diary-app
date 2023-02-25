@@ -203,7 +203,7 @@ export const isToday = ({ date }: IDateCompare): boolean => {
 export const isYesterday = ({ date }: IDateCompare): boolean => {
 	const yesterdayDate = new Date();
 	yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-	return moment(date).isSame(yesterdayDate, 'd');
+	return moment(new Date(date)).isSame(yesterdayDate, 'd');
 };
 
 /**
@@ -218,7 +218,7 @@ export const isYesterdayComparedTo = ({
 	const yesterday = new Date(yd);
 	yesterday.setDate(yesterday.getDate() - 1);
 
-	return moment(date).isSame(yesterday, 'd');
+	return moment(new Date(date)).isSame(yesterday, 'd');
 };
 
 /**
