@@ -1,6 +1,6 @@
 import tw from 'tailwind-styled-components';
 
-export const ModalTitle = tw.div<any>`font-medium text-left`;
+export const ModalTitle = tw.div<any>`text-xl font-medium`;
 export const ModalSubtitle = tw.div<any>`text-left`;
 
 export const ModalFooter = tw.div<any>`flex justify-center py-4`;
